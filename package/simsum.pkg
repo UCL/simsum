@@ -1,0 +1,10 @@
+v 3
+d simsum: Analyses of simulation studies including Monte Carlo error
+d Program by Ian White.
+d Version 0.17.1
+d Distribution-Date: 23nov2015
+f simsum.ado
+f simsum.sthlp
+
+* File for example
+f MIsim.dta

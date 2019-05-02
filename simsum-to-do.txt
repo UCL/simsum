@@ -1,0 +1,12 @@
+SIMSUM: JOBS
+
+improve output format?
+    (a) if m=1, output statistics as columns?
+    (b) if no by-variable, output statistics as rows?
+    (c) single table, so that column widths match
+
+-> new option -transpose- (Sep2013) but fails without a by-variable
+
+mean option would be nice (alternative to bias)
+
+Method values must currently be valid variable names - change
