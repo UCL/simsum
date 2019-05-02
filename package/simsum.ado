@@ -1,6 +1,8 @@
-*! version 0.17.2     Ian White   13may2016
+*! version 0.17.3     Ian White   2may2019
 /***********************************************************************************************
 HISTORY
+version 0.17.3      2may2019
+	Corrected error message with ref() and labelled methodvar
 version 0.17.2      13may2016
     bug fix: if df() was missing, conf limits were missing and coverage was 1
         - corrected to give warning and give normal CIs for missing df
