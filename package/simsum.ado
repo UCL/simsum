@@ -283,8 +283,9 @@ if "`methodvar'"!="" {
     local m `i'
     if "`refmethod'"=="" {
         if "`ref'"!="" {
-            if "`label'"!="" local labelled "labelled "
-            di as error "ref(`ref') is not one of the `labelled'values of `methodvar'"
+            if "`label'"=="" local offenders values
+			else local offenders value labels
+			di as error "Error in ref(): `ref' is not one of the `offenders' of `methodvar'"
             exit 498
         }
         else local refmethod 1
