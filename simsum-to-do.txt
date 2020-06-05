@@ -1,12 +1,13 @@
-SIMSUM: JOBS
+simsum notes / to do
+====================
+
+NOT WORTH DOING BECAUSE THEY WILL BE DONE BY SIMAN:
+
+10oct2019 (me): 
+	update graph to modern graphics -> NO! STICK WITH QUICK AND DIRTY.
 
 improve output format?
     (a) if m=1, output statistics as columns?
     (b) if no by-variable, output statistics as rows?
     (c) single table, so that column widths match
 
--> new option -transpose- (Sep2013) but fails without a by-variable
-
-mean option would be nice (alternative to bias)
-
-Method values must currently be valid variable names - change

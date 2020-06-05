@@ -2,8 +2,12 @@
 * last updated 22/12/2009
 * moved to c:\ado\ian\simsum and file path removed, 2may2019
 * NB see cscript2.do for fuller checks
+* now in N:\Home\ado\ian\simsum\test, 6jan2020
 
 cscript "Simple checks on simsum" adofile simsum
+set linesize 158
+
+which simsum
 
 // handling wide format
 use check, clear

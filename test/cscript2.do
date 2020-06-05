@@ -1,18 +1,25 @@
-* simsum certification script 2
-* revised for version 0.10
-* revised for version 0.11, 23dec09
-* revised for version 0.14, 9jun2010
-* revised for v0.15 (mse option), 13apr2011
-* moved to c:\ado\ian\simsum and file path removed, 2may2019
+/* 
+simsum certification script 2
+revised for version 0.10
+revised for version 0.11, 23dec09
+revised for version 0.14, 9jun2010
+revised for v0.15 (mse option), 13apr2011
+moved to c:\ado\ian\simsum and file path removed, 2may2019
+now in N:\Home\ado\ian\simsum\test, 6jan2020
+add test of each PM by itself for v0.19, 8jan2020
+*/
 
 cscript "Detailed checks on simsum" adofile simsum
+set linesize 158
 
 // check it works even without personal adofiles!
-pda
+prog drop _all
 cap simsum
-adopath -PERSONAL
-adopath -OLDPLACE
-adopath -PLUS
+cap adopath -PERSONAL
+cap adopath -OLDPLACE
+cap adopath -PLUS
+
+which simsum
 
 local opts graph nomemcheck max(20) semax(50) dropbig nolistbig ///
 	listmiss level(99) mcse "robust mcse" df(5) df(dfvar) ///
@@ -21,7 +28,8 @@ local opts graph nomemcheck max(20) semax(50) dropbig nolistbig ///
 local allopts graph nomemcheck max(20) semax(50) dropbig nolistbig ///
 	listmiss level(99) mcse robust df(5) ///
 	saving(z,replace) format(%8.2f) gen(new) listsep abb(14)
-	
+local allpms bsims sesims bias mean empse relprec mse rmse modelse ciwidth relerror cover power   
+
 use bvsim1_results, clear
 drop gamma* segam*
 drop hazard-pmcar
@@ -67,6 +75,12 @@ foreach meth in rmse mean {
 // CHECK ALL OPTIONS
 gen dfvar=5
 foreach opt in `opts' `"`allopts'"' {
+	di as input _new(3) "*** Wide: simsum beta*, true(truebeta) seprefix(se) by(n truebeta) `opt' ***"
+	simsum beta*, true(truebeta) seprefix(se) by(n truebeta) `opt'
+}
+
+// CHECK EACH PERFORMANCE MEASURE
+foreach opt of local allpms {
 	di as input _new(3) "*** Wide: simsum beta*, true(truebeta) seprefix(se) by(n truebeta) `opt' ***"
 	simsum beta*, true(truebeta) seprefix(se) by(n truebeta) `opt'
 }

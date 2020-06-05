@@ -1,12 +1,24 @@
-*! version 0.17.3     Ian White   2may2019
+*! version 0.19 Ian White 8jan2020
 /***********************************************************************************************
 HISTORY
+version 0.19 Ian White 8jan2020 -> aim to release this as 2.0
+	new PMs: mean rmse ciwidth
+	new parsing of disallowed PMs
+	small changes to PM naming in output
+	better error message if method values aren't valid 
+version 0.18.0 Ian White 6jan2020
+	relprec MCSE formula corrected to agree with SJ article 
+		(denominator changed from n-2 to n-1)
+	improve error message on specifying mse without true() 
+	allow graph(options) as well as graph
+	not updating graph to v8 graphics as v7 graphics are quick
+	run graph before checking extreme observations
 version 0.17.3      2may2019
 	Corrected error message with ref() and labelled methodvar
 version 0.17.2      13may2016
     bug fix: if df() was missing, conf limits were missing and coverage was 1
         - corrected to give warning and give normal CIs for missing df
-version 0.17.1      23nov2015
+version 0.17.1      23nov2015	SENT TO SSC 
     mse is output after relprec
     "statistic" -> "performance measure", "stat" -> "perfmeas"
 version 0.17      20sep2013
@@ -57,13 +69,14 @@ version 10
 syntax varlist [if] [in], ///
     [true(string) METHodvar(varname) id(varlist)                             /// main options
     SEPrefix(string) SESuffix(string) se(varlist)                            /// SE options
-    graph noMEMcheck max(real 10) semax(real 100) dropbig nolistbig listmiss /// data checking options
+    graph GRAPH2(string) noMEMcheck max(real 10) semax(real 100) dropbig nolistbig listmiss /// data checking options
     level(real $S_level) by(varlist) mcse robust ref(string)                 /// calculation options
     df(string) DFPrefix(string) DFSuffix(string) MODELSEMethod(string)       /// calculation options
     bsims sesims bias empse relprec mse modelse relerror cover power         /// performance measure options
+    mean rmse ciwidth                                                        /// new performance measure options
     sepby(varlist) clear saving(string) ABbreviate(passthru)                 /// output options
     nolist listsep format(string) gen(string) TRANSpose                      /// output options
-                                                                             /// undocumented options
+    debug                                                                         /// undocumented options
     ]
 
 // CHECK OPTIONS 
@@ -73,6 +86,8 @@ if "`modelsemethod'"!="rmse" & "`modelsemethod'"!="mean" {
     di as error "Syntax: modelsemethod(rmse|mean)"
     exit 498
 }
+
+if !mi("`graph2'") local graph graph
 
 * SORT OUT BY
 if "`by'"!="" {
@@ -121,13 +136,14 @@ else if "`se'"!="" {
         exit 498
     }
 }
+/*
 else { // just working with beta's
-    if "`sesims'`modelse'`relerror'`cover'`power'"!="" {
-        di as error "Can't compute `sesims' `modelse' `relerror' `cover' `power' without standard errors"
+    if "`sesims'`modelse'`relerror'`cover'`power'`ciwidth'"!="" {
+        di as error "Can't compute `sesims' `modelse' `relerror' `cover' `power' `ciwidth' without standard errors"
         exit 498
     }
 }   
-
+*/
 * SORT OUT DF'S
 if "`dfprefix'"!="" | "`dfsuffix'"!="" {
     if "`df'"!="" {
@@ -178,28 +194,54 @@ else if "`df'"!="" {
 
 }
 
-* IF NO PERFORMANCE MEASURES SPECIFIED, USE ALL AVAILABLE 
-if "`bsims'`sesims'`bias'`empse'`relprec'`mse'`modelse'`relerror'`cover'`power'"=="" {
-    foreach perfmeas in bsims bias empse relprec mse {
-        local `perfmeas' `perfmeas'
-    }
-    if "`se1'"!="" {
-        foreach perfmeas in sesims modelse relerror cover power {
-            local `perfmeas' `perfmeas'
-        }
-    }
-    if "`true'"=="" {
-        di as text "true() not specified: can't calculate bias, mse and coverage"
-        local bias
-        local cover
-        local mse
-    }
+* PARSE PERFORMANCE MEASURES
+* if no performance measures specified, use all available 
+* we'll strike out ineligible ones later
+local allpms bsims sesims bias mean empse relprec mse rmse modelse ciwidth relerror cover power   
+foreach pm of local allpms { // find list of PMs specified
+	if !mi("``pm''") local origoutput `origoutput' `pm'
 }
-local output `bsims' `sesims' `bias' `empse' `relprec' `mse' `modelse' `relerror' `cover' `power'
-if "`bias'`empse'`relprec'`mse'`modelse'`relerror'`cover'`power'"=="" & "`mcse'"=="mcse" {
+if mi("`origoutput'") { // if nothing specified, specify all
+	foreach pm of local allpms {
+		local `pm' `pm'
+	}
+}
+* strike out ineligible pms
+    if "`se1'"=="" { // SE is not reported
+        foreach perfmeas in sesims modelse ciwidth relerror cover power {
+			if !mi("``perfmeas''") local droppm1 `droppm1' `perfmeas'
+            local `perfmeas'
+        }
+		if !mi("`droppm1'") {
+			if !mi("`origoutput'") di as error "" _c
+			else di as text "" _c
+			di "SE not reported, so ignoring performance measures: `droppm1'"
+		}
+    }
+    if "`true'"=="" { // True parameter is not reported
+        foreach perfmeas in bias mse rmse cover {
+			if !mi("``perfmeas''") local droppm2 `droppm2' `perfmeas'
+            local `perfmeas'
+        }
+		if !mi("`droppm2'") {
+			if !mi("`origoutput'") di as error "" _c
+			else di as text "" _c
+			di "true() not specified, so ignoring performance measures: `droppm2'"
+		}
+    }
+* find list of PMs specified
+foreach pm of local allpms { 
+	if !mi("``pm''") local output `output' `pm'
+}
+if "`output'"=="" {
+	di as error "No performance measures specified"
+	exit 498
+}
+if inlist("`output'","bsims","sesims","bims sesims") & "`mcse'"=="mcse" {
     di as error "Only bsims and/or sesims specified - mcse ignored"
     local mcse
 }
+* END OF PARSING PERFORMANCE MEASURES
 
 if "`methodvar'"!="" {
     if `m'>1 {
@@ -244,11 +286,7 @@ if r(N)==0 {
 }
 
 * check true is specified if bias or cover chosen
-if "`bias'"=="bias" | "`mse'"=="mse" | "`cover'"=="cover" {
-    if "`true'"=="" {
-        di as error "true() must be specified when bias and/or cover is requested"
-        exit 498
-    }
+if "`bias'"=="bias" | "`mse'"=="mse" | "`rmse'"=="rmse" | "`cover'"=="cover" {
     tempvar truevar
     qui gen `truevar' = `true'
     qui count if missing(`truevar') & `touse'
@@ -271,7 +309,15 @@ if "`methodvar'"!="" {
     local label : val label `methodvar'
     local i 0
     foreach method in `methods' {
-        local ++i
+        if strpos("`method'"," ") {
+			di as error `"Sorry, I can't handle method = "`method'". Please recode it without spaces."'
+			exit 498
+		}
+        if strtoname("b`method'")!="b`method'" {
+			di as error `"Sorry, I can't handle method = "`method'". Please recode it using standard characters."'
+			exit 498
+		}
+		local ++i
         local beta`i' `betalist'`method'
         local newbetalist `newbetalist' `betalist'`method'
         if "`selist'"!="" local se`i' `selist'`method'
@@ -297,7 +343,9 @@ if "`methodvar'"!="" {
     cap confirm string var `methodvar'
     if _rc==0 local string string
     local bfmt0: format `betalist' // for later use
+
     qui reshape wide `betalist' `selist' `dflist', i(`by' `id') j(`methodvar') `string'
+
     local betalist `newbetalist'
     local selist `newselist'
 }
@@ -368,6 +416,20 @@ forvalues i=1/`m' {
 }
 drop `missing'
 
+// OPTIONAL DESCRIPTIVE GRAPH
+if "`graph'"=="graph" {
+    tempfile graph
+    set graphics off
+    forvalues i=1/`m' {
+        cap gr7 `se`i'' `beta`i'', xla yla b2title("`beta`i''") l1title("`se`i''") t1title("`label`i''") saving(`graph'`i', replace) `graph2'
+        if !_rc local gphlist `gphlist' `graph'`i'
+    }
+    if "`selist'"=="" local title Point estimates by method
+    else local title Std error vs. point estimate by method
+    set graphics on
+    gr7 using `gphlist', title(`title')
+}
+
 // CHECK FOR TOO-BIG OBS & OPTIONALLY LIST / DROP THEM
 tempvar infb infse
 gen `infb' = 0
@@ -406,20 +468,6 @@ if `errorbig' {
     exit 498
 }
 
-// OPTIONAL DESCRIPTIVE GRAPH
-if "`graph'"=="graph" {
-    tempfile graph
-    set graphics off
-    forvalues i=1/`m' {
-        cap gr7 `se`i'' `beta`i'', xla yla b2title("`beta`i''") l1title("`se`i''") t1title("`label`i''") saving(`graph'`i', replace) /*`byby'*/
-        if !_rc local gphlist `gphlist' `graph'`i'
-    }
-    if "`selist'"=="" local title Point estimates by method
-    else local title Std error vs. point estimate by method
-    set graphics on
-    gr7 using `gphlist', title(`title')
-}
-
 // PROCESS RESULTS PART 1: PREPARE FOR -COLLAPSE-
 di as text _newline "Starting to process results ..."
 if `level'<1 local level=`level'*100
@@ -441,13 +489,17 @@ forvalues i=1/`m' {
         local collmean `collmean' bias_`i' 
         local collsd `collsd' biassd_`i' = bias_`i'
     }
+    if "`mean'"=="mean" {
+        local collmean `collmean' mean_`i' = `beta`i'' 
+        local collsd `collsd' meansd_`i' = `beta`i'' 
+    }
     if "`relerror'"=="relerror" | "`modelse'"=="modelse" {
         qui gen var_`i'=`se`i''^2
     }
     if "`empse'"=="empse" | "`relerror'"=="relerror" | "`relprec'"=="relprec" | "`bias'"=="bias" {
         local collsd `collsd' empse_`i'=`beta`i''
     }
-    if "`mse'"=="mse" {
+    if "`mse'"=="mse" | "`rmse'"=="rmse" {
         qui gen mse_`i' = (`beta`i'' - `truevar')^2
         local collmean `collmean' mse_`i'
         local collsd `collsd' msesd_`i'=mse_`i'
@@ -467,6 +519,11 @@ forvalues i=1/`m' {
         local collsd `collsd' varsd_`i'=var_`i' 
         local collsd `collsd' modelsesd_`i'=`se`i''
     }
+	if "`ciwidth'"=="ciwidth" {
+		qui gen ciwidth_`i'  = 2*(`crit`i'')*`se`i''
+		local collmean `collmean' ciwidth_`i'
+		local collsd `collsd' ciwidthsd_`i' = ciwidth_`i'
+	}
     if "`cover'"=="cover" | "`power'"=="power" {
         if "`cover'"=="cover" local collcount `collcount' bothsims_`i'=cover_`i'
         else local collcount `collcount' bothsims_`i'=power_`i'
@@ -516,12 +573,19 @@ if "`collsum'"!="" local collsum (sum) `collsum'
 
 // PROCESS RESULTS PART 2: -COLLAPSE-
 collapse `collmean' `collsd' `collcount' `collsum', by(`byvar')
+if !mi("`debug'") {
+	di as input "Data after collapse:"
+	l
+}
 
 // PROCESS RESULTS PART 3: AFTER -COLLAPSE-
 forvalues i=1/`m' {
     qui gen k_`i' = bsims_`i'/(bsims_`i'-1)
     if "`bias'"=="bias" {
         qui gen bias_mcse_`i' = biassd_`i' / sqrt(bsims_`i')
+    }
+    if "`mean'"=="mean" {
+        qui gen mean_mcse_`i' = meansd_`i' / sqrt(bsims_`i')
     }
     if ("`empse'"=="empse"  | "`relerror'"=="relerror") & "`robust'"=="" {
         qui gen empse_mcse_`i' = empse_`i'/sqrt(2*(bsims_`i'-1))
@@ -537,7 +601,7 @@ forvalues i=1/`m' {
         if `i'!=`refmethod' {
             qui gen relprec_`i' = 100 * ((empse_`refmethod'/empse_`i')^2-1)
             if "`robust'"=="" {
-                qui gen relprec_mcse_`i' = 200 * (empse_`refmethod'/empse_`i')^2 * sqrt((1-(corr_`i')^2)/(ncorr_`i'-2))
+                qui gen relprec_mcse_`i' = 200 * (empse_`refmethod'/empse_`i')^2 * sqrt((1-(corr_`i')^2)/(ncorr_`i'-1))
             }
             else {
                 qui gen relprec_mcse_`i' = 100 * sqrt(`relprecTT`i'' -2*(`relprecT`i''/`relprecB`i'')*`relprecTB`i'' +(`relprecT`i''/`relprecB`i'')^2*`relprecBB`i'') / `relprecB`i''
@@ -551,6 +615,10 @@ forvalues i=1/`m' {
     if "`mse'"=="mse" {
         qui gen mse_mcse_`i' = msesd_`i' / sqrt(bsims_`i')
     }
+    if "`rmse'"=="rmse" {
+        qui gen rmse_`i' = sqrt(mse_`i')
+        qui gen rmse_mcse_`i' = msesd_`i' / (2 * sqrt(bsims_`i') * mse_`i')
+    }
     if "`modelse'"=="modelse" | "`relerror'"=="relerror" {
         if "`modelsemethod'"=="rmse" {
             qui replace modelse_`i' = sqrt(varmean_`i')
@@ -560,6 +628,9 @@ forvalues i=1/`m' {
             qui gen modelse_mcse_`i' = modelsesd_`i' / sqrt(sesims_`i')
         }
     }
+	if "`ciwidth'"=="ciwidth" {
+		qui gen ciwidth_mcse_`i' = ciwidthsd_`i' / sqrt(bsims_`i')
+	}
     if "`relerror'"=="relerror" {
         qui gen relerror_`i' = 100*(modelse_`i'/empse_`i'-1)
         if "`robust'"=="" qui gen relerror_mcse_`i' = 100*(modelse_`i'/empse_`i') * sqrt((modelse_mcse_`i'/modelse_`i')^2 + (empse_mcse_`i'/empse_`i')^2 )
@@ -577,20 +648,27 @@ forvalues i=1/`m' {
     cap drop varmean_`i' 
     cap drop varsd_`i'
 }
+if !mi("`debug'") {
+	di as input "Data after post-processing:"
+	l
+}
 
 // PREPARE FOR OUTPUT
 local alpha=100-`level'
 local bsimsname Non-missing point estimates
 local sesimsname Non-missing standard errors
 local biasname Bias in point estimate
+local meanname Mean of point estimate
 local empsename Empirical standard error
 local relprecname % gain in precision relative to method `label`refmethod''
 local msename Mean squared error
+local rmsename Root mean squared error
 if "`modelsemethod'" =="mean" local modelsename Mean model-based standard error `sebeta'
 if "`modelsemethod'" =="rmse" local modelsename RMS model-based standard error `sebeta'
+local ciwidthname Mean conf. interval width
 local relerrorname Relative % error in standard error
-local covername Coverage of nominal `level'% confidence interval
-local powername Power of `alpha'% level test
+local covername % coverage of nominal `level'% conf. interval
+local powername % power of `alpha'% level test
 
 local keeplist `byvar'
 foreach name in `output' {
@@ -616,7 +694,7 @@ forvalues i=1/`m' {
 local i 0
 qui gen mcse = .
 qui gen `gen'num = .
-foreach perfmeas in bsims sesims bias empse relprec mse modelse relerror cover power {
+foreach perfmeas in bsims sesims bias mean empse relprec mse rmse modelse ciwidth relerror cover power {
     local ++i
     qui replace mcse=0 if `gen'code=="`perfmeas'"
     qui replace mcse=1 if `gen'code=="`perfmeas'_mcse"
@@ -626,19 +704,23 @@ foreach perfmeas in bsims sesims bias empse relprec mse modelse relerror cover p
     if "`perfmeas'"=="bsims" local label "Non-missing point estimates"
     if "`perfmeas'"=="sesims" local label "Non-missing standard errors"
     if "`perfmeas'"=="bias" local label "Bias in point estimate"
+    if "`perfmeas'"=="mean" local label "Mean of point estimate"
     if "`perfmeas'"=="empse" local label "Empirical standard error"
-    if "`perfmeas'"=="relprec" local label "% gain in precision relative to method `label`refmethod''"
+    if "`perfmeas'"=="relprec" local label "% precision gain relative to method `label`refmethod''"
     if "`perfmeas'"=="mse" local label "Mean squared error"
+    if "`perfmeas'"=="rmse" local label "Root mean squared error"
     if "`perfmeas'"=="modelse" {
         if "`modelsemethod'" =="mean" local label "Mean model-based standard error"
         if "`modelsemethod'" =="rmse" local label "RMS model-based standard error"
     }
+	if "`perfmeas'"=="ciwidth" local label "Mean conf. interval width"
     if "`perfmeas'"=="relerror" local label "Relative % error in standard error"
-    if "`perfmeas'"=="cover" local label "Coverage of nominal `level'% confidence interval"
-    if "`perfmeas'"=="power" local label "Power of `alpha'% level test"
+    if "`perfmeas'"=="cover" local label "% coverage of nominal `level'% conf. interval"
+    if "`perfmeas'"=="power" local label "% power of `alpha'% level test"
     label def `gen'num  `i' "`label'", add
     label val `gen'num `gen'num 
 }
+
 assert !mi(mcse)
 foreach var in `methodlist' {
     rename `var' `var'_
