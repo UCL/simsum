@@ -1,9 +1,8 @@
--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
       name:  <unnamed>
-       log:  N:\Home\ado\ian\simsum\test\cscript1.log
+       log:  C:\ado\ian\simsum\test\cscript1.log
   log type:  text
- opened on:   8 Jan 2020, 15:39:13
-Log file cscript1.log opened on  8 Jan 2020 at 15:39:13
+ opened on:  26 Aug 2021, 16:10:36
 
 . * simsum certification script 1
 . * last updated 22/12/2009
@@ -15,14 +14,14 @@ Log file cscript1.log opened on  8 Jan 2020 at 15:39:13
 --------------------------------------------------BEGIN Simple checks on simsum
 
 -> which simsum, usesysdir
-N:\Home\ado\ian\simsum\package\simsum.ado
+c:\ado\ian\simsum\package\simsum.ado
 *! version 0.19 Ian White 8jan2020
 
 . set linesize 158
 
 . 
 . which simsum
-N:\Home\ado\ian\simsum\package\simsum.ado
+c:\ado\ian\simsum\package\simsum.ado
 *! version 0.19 Ian White 8jan2020
 
 . 
@@ -485,9 +484,8 @@ Starting to process results ...
 . 
 . 
 end of do-file
-Log file cscript1.log completed on  8 Jan 2020 at 15:39:17
       name:  <unnamed>
-       log:  N:\Home\ado\ian\simsum\test\cscript1.log
+       log:  C:\ado\ian\simsum\test\cscript1.log
   log type:  text
- closed on:   8 Jan 2020, 15:39:17
+ closed on:  26 Aug 2021, 16:10:38
 --------------------------------------------------------------------------------------------------------------------------------------------------------------

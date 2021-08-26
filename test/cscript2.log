@@ -1,9 +1,8 @@
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
       name:  <unnamed>
-       log:  N:\Home\ado\ian\simsum\test\cscript2.log
+       log:  C:\ado\ian\simsum\test\cscript2.log
   log type:  text
- opened on:   8 Jan 2020, 15:40:10
-Log file cscript2.log opened on  8 Jan 2020 at 15:40:10
+ opened on:  26 Aug 2021, 16:10:41
 
 . /* 
 > simsum certification script 2
@@ -20,7 +19,7 @@ Log file cscript2.log opened on  8 Jan 2020 at 15:40:10
 ------------------------------------------------BEGIN Detailed checks on simsum
 
 -> which simsum, usesysdir
-N:\Home\ado\ian\simsum\package\simsum.ado
+c:\ado\ian\simsum\package\simsum.ado
 *! version 0.19 Ian White 8jan2020
 
 . set linesize 158
@@ -39,7 +38,7 @@ N:\Home\ado\ian\simsum\package\simsum.ado
 
 . 
 . which simsum
-N:\Home\ado\ian\simsum\package\simsum.ado
+c:\ado\ian\simsum\package\simsum.ado
 *! version 0.19 Ian White 8jan2020
 
 . 
@@ -75,7 +74,7 @@ N:\Home\ado\ian\simsum\package\simsum.ado
 
 . summ
 
-    Variable |        Obs        Mean    Std. Dev.       Min        Max
+    Variable |        Obs        Mean    Std. dev.       Min        Max
 -------------+---------------------------------------------------------
        _dnum |      3,000       500.5    288.7231          1       1000
       beta_1 |      3,000    .2507242    .2426156  -.2507116   1.248564
@@ -1328,7 +1327,7 @@ Starting to process results ...
 *** Wide: simsum beta*, true(truebeta) seprefix(se) by(n truebeta) saving(z,replace) nolist ***
 
 Starting to process results ...
-(note: file z.dta not found)
+(file z.dta not found)
 file z.dta saved
 
 
@@ -2143,12 +2142,12 @@ Starting to process results ...
 . 
 . // CHECK IT WORKS FROM LONG FORMAT
 . reshape long beta_ sebeta_, i(truebeta n _dnum) j(method)
-(note: j = 1 2 3)
+(j = 1 2 3)
 
-Data                               wide   ->   long
+Data                               Wide   ->   Long
 -----------------------------------------------------------------------------
-Number of obs.                     3000   ->    9000
-Number of variables                  10   ->       7
+Number of observations            3,000   ->   9,000       
+Number of variables                  10   ->   7           
 j variable (3 values)                     ->   method
 xij variables:
                    beta_1 beta_2 beta_3   ->   beta_
@@ -3605,24 +3604,24 @@ Results are now in memory.
 . clear
 
 . adopath +PERSONAL
-  [1]              "N:\Home\ado\ian\simsum\package"
-  [2]  (BASE)      "C:\Program Files (x86)\Stata15\ado\base/"
-  [3]  (SITE)      "C:\Program Files (x86)\Stata15\ado\site/"
+  [1]              "c:\ado\ian\simsum\package"
+  [2]  (BASE)      "C:\Program Files\Stata17\ado\base/"
+  [3]  (SITE)      "C:\Program Files\Stata17\ado\site/"
   [4]              "."
   [5]  (PERSONAL)  "N:\Home\ado\personal/"
 
 . adopath +PLUS
-  [1]              "N:\Home\ado\ian\simsum\package"
-  [2]  (BASE)      "C:\Program Files (x86)\Stata15\ado\base/"
-  [3]  (SITE)      "C:\Program Files (x86)\Stata15\ado\site/"
+  [1]              "c:\ado\ian\simsum\package"
+  [2]  (BASE)      "C:\Program Files\Stata17\ado\base/"
+  [3]  (SITE)      "C:\Program Files\Stata17\ado\site/"
   [4]              "."
   [5]  (PERSONAL)  "N:\Home\ado\personal/"
   [6]  (PLUS)      "N:\Home\ado\stbplus/"
 
 . adopath +OLDPLACE
-  [1]              "N:\Home\ado\ian\simsum\package"
-  [2]  (BASE)      "C:\Program Files (x86)\Stata15\ado\base/"
-  [3]  (SITE)      "C:\Program Files (x86)\Stata15\ado\site/"
+  [1]              "c:\ado\ian\simsum\package"
+  [2]  (BASE)      "C:\Program Files\Stata17\ado\base/"
+  [3]  (SITE)      "C:\Program Files\Stata17\ado\site/"
   [4]              "."
   [5]  (PERSONAL)  "N:\Home\ado\personal/"
   [6]  (PLUS)      "N:\Home\ado\stbplus/"
@@ -3632,9 +3631,8 @@ Results are now in memory.
 
 . 
 end of do-file
-Log file cscript2.log completed on  8 Jan 2020 at 15:40:36
       name:  <unnamed>
-       log:  N:\Home\ado\ian\simsum\test\cscript2.log
+       log:  C:\ado\ian\simsum\test\cscript2.log
   log type:  text
- closed on:   8 Jan 2020, 15:40:36
+ closed on:  26 Aug 2021, 16:10:50
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
