@@ -1,6 +1,8 @@
 simsum notes / to do
 ====================
 
+Tim 25aug2021: allow multiple SEs for the same point estimate? e.g. a syntax in long format where you could specify one estimate variable and several SE variables, and then PMs like bias would report once but those like relerror once for each SE? 
+
 NOT WORTH DOING BECAUSE THEY WILL BE DONE BY SIMAN:
 
 10oct2019 (me): 
