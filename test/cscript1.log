@@ -2,7 +2,7 @@
       name:  <unnamed>
        log:  C:\ado\ian\simsum\test\cscript1.log
   log type:  text
- opened on:  26 Aug 2021, 16:10:36
+ opened on:  27 Sep 2021, 14:48:19
 
 . * simsum certification script 1
 . * last updated 22/12/2009
@@ -15,14 +15,14 @@
 
 -> which simsum, usesysdir
 c:\ado\ian\simsum\package\simsum.ado
-*! version 0.19 Ian White 8jan2020
+*! version 0.19.1 Ian White 27sep2021
 
 . set linesize 158
 
 . 
 . which simsum
 c:\ado\ian\simsum\package\simsum.ado
-*! version 0.19 Ian White 8jan2020
+*! version 0.19.1 Ian White 27sep2021
 
 . 
 . // handling wide format
@@ -487,5 +487,5 @@ end of do-file
       name:  <unnamed>
        log:  C:\ado\ian\simsum\test\cscript1.log
   log type:  text
- closed on:  26 Aug 2021, 16:10:38
+ closed on:  27 Sep 2021, 14:48:20
 --------------------------------------------------------------------------------------------------------------------------------------------------------------

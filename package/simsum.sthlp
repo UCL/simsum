@@ -1,5 +1,20 @@
 {smcl}
 {* 13jan2020, Ian White}
+{* 27sep2021, Ian White}
+{viewerjumpto "Syntax" "simsum##syntax"}{...}
+{viewerjumpto "Main options" "simsum##main_options"}{...}
+{viewerjumpto "Data checking options" "simsum##check_options"}{...}
+{viewerjumpto "Calculation options" "simsum##calc_options"}{...}
+{viewerjumpto "Options specifying degrees of freedom" "simsum##df_options"}{...}
+{viewerjumpto "Performance measure options" "simsum##pm_options"}{...}
+{viewerjumpto "Display options" "simsum##display_options"}{...}
+{viewerjumpto "Output data set options" "simsum##output_options"}{...}
+{viewerjumpto "Example" "simsum##example"}{...}
+{viewerjumpto "Errata" "simsum##errata"}{...}
+{viewerjumpto "References" "simsum##refs"}{...}
+{viewerjumpto "Author and updates" "simsum##updates"}{...}
+{title:Title}
+
 {hline}
 help for {hi:simsum}{right:Ian White}
 {hline}
@@ -20,10 +35,12 @@ and the power to reject a null hypothesis.
 Monte Carlo errors are available for all estimated quantities.
 
 {p 4 4 2}
-The methods are described in a {help simsum##White++10:Stata Journal article}. Please also see our {help simsum##Morris++19:tutorial} on simulation studies.
+The methods are described in a {help simsum##White++10:Stata Journal article}. 
+Please also see our {help simsum##Morris++19:tutorial} on simulation studies.
+If you use this programme in a publication, please cite {help simsum##White++10:Stata Journal article}. 
 
 
-{title:Syntax}
+{title:Syntax}{marker syntax}
 
 {p 4 4 2}
 Data may be in a wide or long format. 
@@ -50,7 +67,7 @@ where {it:estvarname} is a variable containing the point estimates,
 The {it:options} are described below.
 
 
-{title:Main options}
+{title:Main options}{marker main_options}
 
 {phang} {cmd:true(}{it:expression}{cmd:)} gives the true value of the parameter. 
 This is used in calculations of bias and coverage and is required whenever these performance measures are requested.
@@ -75,7 +92,7 @@ are formed by adding the given suffix to the names of the variables containing t
 It may be combined with {cmdab:sep:refix(}{cmd:)} but not with {cmd:se(}{cmd:)}.
 
 
-{title:Data checking options}
+{title:Data checking options}{marker check_options}
 
 {phang} {cmd:graph} requests a descriptive graph of standard errors against point estimates.
 
@@ -96,7 +113,7 @@ Otherwise the program halts with an error. (Missing values are always dropped.)
 {phang} {cmd:listmiss} lists observations with missing point estimates and/or standard errors.
 
 
-{title:Calculation options}
+{title:Calculation options}{marker calc_options}
 
 {phang} {cmd:level(}#{cmd:)} specifies the confidence level for coverages and powers. Default is {cmd:$level}.
 
@@ -116,7 +133,7 @@ With data in wide format, {it:string} must be a variable name.
 With data in long format, {it:string} must be a value of the method variable; if the value is labelled then the label must be used.
 
 
-{title:Options specifying degrees of freedom}
+{title:Options specifying degrees of freedom}{marker df_options}
 
 {phang} Degrees of freedom are used in calculating coverages and powers.
 
@@ -132,7 +149,7 @@ by adding the given suffix to the names of the variables containing the point es
 It may be combined with {cmd:dfprefix()} but not with {cmd:df()}.
 
 
-{title:Performance measure options}
+{title:Performance measure options}{marker pm_options}
 
 {phang}If none of the following options is specified, then all available performance measures are computed.
 
@@ -180,10 +197,9 @@ This calculation is slow: omitting it can reduce run time by up to 90%.
 {col 8} relerror {col 25}  {col 40} x
 {col 8} cover {col 25} x {col 40} x
 {col 8} power {col 25}  {col 40} x
-{col 8} power {col 25}  {col 40} x
 
 
-{title:Display options}
+{title:Display options}{marker display_options}
 
 {phang} {cmd:nolist} suppresses listing of the results, and is only allowed when {cmd:clear} or {cmd:saving()} is specified.
 
@@ -203,7 +219,7 @@ Defaults are the existing format of the [first] estimate variable for (1) and (2
 {phang} {cmdab:ab:breviate(}#{cmd:)} invokes this {cmd:list} option when printing the results.
 
 
-{title:Output data set options}
+{title:Output data set options}{marker output_options}
 
 {phang} {cmd:clear} loads the performance measure data into memory.
 
@@ -218,7 +234,7 @@ transposes the output data set so that performance measures are columns and meth
 (only useful with {cmd:clear} or {cmd:saving()}).
 
 
-{title:Example}
+{title:Example}{marker example}
 
 {phang}This example uses data in long format stored in MIsim.dta:
 
@@ -231,7 +247,7 @@ transposes the output data set so that performance measures are columns and meth
 {phang}{cmd:. simsum b*, se(se*) true(0.5) mcse format(%7.0g)}
 
 
-{title:Errata}
+{title:Errata}{marker errata}
 
 {phang} One formula is written wrongly in the Stata Journal article, but the correct formula is used in the program. 
 This is in the fourth equation on page 378, giving the MC error for the model-based standard error under the {cmd:modelsemethod(mean)} option.

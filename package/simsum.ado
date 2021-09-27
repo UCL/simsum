@@ -1,6 +1,7 @@
-*! version 0.19 Ian White 8jan2020
 /***********************************************************************************************
 HISTORY
+*! version 0.19.1 Ian White 27sep2021
+	remove unnecessary condition
 version 0.19 Ian White 8jan2020 -> aim to release this as 2.0
 	new PMs: mean rmse ciwidth
 	new parsing of disallowed PMs
@@ -471,7 +472,7 @@ if `errorbig' {
 // PROCESS RESULTS PART 1: PREPARE FOR -COLLAPSE-
 di as text _newline "Starting to process results ..."
 if `level'<1 local level=`level'*100
-if "`robust'"=="robust" & ("`relprec'"=="relprec" | "`relprec'"=="relprec" | "`relerror'"=="relerror") {
+if "`robust'"=="robust" & ("`relprec'"=="relprec" | "`relerror'"=="relerror") {
     forvalues i=1/`m' {
         tempvar betamean`i'
         egen `betamean`i'' = mean(`beta`i''), `byby'        

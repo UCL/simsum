@@ -2,7 +2,7 @@
       name:  <unnamed>
        log:  C:\ado\ian\simsum\test\cscript2.log
   log type:  text
- opened on:  26 Aug 2021, 16:10:41
+ opened on:  27 Sep 2021, 14:48:20
 
 . /* 
 > simsum certification script 2
@@ -20,7 +20,7 @@
 
 -> which simsum, usesysdir
 c:\ado\ian\simsum\package\simsum.ado
-*! version 0.19 Ian White 8jan2020
+*! version 0.19.1 Ian White 27sep2021
 
 . set linesize 158
 
@@ -39,7 +39,7 @@ c:\ado\ian\simsum\package\simsum.ado
 . 
 . which simsum
 c:\ado\ian\simsum\package\simsum.ado
-*! version 0.19 Ian White 8jan2020
+*! version 0.19.1 Ian White 27sep2021
 
 . 
 . local opts graph nomemcheck max(20) semax(50) dropbig nolistbig ///
@@ -3634,5 +3634,5 @@ end of do-file
       name:  <unnamed>
        log:  C:\ado\ian\simsum\test\cscript2.log
   log type:  text
- closed on:  26 Aug 2021, 16:10:50
+ closed on:  27 Sep 2021, 14:48:30
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
