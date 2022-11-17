@@ -2,6 +2,12 @@
 
 # simsum: Analyses of simulation studies including Monte Carlo error
 
+Author: Ian White
+
+Version: 0.19.1
+
+Date: 27sep2021
+
 This repository contains Stata code and testing for the simsum package.
 
 ## Installation within Stata
