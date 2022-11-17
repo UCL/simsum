@@ -1,3 +1,5 @@
+<a href ="https://www.mrcctu.ucl.ac.uk/"><img src="MRCCTU_at_UCL_Logo.png" width="50%" /></a>
+
 # simsum: Analyses of simulation studies including Monte Carlo error
 
 This repository contains Stata code and testing for the simsum package.
