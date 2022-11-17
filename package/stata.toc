@@ -1,0 +1,5 @@
+v 3
+
+d Ian White's Stata software
+
+p simsum: module to perform analyses of simulation studies including Monte Carlo error
