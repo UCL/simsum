@@ -1,5 +1,5 @@
 {smcl}
-{* v0.20  13jan2023  Ian White}
+{* v2.0  13jan2023  Ian White}{...}
 {viewerjumpto "Syntax" "simsum##syntax"}{...}
 {viewerjumpto "Main options" "simsum##main_options"}{...}
 {viewerjumpto "Data checking options" "simsum##check_options"}{...}
@@ -14,11 +14,8 @@
 {viewerjumpto "Author and updates" "simsum##updates"}{...}
 {title:Title}
 
-{hline}
-help for {hi:simsum}{right:Ian White}
-{hline}
+{phang}{hi:simsum} - Analyses of simulation studies including Monte Carlo error
 
-{title:Analyses of simulation studies including Monte Carlo error}
 
 {title:Introduction}
 
@@ -36,7 +33,7 @@ Monte Carlo errors are available for all estimated quantities.
 {p 4 4 2}
 The methods are described in a {help simsum##White++10:Stata Journal article}. 
 Please also see our {help simsum##Morris++19:tutorial} on simulation studies.
-If you use this programme in a publication, please cite {help simsum##White++10:Stata Journal article}. 
+If you use this programme in a publication, please cite the {help simsum##White++10:Stata Journal article}. 
 
 
 {title:Syntax}{marker syntax}
@@ -278,7 +275,7 @@ Stat Med. 2019;38(11):2074-2102.
 {phang}Ian White, MRC Clinical  Trials Unit at UCL, London, UK. 
 Email {browse "mailto:ian.white@ucl.ac.uk":ian.white@ucl.ac.uk}.
 
-{phang}You can get the latest version of this and my other Stata software using 
-{stata "net from http://www.homepages.ucl.ac.uk/~rmjwiww/stata/"}.
+{phang}You can get the latest version of this and my other Stata software from github. 
+See {browse "https://github.com/UCL/simsum"}.
 
 

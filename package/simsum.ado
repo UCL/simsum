@@ -1,10 +1,11 @@
 /***********************************************************************************************
 HISTORY
-*! version 0.20 Ian White 13jan2023
+*! version 2.0 Ian White 13jan2023
 	add null() option - only affects power
+	tidy up and release on SSC as 2.0
 version 0.19.1 Ian White 27sep2021
 	remove unnecessary condition
-version 0.19 Ian White 8jan2020 -> aim to release this as 2.0
+version 0.19 Ian White 8jan2020
 	new PMs: mean rmse ciwidth
 	new parsing of disallowed PMs
 	small changes to PM naming in output

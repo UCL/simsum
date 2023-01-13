@@ -1,8 +1,8 @@
 v 3
 d simsum: Analyses of simulation studies including Monte Carlo error
 d Program by Ian White.
-d Version 0.19.1
-d Distribution-Date: 27sep2021
+d Version 2.0
+d Distribution-Date: 13jan2023
 f simsum.ado
 f simsum.sthlp
 
