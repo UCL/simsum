@@ -1,6 +1,5 @@
 {smcl}
-{* 13jan2020, Ian White}
-{* 27sep2021, Ian White}
+{* v0.20  13jan2023  Ian White}
 {viewerjumpto "Syntax" "simsum##syntax"}{...}
 {viewerjumpto "Main options" "simsum##main_options"}{...}
 {viewerjumpto "Data checking options" "simsum##check_options"}{...}
@@ -132,6 +131,8 @@ as the root mean squared value (the default) or as the arithmetic mean.
 With data in wide format, {it:string} must be a variable name. 
 With data in long format, {it:string} must be a value of the method variable; if the value is labelled then the label must be used.
 
+{phang} {cmd:null(}#{cmd:)} specifies the null value against which power will be calculated. 
+
 
 {title:Options specifying degrees of freedom}{marker df_options}
 
@@ -179,7 +180,8 @@ This calculation is slow: omitting it can reduce run time by up to 90%.
 
 {phang} {cmd:cover} estimates the coverage of nominal confidence intervals at the specified level.
 
-{phang} {cmd:power} estimates the power to reject the null hypothesis that the true parameter is zero, at the specified level.
+{phang} {cmd:power} estimates the power to reject the null hypothesis at the specified level.
+The null hypothesis is that the true parameter is the value specified by the {cmd:null()} option, or zero if this is not specified.
 
 {phang}The table below shows which performance measures require the true value specified by {cmd:true()} and which require the standard error specified by {cmd:se()}, {cmd:seprefix()} or {cmd:sesuffix()}:
 

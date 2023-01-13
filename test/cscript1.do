@@ -4,6 +4,11 @@
 * NB see cscript2.do for fuller checks
 * now in N:\Home\ado\ian\simsum\test, 6jan2020
 
+local path c:\ado\ian\simsum
+adopath + `path'/package
+set logtype text
+log using `path'/test/cscript1, replace
+
 cscript "Simple checks on simsum" adofile simsum
 set linesize 158
 
@@ -50,4 +55,5 @@ simsum b1, sep(se) method(method) id(i) true(1) ref(boot) df(5)
 gen df=5
 simsum b1, sep(se) method(method) id(i) true(1) ref(boot) df(df)
 
+log close
 

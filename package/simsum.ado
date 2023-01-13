@@ -1,6 +1,8 @@
 /***********************************************************************************************
 HISTORY
-*! version 0.19.1 Ian White 27sep2021
+*! version 0.20 Ian White 13jan2023
+	add null() option - only affects power
+version 0.19.1 Ian White 27sep2021
 	remove unnecessary condition
 version 0.19 Ian White 8jan2020 -> aim to release this as 2.0
 	new PMs: mean rmse ciwidth
@@ -69,15 +71,17 @@ version 10
 
 syntax varlist [if] [in], ///
     [true(string) METHodvar(varname) id(varlist)                             /// main options
-    SEPrefix(string) SESuffix(string) se(varlist)                            /// SE options
-    graph GRAPH2(string) noMEMcheck max(real 10) semax(real 100) dropbig nolistbig listmiss /// data checking options
-    level(real $S_level) by(varlist) mcse robust ref(string)                 /// calculation options
-    df(string) DFPrefix(string) DFSuffix(string) MODELSEMethod(string)       /// calculation options
-    bsims sesims bias empse relprec mse modelse relerror cover power         /// performance measure options
-    mean rmse ciwidth                                                        /// new performance measure options
-    sepby(varlist) clear saving(string) ABbreviate(passthru)                 /// output options
-    nolist listsep format(string) gen(string) TRANSpose                      /// output options
-    debug                                                                         /// undocumented options
+    se(varlist) SEPrefix(string) SESuffix(string)                            /// main options
+    graph GRAPH2(string) noMEMcheck max(real 10) semax(real 100)             /// data checking options
+    dropbig nolistbig listmiss                                               /// data checking options
+    level(real $S_level) by(varlist) mcse robust                             /// calculation options
+    MODELSEMethod(string) ref(string) null(real 0)                           /// calculation options
+    df(string) DFPrefix(string) DFSuffix(string)                             /// degrees of freedom options
+    bsims sesims bias mean empse relprec mse rmse                            /// performance measure options
+    modelse ciwidth relerror cover power                                     /// performance measure options
+    nolist listsep format(string) sepby(varlist) ABbreviate(passthru)        /// display options
+    clear saving(string) gen(string) TRANSpose                               /// output data set options
+    debug                                                                    /// undocumented options
     ]
 
 // CHECK OPTIONS 
@@ -534,7 +538,7 @@ forvalues i=1/`m' {
         local collmean `collmean' cover_`i' 
     }
     if "`power'"=="power" {
-        qui gen power_`i' = 100*(abs(`beta`i'')>=(`crit`i'')*`se`i'') if !missing(`beta`i'') & !missing(`se`i'') 
+        qui gen power_`i' = 100*(abs(`beta`i''-`null')>=(`crit`i'')*`se`i'') if !missing(`beta`i'') & !missing(`se`i'') 
         local collmean `collmean' power_`i' 
     }
     if "`robust'"=="robust" {

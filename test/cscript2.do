@@ -9,6 +9,12 @@ now in N:\Home\ado\ian\simsum\test, 6jan2020
 add test of each PM by itself for v0.19, 8jan2020
 */
 
+local path c:\ado\ian\simsum
+adopath + `path'/package
+set logtype text
+cap log close
+log using `path'/test/cscript2, replace
+
 cscript "Detailed checks on simsum" adofile simsum
 set linesize 158
 
@@ -97,12 +103,34 @@ foreach opt in `opts' `"`allopts'"' {
 	simsum beta, true(truebeta) seprefix(se) by(n truebeta) method(method) id(_dnum) `opt'
 }
 
+// CHECK NULL(), PART 1
+simsum beta*, true(truebeta) seprefix(se) by(n truebeta) saving(z1, replace)
+simsum beta*, true(truebeta) seprefix(se) by(n truebeta) null(0) saving(z2, replace)
+simsum beta*, true(truebeta) seprefix(se) by(n truebeta) null(.5) saving(z3, replace)
+
 // CHECK CLEAR
 simsum beta, true(truebeta) seprefix(se) by(n truebeta) method(method) id(_dnum) clear transpose
+
+// CHECK NULL(), PART 2
+use z1, clear
+cap cf _all using z2
+assert _rc==0
+cap cf _all using z3
+assert _rc==9
+use z3, clear
+drop perfmeasnum
+reshape wide beta_, i(n truebeta) j( perfmeascode) string
+assert reldif(beta_cover + beta_power, 100) < 1E-7 if truebeta==.5
+assert reldif(beta_cover + beta_power, 100) > .1   if truebeta!=.5
+
 
 // RESTORE ADOPATH
 clear
 adopath +PERSONAL
 adopath +PLUS
 adopath +OLDPLACE
-erase z.dta
+cap erase z.dta
+forvalues i=1/3 {
+	cap erase z`i'.dta
+}
+log close

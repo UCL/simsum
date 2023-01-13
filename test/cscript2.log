@@ -1,26 +1,16 @@
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
       name:  <unnamed>
-       log:  C:\ado\ian\simsum\test\cscript2.log
+       log:  c:\ado\ian\simsum/test/cscript2.log
   log type:  text
- opened on:  27 Sep 2021, 14:48:20
+ opened on:  13 Jan 2023, 12:04:03
 
-. /* 
-> simsum certification script 2
-> revised for version 0.10
-> revised for version 0.11, 23dec09
-> revised for version 0.14, 9jun2010
-> revised for v0.15 (mse option), 13apr2011
-> moved to c:\ado\ian\simsum and file path removed, 2may2019
-> now in N:\Home\ado\ian\simsum\test, 6jan2020
-> add test of each PM by itself for v0.19, 8jan2020
-> */
 . 
 . cscript "Detailed checks on simsum" adofile simsum
 ------------------------------------------------BEGIN Detailed checks on simsum
 
 -> which simsum, usesysdir
 c:\ado\ian\simsum\package\simsum.ado
-*! version 0.19.1 Ian White 27sep2021
+*! version 0.20 Ian White 13jan2023
 
 . set linesize 158
 
@@ -39,7 +29,7 @@ c:\ado\ian\simsum\package\simsum.ado
 . 
 . which simsum
 c:\ado\ian\simsum\package\simsum.ado
-*! version 0.19.1 Ian White 27sep2021
+*! version 0.20 Ian White 13jan2023
 
 . 
 . local opts graph nomemcheck max(20) semax(50) dropbig nolistbig ///
@@ -3575,6 +3565,194 @@ Relative % error in standard error
 file z.dta saved
 
 . 
+. // CHECK NULL(), PART 1
+. simsum beta*, true(truebeta) seprefix(se) by(n truebeta) saving(z1, replace)
+
+Starting to process results ...
+
+  +------------------------------------------------------------------------+
+  |                       Performance measure     n   truebeta       beta_ |
+  |------------------------------------------------------------------------|
+  |               Non-missing point estimates    84         .5        3000 |
+  |               Non-missing point estimates   336          0        3000 |
+  |               Non-missing point estimates   336        .25        3000 |
+  |------------------------------------------------------------------------|
+  |               Non-missing standard errors    84         .5        3000 |
+  |               Non-missing standard errors   336          0        3000 |
+  |               Non-missing standard errors   336        .25        3000 |
+  |------------------------------------------------------------------------|
+  |                    Bias in point estimate    84         .5   -.0024351 |
+  |                    Bias in point estimate   336          0   -.0029389 |
+  |                    Bias in point estimate   336        .25   -.0114439 |
+  |------------------------------------------------------------------------|
+  |                    Mean of point estimate    84         .5    .4975649 |
+  |                    Mean of point estimate   336          0   -.0029389 |
+  |                    Mean of point estimate   336        .25    .2385561 |
+  |------------------------------------------------------------------------|
+  |                  Empirical standard error    84         .5    .2411994 |
+  |                  Empirical standard error   336          0    .1001605 |
+  |                  Empirical standard error   336        .25    .1022548 |
+  |------------------------------------------------------------------------|
+  | % precision gain relative to method beta_    84         .5           . |
+  | % precision gain relative to method beta_   336          0           . |
+  | % precision gain relative to method beta_   336        .25           . |
+  |------------------------------------------------------------------------|
+  |                        Mean squared error    84         .5    .0581637 |
+  |                        Mean squared error   336          0    .0100374 |
+  |                        Mean squared error   336        .25    .0105835 |
+  |------------------------------------------------------------------------|
+  |                   Root mean squared error    84         .5    .2411715 |
+  |                   Root mean squared error   336          0    .1001869 |
+  |                   Root mean squared error   336        .25    .1028762 |
+  |------------------------------------------------------------------------|
+  |            RMS model-based standard error    84         .5    .2389587 |
+  |            RMS model-based standard error   336          0    .1024836 |
+  |            RMS model-based standard error   336        .25    .1038503 |
+  |------------------------------------------------------------------------|
+  |                 Mean conf. interval width    84         .5    .9040083 |
+  |                 Mean conf. interval width   336          0    .3945277 |
+  |                 Mean conf. interval width   336        .25    .3997621 |
+  |------------------------------------------------------------------------|
+  |        Relative % error in standard error    84         .5   -.9289711 |
+  |        Relative % error in standard error   336          0    2.319346 |
+  |        Relative % error in standard error   336        .25    1.560344 |
+  |------------------------------------------------------------------------|
+  |  % coverage of nominal 95% conf. interval    84         .5        95.4 |
+  |  % coverage of nominal 95% conf. interval   336          0    95.36667 |
+  |  % coverage of nominal 95% conf. interval   336        .25    95.16666 |
+  |------------------------------------------------------------------------|
+  |                  % power of 5% level test    84         .5    61.13334 |
+  |                  % power of 5% level test   336          0    4.633333 |
+  |                  % power of 5% level test   336        .25    65.23333 |
+  +------------------------------------------------------------------------+
+(file z1.dta not found)
+file z1.dta saved
+
+. simsum beta*, true(truebeta) seprefix(se) by(n truebeta) null(0) saving(z2, replace)
+
+Starting to process results ...
+
+  +------------------------------------------------------------------------+
+  |                       Performance measure     n   truebeta       beta_ |
+  |------------------------------------------------------------------------|
+  |               Non-missing point estimates    84         .5        3000 |
+  |               Non-missing point estimates   336          0        3000 |
+  |               Non-missing point estimates   336        .25        3000 |
+  |------------------------------------------------------------------------|
+  |               Non-missing standard errors    84         .5        3000 |
+  |               Non-missing standard errors   336          0        3000 |
+  |               Non-missing standard errors   336        .25        3000 |
+  |------------------------------------------------------------------------|
+  |                    Bias in point estimate    84         .5   -.0024351 |
+  |                    Bias in point estimate   336          0   -.0029389 |
+  |                    Bias in point estimate   336        .25   -.0114439 |
+  |------------------------------------------------------------------------|
+  |                    Mean of point estimate    84         .5    .4975649 |
+  |                    Mean of point estimate   336          0   -.0029389 |
+  |                    Mean of point estimate   336        .25    .2385561 |
+  |------------------------------------------------------------------------|
+  |                  Empirical standard error    84         .5    .2411994 |
+  |                  Empirical standard error   336          0    .1001605 |
+  |                  Empirical standard error   336        .25    .1022548 |
+  |------------------------------------------------------------------------|
+  | % precision gain relative to method beta_    84         .5           . |
+  | % precision gain relative to method beta_   336          0           . |
+  | % precision gain relative to method beta_   336        .25           . |
+  |------------------------------------------------------------------------|
+  |                        Mean squared error    84         .5    .0581637 |
+  |                        Mean squared error   336          0    .0100374 |
+  |                        Mean squared error   336        .25    .0105835 |
+  |------------------------------------------------------------------------|
+  |                   Root mean squared error    84         .5    .2411715 |
+  |                   Root mean squared error   336          0    .1001869 |
+  |                   Root mean squared error   336        .25    .1028762 |
+  |------------------------------------------------------------------------|
+  |            RMS model-based standard error    84         .5    .2389587 |
+  |            RMS model-based standard error   336          0    .1024836 |
+  |            RMS model-based standard error   336        .25    .1038503 |
+  |------------------------------------------------------------------------|
+  |                 Mean conf. interval width    84         .5    .9040083 |
+  |                 Mean conf. interval width   336          0    .3945277 |
+  |                 Mean conf. interval width   336        .25    .3997621 |
+  |------------------------------------------------------------------------|
+  |        Relative % error in standard error    84         .5   -.9289711 |
+  |        Relative % error in standard error   336          0    2.319346 |
+  |        Relative % error in standard error   336        .25    1.560344 |
+  |------------------------------------------------------------------------|
+  |  % coverage of nominal 95% conf. interval    84         .5        95.4 |
+  |  % coverage of nominal 95% conf. interval   336          0    95.36667 |
+  |  % coverage of nominal 95% conf. interval   336        .25    95.16666 |
+  |------------------------------------------------------------------------|
+  |                  % power of 5% level test    84         .5    61.13334 |
+  |                  % power of 5% level test   336          0    4.633333 |
+  |                  % power of 5% level test   336        .25    65.23333 |
+  +------------------------------------------------------------------------+
+(file z2.dta not found)
+file z2.dta saved
+
+. simsum beta*, true(truebeta) seprefix(se) by(n truebeta) null(.5) saving(z3, replace)
+
+Starting to process results ...
+
+  +------------------------------------------------------------------------+
+  |                       Performance measure     n   truebeta       beta_ |
+  |------------------------------------------------------------------------|
+  |               Non-missing point estimates    84         .5        3000 |
+  |               Non-missing point estimates   336          0        3000 |
+  |               Non-missing point estimates   336        .25        3000 |
+  |------------------------------------------------------------------------|
+  |               Non-missing standard errors    84         .5        3000 |
+  |               Non-missing standard errors   336          0        3000 |
+  |               Non-missing standard errors   336        .25        3000 |
+  |------------------------------------------------------------------------|
+  |                    Bias in point estimate    84         .5   -.0024351 |
+  |                    Bias in point estimate   336          0   -.0029389 |
+  |                    Bias in point estimate   336        .25   -.0114439 |
+  |------------------------------------------------------------------------|
+  |                    Mean of point estimate    84         .5    .4975649 |
+  |                    Mean of point estimate   336          0   -.0029389 |
+  |                    Mean of point estimate   336        .25    .2385561 |
+  |------------------------------------------------------------------------|
+  |                  Empirical standard error    84         .5    .2411994 |
+  |                  Empirical standard error   336          0    .1001605 |
+  |                  Empirical standard error   336        .25    .1022548 |
+  |------------------------------------------------------------------------|
+  | % precision gain relative to method beta_    84         .5           . |
+  | % precision gain relative to method beta_   336          0           . |
+  | % precision gain relative to method beta_   336        .25           . |
+  |------------------------------------------------------------------------|
+  |                        Mean squared error    84         .5    .0581637 |
+  |                        Mean squared error   336          0    .0100374 |
+  |                        Mean squared error   336        .25    .0105835 |
+  |------------------------------------------------------------------------|
+  |                   Root mean squared error    84         .5    .2411715 |
+  |                   Root mean squared error   336          0    .1001869 |
+  |                   Root mean squared error   336        .25    .1028762 |
+  |------------------------------------------------------------------------|
+  |            RMS model-based standard error    84         .5    .2389587 |
+  |            RMS model-based standard error   336          0    .1024836 |
+  |            RMS model-based standard error   336        .25    .1038503 |
+  |------------------------------------------------------------------------|
+  |                 Mean conf. interval width    84         .5    .9040083 |
+  |                 Mean conf. interval width   336          0    .3945277 |
+  |                 Mean conf. interval width   336        .25    .3997621 |
+  |------------------------------------------------------------------------|
+  |        Relative % error in standard error    84         .5   -.9289711 |
+  |        Relative % error in standard error   336          0    2.319346 |
+  |        Relative % error in standard error   336        .25    1.560344 |
+  |------------------------------------------------------------------------|
+  |  % coverage of nominal 95% conf. interval    84         .5        95.4 |
+  |  % coverage of nominal 95% conf. interval   336          0    95.36667 |
+  |  % coverage of nominal 95% conf. interval   336        .25    95.16666 |
+  |------------------------------------------------------------------------|
+  |                  % power of 5% level test    84         .5         4.6 |
+  |                  % power of 5% level test   336          0        99.2 |
+  |                  % power of 5% level test   336        .25    74.56667 |
+  +------------------------------------------------------------------------+
+(file z3.dta not found)
+file z3.dta saved
+
+. 
 . // CHECK CLEAR
 . simsum beta, true(truebeta) seprefix(se) by(n truebeta) method(method) id(_dnum) clear transpose
 Reshaping data to wide format ...
@@ -3600,6 +3778,39 @@ Transposing results ...
 Results are now in memory.
 
 . 
+. // CHECK NULL(), PART 2
+. use z1, clear
+
+. cap cf _all using z2
+
+. assert _rc==0
+
+. cap cf _all using z3
+
+. assert _rc==9
+
+. use z3, clear
+
+. drop perfmeasnum
+
+. reshape wide beta_, i(n truebeta) j( perfmeascode) string
+(j = bias bsims ciwidth cover empse mean modelse mse power relerror relprec rmse sesims)
+
+Data                               Long   ->   Wide
+-----------------------------------------------------------------------------
+Number of observations               39   ->   3           
+Number of variables                   4   ->   15          
+j variable (13 values)     perfmeascode   ->   (dropped)
+xij variables:
+                                  beta_   ->   beta_bias beta_bsims ... beta_sesims
+-----------------------------------------------------------------------------
+
+. assert reldif(beta_cover + beta_power, 100) < 1E-7 if truebeta==.5
+
+. assert reldif(beta_cover + beta_power, 100) > .1   if truebeta!=.5
+
+. 
+. 
 . // RESTORE ADOPATH
 . clear
 
@@ -3608,31 +3819,37 @@ Results are now in memory.
   [2]  (BASE)      "C:\Program Files\Stata17\ado\base/"
   [3]  (SITE)      "C:\Program Files\Stata17\ado\site/"
   [4]              "."
-  [5]  (PERSONAL)  "N:\Home\ado\personal/"
+  [5]              "c:\ado\ian\simsum/package"
+  [6]  (PERSONAL)  "N:\Home\ado\personal/"
 
 . adopath +PLUS
   [1]              "c:\ado\ian\simsum\package"
   [2]  (BASE)      "C:\Program Files\Stata17\ado\base/"
   [3]  (SITE)      "C:\Program Files\Stata17\ado\site/"
   [4]              "."
-  [5]  (PERSONAL)  "N:\Home\ado\personal/"
-  [6]  (PLUS)      "N:\Home\ado\stbplus/"
+  [5]              "c:\ado\ian\simsum/package"
+  [6]  (PERSONAL)  "N:\Home\ado\personal/"
+  [7]  (PLUS)      "N:\Home\ado\stbplus/"
 
 . adopath +OLDPLACE
   [1]              "c:\ado\ian\simsum\package"
   [2]  (BASE)      "C:\Program Files\Stata17\ado\base/"
   [3]  (SITE)      "C:\Program Files\Stata17\ado\site/"
   [4]              "."
-  [5]  (PERSONAL)  "N:\Home\ado\personal/"
-  [6]  (PLUS)      "N:\Home\ado\stbplus/"
-  [7]  (OLDPLACE)  "c:\ado/"
+  [5]              "c:\ado\ian\simsum/package"
+  [6]  (PERSONAL)  "N:\Home\ado\personal/"
+  [7]  (PLUS)      "N:\Home\ado\stbplus/"
+  [8]  (OLDPLACE)  "c:\ado/"
 
-. erase z.dta
+. cap erase z.dta
 
-. 
-end of do-file
+. forvalues i=1/3 {
+  2.         cap erase z`i'.dta
+  3. }
+
+. log close
       name:  <unnamed>
-       log:  C:\ado\ian\simsum\test\cscript2.log
+       log:  c:\ado\ian\simsum/test/cscript2.log
   log type:  text
- closed on:  27 Sep 2021, 14:48:30
+ closed on:  13 Jan 2023, 12:04:19
 --------------------------------------------------------------------------------------------------------------------------------------------------------------

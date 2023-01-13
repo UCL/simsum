@@ -1,28 +1,23 @@
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
       name:  <unnamed>
-       log:  C:\ado\ian\simsum\test\cscript1.log
+       log:  c:\ado\ian\simsum/test/cscript1.log
   log type:  text
- opened on:  27 Sep 2021, 14:48:19
+ opened on:  13 Jan 2023, 11:48:38
 
-. * simsum certification script 1
-. * last updated 22/12/2009
-. * moved to c:\ado\ian\simsum and file path removed, 2may2019
-. * NB see cscript2.do for fuller checks
-. * now in N:\Home\ado\ian\simsum\test, 6jan2020
 . 
 . cscript "Simple checks on simsum" adofile simsum
 --------------------------------------------------BEGIN Simple checks on simsum
 
 -> which simsum, usesysdir
 c:\ado\ian\simsum\package\simsum.ado
-*! version 0.19.1 Ian White 27sep2021
+*! version 0.20 Ian White 13jan2023
 
 . set linesize 158
 
 . 
 . which simsum
 c:\ado\ian\simsum\package\simsum.ado
-*! version 0.19.1 Ian White 27sep2021
+*! version 0.20 Ian White 13jan2023
 
 . 
 . // handling wide format
@@ -481,11 +476,9 @@ Starting to process results ...
   +---------------------------------------------------------------------------------------+
 
 . 
-. 
-. 
-end of do-file
+. log close
       name:  <unnamed>
-       log:  C:\ado\ian\simsum\test\cscript1.log
+       log:  c:\ado\ian\simsum/test/cscript1.log
   log type:  text
- closed on:  27 Sep 2021, 14:48:20
+ closed on:  13 Jan 2023, 11:48:41
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
