@@ -1,6 +1,8 @@
 /***********************************************************************************************
 HISTORY
-*! version 2.0 Ian White 13jan2023
+*! version 2.0.1 Ian White 19jan2023
+	gives warning, rather than failing, if estimates all equal, or SEs all zero
+version 2.0 Ian White 13jan2023
 	add null() option - only affects power
 	tidy up and release on SSC as 2.0
 version 0.19.1 Ian White 27sep2021
@@ -443,10 +445,18 @@ gen `infse' = 0
 local errorbig 0
 forvalues i=1/`m' {
     qui summ `beta`i''
+	if r(sd)<=0 {
+		di as error "Warning: estimate doesn't vary for `beta`i''"
+		* could read: "... for method `label`i''"
+		continue
+	}
     qui replace `infb' = (abs(`beta`i''-r(mean))/r(sd) > `max') & !missing(`beta`i'')  
     if "`se`i''"!="" {
         qui summ `se`i''
-        qui replace `infse' = (`se`i''/r(mean) > `semax') & !missing(`se`i'') 
+		if r(mean)<=0 {
+			di as error "Warning: standard error `se`i'' is always 0"
+		}
+        else qui replace `infse' = (`se`i''/r(mean) > `semax') & !missing(`se`i'') 
     }
     qui count if `infb'
     local ninfb = r(N)
@@ -456,6 +466,7 @@ forvalues i=1/`m' {
         di as text _newline `"Warning: found "' as result `ninfb' as text `" observations with standardised `beta`i'' > `max'"' _c
         if "`se`i''"!="" di as text `" and "' as result `ninfse' as text `" observations with scaled `se`i'' > `semax'"' _c
         if "`listbig'"!="nolistbig" l `by' `id' `beta`i'' `se`i'' if `infb'|`infse', sepby(`sepby')
+		else di
         if "`dropbig'"=="dropbig" {
             qui replace `beta`i'' = . if `infb'|`infse'
             if "`se`i''"!="" qui replace `se`i'' = . if `infb'|`infse'
