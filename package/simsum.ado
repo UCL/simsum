@@ -2,6 +2,8 @@
 HISTORY
 *! version 2.0.1 Ian White 19jan2023
 	gives warning, rather than failing, if estimates all equal, or SEs all zero
+	improve reporting of estimate and SE checks: includes using method name, "estimate", "SE" 
+		instead of `beta`i'' which assumes original wide format
 version 2.0 Ian White 13jan2023
 	add null() option - only affects power
 	tidy up and release on SSC as 2.0
@@ -387,7 +389,7 @@ forvalues i=1/`m' {
             qui replace `missing' = missing(`beta`i'') & missing(`se`i'') & `touse'
             qui count if `missing'
             if r(N)>0 {
-                di as text _new "Warning: found " as result r(N) as text " observations with both `beta`i'' and `se`i'' missing" _c
+                di as text _new "Warning for method `label`i'': " as result r(N) as text " observation(s) have both estimate and SE missing"
                 if "`listmiss'"=="listmiss" list `by' `id' `beta`i'' `se`i'' if `missing', sepby(`sepby')
                 di as text "--> no action taken"
             }
@@ -395,29 +397,29 @@ forvalues i=1/`m' {
             qui replace `missing' = !missing(`se`i'') & missing(`beta`i'') & `touse'
             qui count if `missing'
             if r(N)>0 {
-                di as text _new "Warning: found " as result r(N) as text " observed values of `se`i'' with missing `beta`i''" _c
+                di as text _new "Warning for method `label`i'': " as result r(N) as text " observation(s) have estimate missing and SE observed"
                 if "`listmiss'"=="listmiss" list `by' `id' `beta`i'' `se`i'' if `missing', sepby(`sepby')
                 qui replace `se`i'' = . if `missing'
-                di as text "--> `se`i'' changed to missing"
+                di as text "--> SE changed to missing"
             }
 
             qui replace `missing' = missing(`se`i'') & !missing(`beta`i'') & `touse'
             qui count if `missing'
             if r(N)>0 {
-                di as text _new "Warning: found " as result r(N) as text " observed values of `beta`i'' with missing `se`i''" _c
+                di as text _new "Warning for method `label`i'': " as result r(N) as text " observation(s) have estimate observed and SE missing"
                 if "`listmiss'"=="listmiss" list `by' `id' `beta`i'' `se`i'' if `missing', sepby(`sepby')
                 qui replace `beta`i'' = . if `missing'
-                di as text "--> `beta`i'' changed to missing"
+                di as text "--> estimate changed to missing"
             }
 
             qui replace `missing' = (`se`i''==0) & `touse'
             qui count if `missing'
             if r(N)>0 {
-                di as text _new "Warning: found " as result r(N) as text " zero values of `se`i''" _c
+                di as text _new "Warning for method `label`i'': " as result r(N) as text " observation(s) have zero values of SE"
                 if "`listmiss'"=="listmiss" list `by' `id' `beta`i'' `se`i'' if `missing', sepby(`sepby')
                 qui replace `beta`i'' = . if `missing'
                 qui replace `se`i'' = . if `missing'
-                di as text "--> `beta`i'' and `se`i'' have been changed to missing values for these observations"
+                di as text "--> estimate and SE changed to missing"
             }
         }
     }
@@ -442,19 +444,17 @@ if "`graph'"=="graph" {
 tempvar infb infse
 gen `infb' = 0
 gen `infse' = 0
-local errorbig 0
 forvalues i=1/`m' {
     qui summ `beta`i''
 	if r(sd)<=0 {
-		di as error "Warning: estimate doesn't vary for `beta`i''"
-		* could read: "... for method `label`i''"
+		di as text "Warning for method `label`i'': estimate doesn't vary"
 		continue
 	}
     qui replace `infb' = (abs(`beta`i''-r(mean))/r(sd) > `max') & !missing(`beta`i'')  
     if "`se`i''"!="" {
         qui summ `se`i''
 		if r(mean)<=0 {
-			di as error "Warning: standard error `se`i'' is always 0"
+			di as text "Warning for method `label`i'': `se`i'' is always 0"
 		}
         else qui replace `infse' = (`se`i''/r(mean) > `semax') & !missing(`se`i'') 
     }
@@ -463,26 +463,27 @@ forvalues i=1/`m' {
     qui count if `infse'
     local ninfse = r(N)
     if `ninfb'+`ninfse' > 0 {
-        di as text _newline `"Warning: found "' as result `ninfb' as text `" observations with standardised `beta`i'' > `max'"' _c
-        if "`se`i''"!="" di as text `" and "' as result `ninfse' as text `" observations with scaled `se`i'' > `semax'"' _c
-        if "`listbig'"!="nolistbig" l `by' `id' `beta`i'' `se`i'' if `infb'|`infse', sepby(`sepby')
+        local text = cond("`dropbig'"=="dropbig","text","error")
+        local warning = cond("`dropbig'"=="dropbig","Warning","Error")
+		di as `text' `"`warning' for method `label`i'': "' as result `ninfb' as `text' `" observation(s) have standardised estimate > `max'"' _c
+        if "`se`i''"!="" di as `text' `" and "' as result `ninfse' as `text' `" observation(s) have scaled SE > `semax'"' 
 		else di
+        if "`listbig'"!="nolistbig" l `by' `id' `beta`i'' `se`i'' if `infb'|`infse', sepby(`sepby')
+		else di as `text' "--> remove nolistbig option to list these observation(s)"
         if "`dropbig'"=="dropbig" {
             qui replace `beta`i'' = . if `infb'|`infse'
             if "`se`i''"!="" qui replace `se`i'' = . if `infb'|`infse'
-            di as text `"--> `beta`i'' "' _c
-            if "`se`i''"!="" di as text `"and `se`i'' "' _c
-            di as text `"have been changed to missing values for these observations"'
+            di as text `"--> estimate "' _c
+            if "`se`i''"!="" di as text `"and SE "' _c
+            di as text `"have been changed to missing values for these observation(s)"'
         }
-        else local errorbig 1
+		else {
+			di as error "--> use dropbig option to drop these observation(s)"
+			di as error "--> use max() option to change acceptable limit of point estimates"
+			if "`se'"!="" di as error "--> use semax() option to change acceptable limit of standard errors"
+			exit 498
+		}
     }
-}
-if `errorbig' {
-    di as error "Use dropbig option to drop these observations"
-    if "`listbig'"=="nolistbig" di as error "Remove nolistbig option to list these observations"
-    di as error "Use max() option to change acceptable limit of point estimates"
-    if "`se'"!="" di as error "Use semax() option to change acceptable limit of standard errors"
-    exit 498
 }
 
 // PROCESS RESULTS PART 1: PREPARE FOR -COLLAPSE-
