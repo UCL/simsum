@@ -2,7 +2,7 @@
       name:  <unnamed>
        log:  c:\ado\ian\simsum/test/cscript1.log
   log type:  text
- opened on:  13 Jan 2023, 11:48:38
+ opened on:  19 Jan 2023, 18:40:12
 
 . 
 . cscript "Simple checks on simsum" adofile simsum
@@ -10,14 +10,14 @@
 
 -> which simsum, usesysdir
 c:\ado\ian\simsum\package\simsum.ado
-*! version 0.20 Ian White 13jan2023
+*! version 2.0.1 Ian White 19jan2023
 
 . set linesize 158
 
 . 
 . which simsum
 c:\ado\ian\simsum\package\simsum.ado
-*! version 0.20 Ian White 13jan2023
+*! version 2.0.1 Ian White 19jan2023
 
 . 
 . // handling wide format
@@ -480,5 +480,5 @@ Starting to process results ...
       name:  <unnamed>
        log:  c:\ado\ian\simsum/test/cscript1.log
   log type:  text
- closed on:  13 Jan 2023, 11:48:41
+ closed on:  19 Jan 2023, 18:40:13
 --------------------------------------------------------------------------------------------------------------------------------------------------------------

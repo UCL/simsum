@@ -2,7 +2,7 @@
       name:  <unnamed>
        log:  c:\ado\ian\simsum/test/cscript2.log
   log type:  text
- opened on:  13 Jan 2023, 12:04:03
+ opened on:  19 Jan 2023, 18:40:21
 
 . 
 . cscript "Detailed checks on simsum" adofile simsum
@@ -10,7 +10,7 @@
 
 -> which simsum, usesysdir
 c:\ado\ian\simsum\package\simsum.ado
-*! version 0.20 Ian White 13jan2023
+*! version 2.0.1 Ian White 19jan2023
 
 . set linesize 158
 
@@ -29,7 +29,7 @@ c:\ado\ian\simsum\package\simsum.ado
 . 
 . which simsum
 c:\ado\ian\simsum\package\simsum.ado
-*! version 0.20 Ian White 13jan2023
+*! version 2.0.1 Ian White 19jan2023
 
 . 
 . local opts graph nomemcheck max(20) semax(50) dropbig nolistbig ///
@@ -3816,30 +3816,33 @@ xij variables:
 
 . adopath +PERSONAL
   [1]              "c:\ado\ian\simsum\package"
-  [2]  (BASE)      "C:\Program Files\Stata17\ado\base/"
-  [3]  (SITE)      "C:\Program Files\Stata17\ado\site/"
-  [4]              "."
-  [5]              "c:\ado\ian\simsum/package"
-  [6]  (PERSONAL)  "N:\Home\ado\personal/"
+  [2]              "c:\ado\ian\siman"
+  [3]  (BASE)      "C:\Program Files\Stata17\ado\base/"
+  [4]  (SITE)      "C:\Program Files\Stata17\ado\site/"
+  [5]              "."
+  [6]              "c:\ado\ian\simsum/package"
+  [7]  (PERSONAL)  "N:\Home\ado\personal/"
 
 . adopath +PLUS
   [1]              "c:\ado\ian\simsum\package"
-  [2]  (BASE)      "C:\Program Files\Stata17\ado\base/"
-  [3]  (SITE)      "C:\Program Files\Stata17\ado\site/"
-  [4]              "."
-  [5]              "c:\ado\ian\simsum/package"
-  [6]  (PERSONAL)  "N:\Home\ado\personal/"
-  [7]  (PLUS)      "N:\Home\ado\stbplus/"
+  [2]              "c:\ado\ian\siman"
+  [3]  (BASE)      "C:\Program Files\Stata17\ado\base/"
+  [4]  (SITE)      "C:\Program Files\Stata17\ado\site/"
+  [5]              "."
+  [6]              "c:\ado\ian\simsum/package"
+  [7]  (PERSONAL)  "N:\Home\ado\personal/"
+  [8]  (PLUS)      "N:\Home\ado\stbplus/"
 
 . adopath +OLDPLACE
   [1]              "c:\ado\ian\simsum\package"
-  [2]  (BASE)      "C:\Program Files\Stata17\ado\base/"
-  [3]  (SITE)      "C:\Program Files\Stata17\ado\site/"
-  [4]              "."
-  [5]              "c:\ado\ian\simsum/package"
-  [6]  (PERSONAL)  "N:\Home\ado\personal/"
-  [7]  (PLUS)      "N:\Home\ado\stbplus/"
-  [8]  (OLDPLACE)  "c:\ado/"
+  [2]              "c:\ado\ian\siman"
+  [3]  (BASE)      "C:\Program Files\Stata17\ado\base/"
+  [4]  (SITE)      "C:\Program Files\Stata17\ado\site/"
+  [5]              "."
+  [6]              "c:\ado\ian\simsum/package"
+  [7]  (PERSONAL)  "N:\Home\ado\personal/"
+  [8]  (PLUS)      "N:\Home\ado\stbplus/"
+  [9]  (OLDPLACE)  "c:\ado/"
 
 . cap erase z.dta
 
@@ -3851,5 +3854,5 @@ xij variables:
       name:  <unnamed>
        log:  c:\ado\ian\simsum/test/cscript2.log
   log type:  text
- closed on:  13 Jan 2023, 12:04:19
+ closed on:  19 Jan 2023, 18:40:32
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
