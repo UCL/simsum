@@ -7,9 +7,10 @@ revised for v0.15 (mse option), 13apr2011
 moved to c:\ado\ian\simsum and file path removed, 2may2019
 now in N:\Home\ado\ian\simsum\test, 6jan2020
 add test of each PM by itself for v0.19, 8jan2020
+now in c:\ian\git\simsum\test, 21jul2023
 */
 
-local path c:\ado\ian\simsum
+local path c:\ian\git\simsum
 adopath + `path'/package
 set logtype text
 cap log close
@@ -122,6 +123,11 @@ drop perfmeasnum
 reshape wide beta_, i(n truebeta) j( perfmeascode) string
 assert reldif(beta_cover + beta_power, 100) < 1E-7 if truebeta==.5
 assert reldif(beta_cover + beta_power, 100) > .1   if truebeta!=.5
+
+// CHECK HANDLING OF A SINGLE REPETITION
+use bvsim1_results, clear
+keep if _dnum==1
+cap noi simsum beta*, true(truebeta) seprefix(se) by(n truebeta truegamma corr) mcse
 
 
 // RESTORE ADOPATH

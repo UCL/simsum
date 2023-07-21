@@ -3,8 +3,9 @@
 * moved to c:\ado\ian\simsum and file path removed, 2may2019
 * NB see cscript2.do for fuller checks
 * now in N:\Home\ado\ian\simsum\test, 6jan2020
+* now in c:\ian\git\simsum\test, 21jul2023
 
-local path c:\ado\ian\simsum
+local path c:\ian\git\simsum
 adopath + `path'/package
 set logtype text
 log using `path'/test/cscript1, replace

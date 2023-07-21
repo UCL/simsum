@@ -1,6 +1,12 @@
 /***********************************************************************************************
 HISTORY
-*! version 2.0.1 Ian White 19jan2023
+*! version 2.0.3 Ian White 21jul2023
+	moved the bsims=1 check before the big observation check (else useless)
+	added hidden r(simsum_version)
+* version 2.0.2 Ian White 22may2023
+	better handling of bsims=1 case: abort unless new -force- is specified; 
+		MCSE correctly . for cover & power (but formulae otherwise unchanged)
+version 2.0.1 Ian White 19jan2023
 	gives warning, rather than failing, if estimates all equal, or SEs all zero
 	improve reporting of estimate and SE checks: includes using method name, "estimate", "SE" 
 		instead of `beta`i'' which assumes original wide format
@@ -71,8 +77,13 @@ NOTES ON MSE
           (no robust option needed)
 ***********************************************************************************************/
 
-prog def simsum
+prog def simsum, rclass
 version 10
+
+if _caller() >= 12 {
+	local hidden hidden
+}
+return `hidden' local simsum_version "2.0.3"
 
 syntax varlist [if] [in], ///
     [true(string) METHodvar(varname) id(varlist)                             /// main options
@@ -84,6 +95,7 @@ syntax varlist [if] [in], ///
     df(string) DFPrefix(string) DFSuffix(string)                             /// degrees of freedom options
     bsims sesims bias mean empse relprec mse rmse                            /// performance measure options
     modelse ciwidth relerror cover power                                     /// performance measure options
+	force																	 ///
     nolist listsep format(string) sepby(varlist) ABbreviate(passthru)        /// display options
     clear saving(string) gen(string) TRANSpose                               /// output data set options
     debug                                                                    /// undocumented options
@@ -376,6 +388,19 @@ else { // DATA ARE ALREADY WIDE
     keep `betalist' `selist' `dflist' `by' `byvar' `id' `touse' `truevar' 
 }
 
+// CHECK FOR NON-REPLICATED BETA'S
+if mi("`force'") {
+	forvalues i=1/`m' {
+		tempvar betafreq`i'
+		egen `betafreq`i'' = count(`beta`i''), `byby'
+		cap assert `betafreq`i''!=1
+		if _rc {
+			di as error "Only one observation for `beta`i''. If this is what you intended, use the force option."
+			exit 498
+		}
+	}
+}
+
 // LIST MISSING/PROBLEM OBS
 tempvar missing
 gen `missing' = 0
@@ -485,6 +510,7 @@ forvalues i=1/`m' {
 		}
     }
 }
+
 
 // PROCESS RESULTS PART 1: PREPARE FOR -COLLAPSE-
 di as text _newline "Starting to process results ..."
@@ -658,10 +684,10 @@ forvalues i=1/`m' {
         }
     }
     if "`cover'"=="cover" {
-        qui gen cover_mcse_`i' = sqrt(cover_`i'*(100-cover_`i')/bothsims_`i')
+        qui gen cover_mcse_`i' = sqrt(cover_`i'*(100-cover_`i')/bothsims_`i') if bothsims_`i'>1
     }
     if "`power'"=="power" {
-        qui gen power_mcse_`i' = sqrt(power_`i'*(100-power_`i')/bothsims_`i') 
+        qui gen power_mcse_`i' = sqrt(power_`i'*(100-power_`i')/bothsims_`i') if bothsims_`i'>1
     }
     cap drop varmean_`i' 
     cap drop varsd_`i'
