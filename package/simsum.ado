@@ -1,6 +1,8 @@
 /***********************************************************************************************
 HISTORY
-*! version 2.0.3 Ian White 21jul2023
+*! version 2.0.4 Ian White 1aug2023
+	bug fix: MCSE for RMSE was (seriously) wrong
+version 2.0.3 Ian White 21jul2023
 	moved the bsims=1 check before the big observation check (else useless)
 	added hidden r(simsum_version)
 * version 2.0.2 Ian White 22may2023
@@ -661,7 +663,7 @@ forvalues i=1/`m' {
     }
     if "`rmse'"=="rmse" {
         qui gen rmse_`i' = sqrt(mse_`i')
-        qui gen rmse_mcse_`i' = msesd_`i' / (2 * sqrt(bsims_`i') * mse_`i')
+        qui gen rmse_mcse_`i' = msesd_`i' / (2 * sqrt(bsims_`i') * rmse_`i')
     }
     if "`modelse'"=="modelse" | "`relerror'"=="relerror" {
         if "`modelsemethod'"=="rmse" {
