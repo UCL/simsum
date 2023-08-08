@@ -2,7 +2,7 @@
 HISTORY
 *! version 2.0.4 Ian White 1aug2023
 	bug fix: MCSE for RMSE was (seriously) wrong
-	released on SSC
+	released on SSC [NB has r(simsum_version) = 2.0.3]
 version 2.0.3 Ian White 21jul2023
 	moved the bsims=1 check before the big observation check (else useless)
 	added hidden r(simsum_version)
@@ -86,7 +86,7 @@ version 10
 if _caller() >= 12 {
 	local hidden hidden
 }
-return `hidden' local simsum_version "2.0.3"
+return `hidden' local simsum_version "2.0.4"
 
 syntax varlist [if] [in], ///
     [true(string) METHodvar(varname) id(varlist)                             /// main options
