@@ -1,12 +1,16 @@
 /***********************************************************************************************
 HISTORY
-*! version 2.0.4 Ian White 1aug2023
+*! version 2.0.5 Ian White 30aug2023
+version 2.0.5 Ian White 30aug2023
+	fixed bug where MCSE of relprec wasn't computed if a byvar was missing
+	NB missing values are allowed in byvars
+version 2.0.4 Ian White 1aug2023
 	bug fix: MCSE for RMSE was (seriously) wrong
 	released on SSC [NB has r(simsum_version) = 2.0.3]
 version 2.0.3 Ian White 21jul2023
 	moved the bsims=1 check before the big observation check (else useless)
 	added hidden r(simsum_version)
-* version 2.0.2 Ian White 22may2023
+version 2.0.2 Ian White 22may2023
 	better handling of bsims=1 case: abort unless new -force- is specified; 
 		MCSE correctly . for cover & power (but formulae otherwise unchanged)
 version 2.0.1 Ian White 19jan2023
@@ -86,7 +90,7 @@ version 10
 if _caller() >= 12 {
 	local hidden hidden
 }
-return `hidden' local simsum_version "2.0.4"
+return `hidden' local simsum_version "2.0.5"
 
 syntax varlist [if] [in], ///
     [true(string) METHodvar(varname) id(varlist)                             /// main options
@@ -306,7 +310,7 @@ if "`memcheck'"!="nomemcheck" {
 marksample touse, novarlist
 qui count if `touse'
 if r(N)==0 {
-    di in red "no observations"
+    di as error "no observations"
     exit 2000
 }
 
@@ -552,7 +556,7 @@ forvalues i=1/`m' {
         local collsd `collsd' msesd_`i'=mse_`i'
     }
     if "`relprec'"=="relprec" & `i'!=`refmethod' {
-        qui byvar `byvar', r(rho N) gen unique: corr `beta`refmethod'' `beta`i''
+        qui byvar `byvar', r(rho N) gen unique missing: corr `beta`refmethod'' `beta`i''
         rename Rrho_ corr_`i'
         rename RN_ ncorr_`i'
         local collsum `collsum' corr_`i' ncorr_`i'
@@ -830,7 +834,7 @@ if mi("`transpose'") {
     char `gen'num[varname] 
 }
 else {
-    di "Transposing results ..."
+    di as text "Transposing results ..."
     drop `gen'num
     if "`origformat'"=="long" {
     }
@@ -955,7 +959,7 @@ quietly {
     end of data.
 */
     tempvar grp first
-    marksample touse, strok
+    marksample touse, strok novarlist
     if "`missing'"=="" {
         markout `touse' `bylist', strok
         replace `touse'=. if `touse'==0

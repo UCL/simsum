@@ -8,6 +8,7 @@ moved to c:\ado\ian\simsum and file path removed, 2may2019
 now in N:\Home\ado\ian\simsum\test, 6jan2020
 add test of each PM by itself for v0.19, 8jan2020
 now in c:\ian\git\simsum\test, 21jul2023
+add test for missing byvar, 30aug2023
 */
 
 local path c:\ian\git\simsum
@@ -16,17 +17,18 @@ set logtype text
 cap log close
 log using `path'/test/cscript2, replace
 
-cscript "Detailed checks on simsum" adofile simsum
-set linesize 158
-
 // check it works even without personal adofiles!
 prog drop _all
-cap simsum
 cap adopath -PERSONAL
 cap adopath -OLDPLACE
 cap adopath -PLUS
 
+cscript "Detailed checks on simsum" adofile simsum
+set linesize 158
+
 which simsum
+cap simsum
+di r(simsum_version)
 
 local opts graph nomemcheck max(20) semax(50) dropbig nolistbig ///
 	listmiss level(99) mcse "robust mcse" df(5) df(dfvar) ///
@@ -130,13 +132,34 @@ keep if _dnum==1
 cap noi simsum beta*, true(truebeta) seprefix(se) by(n truebeta truegamma corr) mcse
 
 
+// CHECK MISSING BYVAR
+use bvsim1_results, clear
+drop gamma* segam*
+drop hazard-pmcar
+drop beta_4-sebeta_9
+drop if corr>0
+drop corr
+keep if truegamma==0
+drop truegamma simno
+simsum beta*, true(truebeta) seprefix(se) by(n truebeta) mcse relprec saving(z4,replace)
+replace n=. if n==84
+simsum beta*, true(truebeta) seprefix(se) by(n truebeta) mcse relprec saving(z5,replace) 
+use z4, clear
+local beta_2_mcse = beta_2_mcse[1]
+use z5, clear
+assert beta_2_mcse == float(`beta_2_mcse') if n==.
+
+
+// END LOG FILE
+log close
+
+
 // RESTORE ADOPATH
 clear
 adopath +PERSONAL
 adopath +PLUS
 adopath +OLDPLACE
 cap erase z.dta
-forvalues i=1/3 {
+forvalues i=1/5 {
 	cap erase z`i'.dta
 }
-log close

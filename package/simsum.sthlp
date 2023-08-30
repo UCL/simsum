@@ -114,7 +114,7 @@ Otherwise the program halts with an error. (Missing values are always dropped.)
 
 {phang} {cmd:level(}#{cmd:)} specifies the confidence level for coverages and powers. Default is {cmd:$level}.
 
-{phang} {cmd:by(}{it:varlist}{cmd:)} computes performance measures by {it:varlist}.
+{phang} {cmd:by(}{it:varlist}{cmd:)} computes performance measures by {it:varlist}. Missing values in {it:varlist} are allowed.
 
 {phang} {cmd:mcse} reports Monte Carlo standard errors for all performance measures.
 
