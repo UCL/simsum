@@ -130,7 +130,7 @@ assert reldif(beta_cover + beta_power, 100) > .1   if truebeta!=.5
 use bvsim1_results, clear
 keep if _dnum==1
 cap noi simsum beta*, true(truebeta) seprefix(se) by(n truebeta truegamma corr) mcse
-
+assert _rc==498
 
 // CHECK MISSING BYVAR
 use bvsim1_results, clear

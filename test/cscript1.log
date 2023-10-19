@@ -1,22 +1,22 @@
---------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------
       name:  <unnamed>
        log:  c:\ian\git\simsum/test/cscript1.log
   log type:  text
- opened on:  30 Aug 2023, 13:02:06
+ opened on:  19 Oct 2023, 18:20:00
 
 . 
 . cscript "Simple checks on simsum" adofile simsum
 --------------------------------------------------BEGIN Simple checks on simsum
 
 -> which simsum, usesysdir
-c:\ian\git\simsum/package\simsum.ado
+c:\ian\git\simsum\package\simsum.ado
 *! version 2.0.5 Ian White 30aug2023
 
 . set linesize 158
 
 . 
 . which simsum
-c:\ian\git\simsum/package\simsum.ado
+c:\ian\git\simsum\package\simsum.ado
 *! version 2.0.5 Ian White 30aug2023
 
 . 
@@ -480,5 +480,5 @@ Starting to process results ...
       name:  <unnamed>
        log:  c:\ian\git\simsum/test/cscript1.log
   log type:  text
- closed on:  30 Aug 2023, 13:02:10
+ closed on:  19 Oct 2023, 18:20:07
 --------------------------------------------------------------------------------------------------------------------------------------------------------------

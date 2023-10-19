@@ -1,6 +1,8 @@
 /***********************************************************************************************
 HISTORY
-*! version 2.0.5 Ian White 30aug2023
+*! version 2.1 Ian White 19oct2023
+version 2.1   Ian White 19oct2023
+	variables needed for MCSE calculation are only created if mcse option used
 version 2.0.5 Ian White 30aug2023
 	fixed bug where MCSE of relprec wasn't computed if a byvar was missing
 	NB missing values are allowed in byvars
@@ -117,6 +119,11 @@ if "`modelsemethod'"!="rmse" & "`modelsemethod'"!="mean" {
 }
 
 if !mi("`graph2'") local graph graph
+
+if !mi("`robust'") & mi("`mcse'") {
+	di as text "MCSE not requested, so ignoring robust option"
+	local robust
+}
 
 * SORT OUT BY
 if "`by'"!="" {
@@ -538,11 +545,11 @@ forvalues i=1/`m' {
     if "`bias'"=="bias" {
         qui gen bias_`i' = `beta`i'' - `truevar'
         local collmean `collmean' bias_`i' 
-        local collsd `collsd' biassd_`i' = bias_`i'
+        if "`mcse'"=="mcse" local collsd `collsd' biassd_`i' = bias_`i'
     }
     if "`mean'"=="mean" {
         local collmean `collmean' mean_`i' = `beta`i'' 
-        local collsd `collsd' meansd_`i' = `beta`i'' 
+        if "`mcse'"=="mcse" local collsd `collsd' meansd_`i' = `beta`i'' 
     }
     if "`relerror'"=="relerror" | "`modelse'"=="modelse" {
         qui gen var_`i'=`se`i''^2
@@ -553,13 +560,15 @@ forvalues i=1/`m' {
     if "`mse'"=="mse" | "`rmse'"=="rmse" {
         qui gen mse_`i' = (`beta`i'' - `truevar')^2
         local collmean `collmean' mse_`i'
-        local collsd `collsd' msesd_`i'=mse_`i'
+        if "`mcse'"=="mcse" local collsd `collsd' msesd_`i'=mse_`i'
     }
     if "`relprec'"=="relprec" & `i'!=`refmethod' {
-        qui byvar `byvar', r(rho N) gen unique missing: corr `beta`refmethod'' `beta`i''
-        rename Rrho_ corr_`i'
-        rename RN_ ncorr_`i'
-        local collsum `collsum' corr_`i' ncorr_`i'
+        if "`mcse'"=="mcse" {
+			qui byvar `byvar', r(rho N) gen unique missing: corr `beta`refmethod'' `beta`i''
+			rename Rrho_ corr_`i'
+			rename RN_ ncorr_`i'
+			local collsum `collsum' corr_`i' ncorr_`i'
+		}
     }
     if "`modelse'"=="modelse" | "`relerror'"=="relerror" | "`sesims'"=="sesims" {
         local collcount `collcount' sesims_`i'=`se`i'' 
@@ -631,70 +640,76 @@ if !mi("`debug'") {
 
 // PROCESS RESULTS PART 3: AFTER -COLLAPSE-
 forvalues i=1/`m' {
-    qui gen k_`i' = bsims_`i'/(bsims_`i'-1)
+    if "`mcse'"=="mcse" qui gen k_`i' = bsims_`i'/(bsims_`i'-1)
     if "`bias'"=="bias" {
-        qui gen bias_mcse_`i' = biassd_`i' / sqrt(bsims_`i')
+        if "`mcse'"=="mcse" qui gen bias_mcse_`i' = biassd_`i' / sqrt(bsims_`i')
     }
     if "`mean'"=="mean" {
-        qui gen mean_mcse_`i' = meansd_`i' / sqrt(bsims_`i')
+        if "`mcse'"=="mcse" qui gen mean_mcse_`i' = meansd_`i' / sqrt(bsims_`i')
     }
     if ("`empse'"=="empse"  | "`relerror'"=="relerror") & "`robust'"=="" {
-        qui gen empse_mcse_`i' = empse_`i'/sqrt(2*(bsims_`i'-1))
+        if "`mcse'"=="mcse" qui gen empse_mcse_`i' = empse_`i'/sqrt(2*(bsims_`i'-1))
     }
     else if ("`empse'"=="empse") & "`robust'"=="robust" {
-        qui replace `empseTT`i''=`empseTT`i''*(k_`i'^2)
-        qui replace `empseTB`i''=`empseTB`i''*k_`i'
-        qui replace `empseT`i'' =`empseT`i'' *k_`i'
-        qui gen empse_mcse_`i' = sqrt(k_`i') * sqrt(`empseTT`i'' -2*(`empseT`i''/`empseB`i'')*`empseTB`i'' +(`empseT`i''/`empseB`i'')^2*`empseBB`i'') / `empseB`i''
-        qui replace empse_mcse_`i' = empse_mcse_`i' / (2*empse_`i')
+        if "`mcse'"=="mcse" {
+			qui replace `empseTT`i''=`empseTT`i''*(k_`i'^2)
+			qui replace `empseTB`i''=`empseTB`i''*k_`i'
+			qui replace `empseT`i'' =`empseT`i'' *k_`i'
+			qui gen empse_mcse_`i' = sqrt(k_`i') * sqrt(`empseTT`i'' -2*(`empseT`i''/`empseB`i'')*`empseTB`i'' +(`empseT`i''/`empseB`i'')^2*`empseBB`i'') / `empseB`i''
+			qui replace empse_mcse_`i' = empse_mcse_`i' / (2*empse_`i')
+		}
     }
     if "`relprec'"=="relprec" {
         if `i'!=`refmethod' {
             qui gen relprec_`i' = 100 * ((empse_`refmethod'/empse_`i')^2-1)
-            if "`robust'"=="" {
-                qui gen relprec_mcse_`i' = 200 * (empse_`refmethod'/empse_`i')^2 * sqrt((1-(corr_`i')^2)/(ncorr_`i'-1))
-            }
-            else {
-                qui gen relprec_mcse_`i' = 100 * sqrt(`relprecTT`i'' -2*(`relprecT`i''/`relprecB`i'')*`relprecTB`i'' +(`relprecT`i''/`relprecB`i'')^2*`relprecBB`i'') / `relprecB`i''
-            }
+            if "`mcse'"=="mcse" {
+				if "`robust'"=="" {
+					qui gen relprec_mcse_`i' = 200 * (empse_`refmethod'/empse_`i')^2 * sqrt((1-(corr_`i')^2)/(ncorr_`i'-1))
+				}
+				else {
+					qui gen relprec_mcse_`i' = 100 * sqrt(`relprecTT`i'' -2*(`relprecT`i''/`relprecB`i'')*`relprecTB`i'' +(`relprecT`i''/`relprecB`i'')^2*`relprecBB`i'') / `relprecB`i''
+				}
+			}
         }
         else {
             qui gen relprec_`i' = .
-            qui gen relprec_mcse_`i' = .
+            if "`mcse'"=="mcse" qui gen relprec_mcse_`i' = .
         }
     }
     if "`mse'"=="mse" {
-        qui gen mse_mcse_`i' = msesd_`i' / sqrt(bsims_`i')
+        if "`mcse'"=="mcse" qui gen mse_mcse_`i' = msesd_`i' / sqrt(bsims_`i')
     }
     if "`rmse'"=="rmse" {
-        qui gen rmse_`i' = sqrt(mse_`i')
-        qui gen rmse_mcse_`i' = msesd_`i' / (2 * sqrt(bsims_`i') * rmse_`i')
+		qui gen rmse_`i' = sqrt(mse_`i')
+		if "`mcse'"=="mcse" qui gen rmse_mcse_`i' = msesd_`i' / (2 * sqrt(bsims_`i') * rmse_`i')
     }
     if "`modelse'"=="modelse" | "`relerror'"=="relerror" {
         if "`modelsemethod'"=="rmse" {
             qui replace modelse_`i' = sqrt(varmean_`i')
-            qui gen modelse_mcse_`i' = varsd_`i' / sqrt(4 * sesims_`i' * varmean_`i') 
+            if "`mcse'"=="mcse" qui gen modelse_mcse_`i' = varsd_`i' / sqrt(4 * sesims_`i' * varmean_`i') 
         }
         else if "`modelsemethod'"=="mean" {
-            qui gen modelse_mcse_`i' = modelsesd_`i' / sqrt(sesims_`i')
+            if "`mcse'"=="mcse" qui gen modelse_mcse_`i' = modelsesd_`i' / sqrt(sesims_`i')
         }
     }
 	if "`ciwidth'"=="ciwidth" {
-		qui gen ciwidth_mcse_`i' = ciwidthsd_`i' / sqrt(bsims_`i')
+		if "`mcse'"=="mcse" qui gen ciwidth_mcse_`i' = ciwidthsd_`i' / sqrt(bsims_`i')
 	}
     if "`relerror'"=="relerror" {
         qui gen relerror_`i' = 100*(modelse_`i'/empse_`i'-1)
-        if "`robust'"=="" qui gen relerror_mcse_`i' = 100*(modelse_`i'/empse_`i') * sqrt((modelse_mcse_`i'/modelse_`i')^2 + (empse_mcse_`i'/empse_`i')^2 )
-        else {
-            qui gen relerror_mcse_`i' = sqrt(`relerrorTT`i'' -2*(`relerrorT`i''/`relerrorB`i'')*`relerrorTB`i'' +(`relerrorT`i''/`relerrorB`i'')^2*`relerrorBB`i'') / `relerrorB`i''
-            qui replace relerror_mcse_`i' = relerror_mcse_`i' * 100 / (2*(1+relerror_`i'/100))
-        }
+        if "`mcse'"=="mcse" {
+			if "`robust'"=="" qui gen relerror_mcse_`i' = 100*(modelse_`i'/empse_`i') * sqrt((modelse_mcse_`i'/modelse_`i')^2 + (empse_mcse_`i'/empse_`i')^2 )
+			else {
+				qui gen relerror_mcse_`i' = sqrt(`relerrorTT`i'' -2*(`relerrorT`i''/`relerrorB`i'')*`relerrorTB`i'' +(`relerrorT`i''/`relerrorB`i'')^2*`relerrorBB`i'') / `relerrorB`i''
+				qui replace relerror_mcse_`i' = relerror_mcse_`i' * 100 / (2*(1+relerror_`i'/100))
+			}
+		}
     }
     if "`cover'"=="cover" {
-        qui gen cover_mcse_`i' = sqrt(cover_`i'*(100-cover_`i')/bothsims_`i') if bothsims_`i'>1
+        if "`mcse'"=="mcse" qui gen cover_mcse_`i' = sqrt(cover_`i'*(100-cover_`i')/bothsims_`i') if bothsims_`i'>1
     }
     if "`power'"=="power" {
-        qui gen power_mcse_`i' = sqrt(power_`i'*(100-power_`i')/bothsims_`i') if bothsims_`i'>1
+        if "`mcse'"=="mcse" qui gen power_mcse_`i' = sqrt(power_`i'*(100-power_`i')/bothsims_`i') if bothsims_`i'>1
     }
     cap drop varmean_`i' 
     cap drop varsd_`i'

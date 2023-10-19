@@ -2,7 +2,7 @@
       name:  <unnamed>
        log:  c:\ian\git\simsum/test/cscript2.log
   log type:  text
- opened on:  30 Aug 2023, 13:27:21
+ opened on:  19 Oct 2023, 18:25:55
 
 . 
 . // check it works even without personal adofiles!
@@ -19,14 +19,14 @@
 ------------------------------------------------BEGIN Detailed checks on simsum
 
 -> which simsum, usesysdir
-c:\ian\git\simsum/package\simsum.ado
+c:\ian\git\simsum\package\simsum.ado
 *! version 2.0.5 Ian White 30aug2023
 
 . set linesize 158
 
 . 
 . which simsum
-c:\ian\git\simsum/package\simsum.ado
+c:\ian\git\simsum\package\simsum.ado
 *! version 2.0.5 Ian White 30aug2023
 
 . cap simsum
@@ -3822,7 +3822,8 @@ xij variables:
 . cap noi simsum beta*, true(truebeta) seprefix(se) by(n truebeta truegamma corr) mcse
 Only one observation for beta_1. If this is what you intended, use the force option.
 
-. 
+. assert _rc==498
+
 . 
 . // CHECK MISSING BYVAR
 . use bvsim1_results, clear
@@ -3889,5 +3890,5 @@ file z5.dta saved
       name:  <unnamed>
        log:  c:\ian\git\simsum/test/cscript2.log
   log type:  text
- closed on:  30 Aug 2023, 13:27:49
+ closed on:  19 Oct 2023, 18:26:27
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
