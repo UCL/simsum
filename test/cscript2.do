@@ -9,6 +9,7 @@ now in N:\Home\ado\ian\simsum\test, 6jan2020
 add test of each PM by itself for v0.19, 8jan2020
 now in c:\ian\git\simsum\test, 21jul2023
 add test for missing byvar, 30aug2023
+add test of logical relationships between mean, bias and pctbias, 19nov2023
 */
 
 local path c:\ian\git\simsum
@@ -149,12 +150,36 @@ local beta_2_mcse = beta_2_mcse[1]
 use z5, clear
 assert beta_2_mcse == float(`beta_2_mcse') if n==.
 
+// CHECK LOGICAL RELATIONSHIPS BETWEEN MEAN, BIAS AND PCTBIAS
+use bvsim1_results, clear
+drop gamma* segam*
+drop hazard-pmcar
+drop beta_4-sebeta_9
+drop if corr>0
+drop corr
+keep if truegamma==0
+drop truegamma simno
+simsum beta*, true(truebeta) seprefix(se) by(n truebeta) mcse bias pctbias mean clear
+drop perfmeasnum
+reshape wide beta*, i(n truebeta) j(perf) string
+forvalues i=1/3 {
+	assert reldif(beta_`i'bias, beta_`i'mean - truebeta) < 1E-7
+	assert reldif(beta_`i'pctbias, beta_`i'bias/truebeta*100) < 1E-7
+	assert reldif(beta_`i'_mcsebias, beta_`i'_mcsemean) < 1E-7
+	assert reldif(beta_`i'_mcsepctbias, beta_`i'_mcsebias/truebeta*100) < 1E-7
+}
+
 
 // END LOG FILE
+
+di as result _n "****************************************" ///
+	_n "*** SIMSUM HAS PASSED ALL ITS TESTS ***" ///
+	_n "****************************************"
+
 log close
 
 
-// RESTORE ADOPATH
+// RESTORE ADOPATH & TIDY UP
 clear
 adopath +PERSONAL
 adopath +PLUS

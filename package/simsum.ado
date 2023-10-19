@@ -3,6 +3,8 @@ HISTORY
 *! version 2.1 Ian White 19oct2023
 version 2.1   Ian White 19oct2023
 	variables needed for MCSE calculation are only created if mcse option used
+	new performance measure: pctbias
+	correct formats for mean, rmse, ciwidth when using listsep
 version 2.0.5 Ian White 30aug2023
 	fixed bug where MCSE of relprec wasn't computed if a byvar was missing
 	NB missing values are allowed in byvars
@@ -102,7 +104,7 @@ syntax varlist [if] [in], ///
     level(real $S_level) by(varlist) mcse robust                             /// calculation options
     MODELSEMethod(string) ref(string) null(real 0)                           /// calculation options
     df(string) DFPrefix(string) DFSuffix(string)                             /// degrees of freedom options
-    bsims sesims bias mean empse relprec mse rmse                            /// performance measure options
+    bsims sesims bias pctbias mean empse relprec mse rmse                            /// performance measure options
     modelse ciwidth relerror cover power                                     /// performance measure options
 	force																	 ///
     nolist listsep format(string) sepby(varlist) ABbreviate(passthru)        /// display options
@@ -233,7 +235,7 @@ else if "`df'"!="" {
 * PARSE PERFORMANCE MEASURES
 * if no performance measures specified, use all available 
 * we'll strike out ineligible ones later
-local allpms bsims sesims bias mean empse relprec mse rmse modelse ciwidth relerror cover power   
+local allpms bsims sesims bias pctbias mean empse relprec mse rmse modelse ciwidth relerror cover power   
 foreach pm of local allpms { // find list of PMs specified
 	if !mi("``pm''") local origoutput `origoutput' `pm'
 }
@@ -322,7 +324,7 @@ if r(N)==0 {
 }
 
 * check true is specified if bias or cover chosen
-if "`bias'"=="bias" | "`mse'"=="mse" | "`rmse'"=="rmse" | "`cover'"=="cover" {
+if "`bias'"=="bias" | "`pctbias'"=="pctbias" | "`mse'"=="mse" | "`rmse'"=="rmse" | "`cover'"=="cover" {
     tempvar truevar
     qui gen `truevar' = `true'
     qui count if missing(`truevar') & `touse'
@@ -542,7 +544,7 @@ forvalues i=1/`m' {
         // missing values in df`i' yield normal intervals
     assert !mi(`crit`i'')
     local collcount `collcount' bsims_`i'=`beta`i''
-    if "`bias'"=="bias" {
+    if "`bias'"=="bias" | "`pctbias'"=="pctbias" {
         qui gen bias_`i' = `beta`i'' - `truevar'
         local collmean `collmean' bias_`i' 
         if "`mcse'"=="mcse" local collsd `collsd' biassd_`i' = bias_`i'
@@ -554,7 +556,7 @@ forvalues i=1/`m' {
     if "`relerror'"=="relerror" | "`modelse'"=="modelse" {
         qui gen var_`i'=`se`i''^2
     }
-    if "`empse'"=="empse" | "`relerror'"=="relerror" | "`relprec'"=="relprec" | "`bias'"=="bias" {
+    if "`empse'"=="empse" | "`relerror'"=="relerror" | "`relprec'"=="relprec" | "`bias'"=="bias" | "`pctbias'"=="pctbias" {
         local collsd `collsd' empse_`i'=`beta`i''
     }
     if "`mse'"=="mse" | "`rmse'"=="rmse" {
@@ -644,6 +646,10 @@ forvalues i=1/`m' {
     if "`bias'"=="bias" {
         if "`mcse'"=="mcse" qui gen bias_mcse_`i' = biassd_`i' / sqrt(bsims_`i')
     }
+    if "`pctbias'"=="pctbias" {
+        qui gen pctbias_`i' = 100 * bias_`i' / `true'
+        if "`mcse'"=="mcse" qui gen pctbias_mcse_`i' = 100 * biassd_`i' / sqrt(bsims_`i') / `true'
+    }
     if "`mean'"=="mean" {
         if "`mcse'"=="mcse" qui gen mean_mcse_`i' = meansd_`i' / sqrt(bsims_`i')
     }
@@ -724,6 +730,7 @@ local alpha=100-`level'
 local bsimsname Non-missing point estimates
 local sesimsname Non-missing standard errors
 local biasname Bias in point estimate
+local pctbiasname % bias in point estimate
 local meanname Mean of point estimate
 local empsename Empirical standard error
 local relprecname % gain in precision relative to method `label`refmethod''
@@ -760,7 +767,7 @@ forvalues i=1/`m' {
 local i 0
 qui gen mcse = .
 qui gen `gen'num = .
-foreach perfmeas in bsims sesims bias mean empse relprec mse rmse modelse ciwidth relerror cover power {
+foreach perfmeas in bsims sesims bias pctbias mean empse relprec mse rmse modelse ciwidth relerror cover power {
     local ++i
     qui replace mcse=0 if `gen'code=="`perfmeas'"
     qui replace mcse=1 if `gen'code=="`perfmeas'_mcse"
@@ -770,6 +777,7 @@ foreach perfmeas in bsims sesims bias mean empse relprec mse rmse modelse ciwidt
     if "`perfmeas'"=="bsims" local label "Non-missing point estimates"
     if "`perfmeas'"=="sesims" local label "Non-missing standard errors"
     if "`perfmeas'"=="bias" local label "Bias in point estimate"
+    if "`perfmeas'"=="pctbias" local label "% bias in point estimate"
     if "`perfmeas'"=="mean" local label "Mean of point estimate"
     if "`perfmeas'"=="empse" local label "Empirical standard error"
     if "`perfmeas'"=="relprec" local label "% precision gain relative to method `label`refmethod''"
@@ -837,7 +845,7 @@ if mi("`transpose'") {
                 di as text _new "``perfmeas'name'"
                 local thisbetas = cond(inlist("`perfmeas'","bsims","sesims"), "betasnomcse", "betas")
                 if inlist("`perfmeas'","bsims","sesims") local format `nfmt'
-                else if inlist("`perfmeas'","bias","empse","modelse","mse") local format `bfmt'
+                else if inlist("`perfmeas'","bias","`mean'","empse","modelse","mse","rmse","ciwidth") local format `bfmt'
                 else local format `pctfmt'
                 qui format `betas' `format' 
                 list `by' ``thisbetas'' if `gen'code=="`perfmeas'", noo subvarname sepby(`gen'num `sepby') `abbreviate'
@@ -874,11 +882,11 @@ else {
     	rename `varname' `varname2'
         label var `varname2'
     }
-    cap format `bias' `empse' `mse' `modelse' `bfmt'
-    cap format `relprec' `relerror' `cover' `power' `pctfmt'
+    cap format `bias' `mean' `empse' `mse' `rmse' `modelse' `ciwidth' `bfmt'
+    cap format `relprec' `relerror' `cover' `power' `pctbias' `pctfmt'
     cap format `bsims' `sesims' `sesims' `nfmt'
     if "`list'"!="nolist" {
-        l `by' method `type' `bsims' `sesims' `bias' `empse' `relprec' `mse' `modelse' `relerror' `cover' `power', sepby(`by' `sep2') noo
+        l `by' method `type' `bsims' `sesims' `bias' `pctbias' `empse' `relprec' `mse' `modelse' `relerror' `cover' `power', sepby(`by' `sep2') noo
     }
 }
 

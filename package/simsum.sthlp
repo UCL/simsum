@@ -1,6 +1,5 @@
 {smcl}
-{* updated 12jun2023  Ian White}{...}
-{* v2.0  13jan2023  Ian White}{...}
+{* v2.1  19oct2023  Ian White}{...}
 {viewerjumpto "Syntax" "simsum##syntax"}{...}
 {viewerjumpto "Main options" "simsum##main_options"}{...}
 {viewerjumpto "Data checking options" "simsum##check_options"}{...}
@@ -158,12 +157,14 @@ It may be combined with {cmd:dfprefix()} but not with {cmd:df()}.
 
 {phang} {cmd:bias} estimates the bias in the point estimates.
 
+{phang} {cmd:pctbias} estimates the bias in the point estimates as a percentage of the true value.
+
 {phang} {cmd:mean} estimates the mean of the point estimates.
 
 {phang} {cmd:empse} estimates the empirical standard error -- the standard deviation of the point estimates.
 
 {phang} {cmd:relprec} estimates the relative precision 
--- the inverse squared ratio of the empirical standard error of this method to the empirical standard error of the reference method.
+-- the inverse squared ratio of the empirical standard error of this method to the empirical standard error of the reference method, as a percentage.
 This calculation is slow: omitting it can reduce run time by up to 90%.
 
 {phang} {cmd:mse} estimates the mean squared error.
@@ -174,7 +175,7 @@ This calculation is slow: omitting it can reduce run time by up to 90%.
 
 {phang} {cmd:ciwidth} estimates the mean confidence interval width. 
 
-{phang} {cmd:relerror} estimates the proportional error in the model-based standard error, using the empirical standard error as gold standard.
+{phang} {cmd:relerror} estimates the percentage error in the model-based standard error, using the empirical standard error as gold standard.
 
 {phang} {cmd:cover} estimates the coverage of nominal confidence intervals at the specified level.
 
@@ -187,6 +188,7 @@ The null hypothesis is that the true parameter is the value specified by the {cm
 {col 8} bsims {col 25}  {col 40} 
 {col 8} sesims {col 25}  {col 40} x
 {col 8} bias {col 25} x {col 40} 
+{col 8} pctbias {col 25} x {col 40} 
 {col 8} mean {col 25}  {col 40} 
 {col 8} empse {col 25}  {col 40}
 {col 8} relprec {col 25}  {col 40} 
@@ -209,8 +211,8 @@ The default is to list the results as a single table.
 {phang} {cmd:format(}{it:string}{cmd:)} specifes the format for printing the results and saving the 
 performance measure data.
 If {cmd:listsep} is also specified then up to three formats may be specified: 
-(1) for results on the scale of the original estimates (bias, empse, modelse);
-(2) for percentages (relprec, relerror, cover, power);
+(1) for results on the scale of the original estimates (bias, mean, empse, mse, rmse, modelse, ciwidth);
+(2) for percentages (pctbias, relprec, relerror, cover, power);
 (3) for integers (bsims, sesims).
 Defaults are the existing format of the [first] estimate variable for (1) and (2), and %7.0f for (3).
 
