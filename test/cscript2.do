@@ -10,6 +10,7 @@ add test of each PM by itself for v0.19, 8jan2020
 now in c:\ian\git\simsum\test, 21jul2023
 add test for missing byvar, 30aug2023
 add test of logical relationships between mean, bias and pctbias, 19nov2023
+add test of no true(), 14feb2024
 */
 
 local path c:\ian\git\simsum
@@ -59,6 +60,9 @@ simsum beta*, true(truebeta) seprefix(se) by(n truebeta) mcse
 
 // Ditto without se's
 simsum beta*, true(truebeta) by(n truebeta) 
+
+// Ditto without true
+simsum beta*, seprefix(se) by(n truebeta) mcse 
 
 // CHECK SEPARATE OUTPUTS WORK
 * not requiring truebeta

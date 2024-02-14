@@ -1,6 +1,8 @@
 /***********************************************************************************************
 HISTORY
-*! version 2.1 Ian White 19oct2023
+*! version 2.1.1 Ian White 14feb2024
+version 2.1.1 Ian White 14feb2024
+	pctbias was causing error if no true() - fixed
 version 2.1   Ian White 19oct2023
 	variables needed for MCSE calculation are only created if mcse option used
 	new performance measure: pctbias
@@ -257,7 +259,7 @@ if mi("`origoutput'") { // if nothing specified, specify all
 		}
     }
     if "`true'"=="" { // True parameter is not reported
-        foreach perfmeas in bias mse rmse cover {
+        foreach perfmeas in bias pctbias mse rmse cover {
 			if !mi("``perfmeas''") local droppm2 `droppm2' `perfmeas'
             local `perfmeas'
         }
