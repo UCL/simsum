@@ -4,14 +4,14 @@
 
 Author: Ian White
 
-Version: 2.0.5
+Version: 2.1.1
 
-Date: 30aug2023
+Date: 14feb2024
 
 This repository contains Stata code and testing for the simsum package.
 
 ## Installation within Stata
-You should be able to install this package from SSC.
+You should be able to install this package (but not the very latest version) from SSC.
 
-To install it from github, use
+To install the latest version from github, use
 - `net from https://raw.githubusercontent.com/UCL/simsum/main/package/`
