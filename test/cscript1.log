@@ -1,8 +1,8 @@
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
       name:  <unnamed>
-       log:  c:\ian\git\simsum/test/cscript1.log
+       log:  c:\ian\git\simsum\test\cscript1.log
   log type:  text
- opened on:  14 Feb 2024, 14:12:50
+ opened on:  12 Mar 2024, 09:54:36
 
 . 
 . cscript "Simple checks on simsum" adofile simsum
@@ -502,7 +502,7 @@ Starting to process results ...
 . 
 . log close
       name:  <unnamed>
-       log:  c:\ian\git\simsum/test/cscript1.log
+       log:  c:\ian\git\simsum\test\cscript1.log
   log type:  text
- closed on:  14 Feb 2024, 14:12:56
+ closed on:  12 Mar 2024, 09:54:41
 --------------------------------------------------------------------------------------------------------------------------------------------------------------

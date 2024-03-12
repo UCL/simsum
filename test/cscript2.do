@@ -17,7 +17,9 @@ local path c:\ian\git\simsum
 adopath + `path'/package
 set logtype text
 cap log close
-log using `path'/test/cscript2, replace
+cap log close
+cd `path'/test
+log using cscript2, replace
 
 // check it works even without personal adofiles!
 prog drop _all

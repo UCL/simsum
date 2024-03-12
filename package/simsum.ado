@@ -1,6 +1,10 @@
 /***********************************************************************************************
 HISTORY
-*! version 2.1.1 Ian White 14feb2024
+*! version 2.1.2 Ian White 12mar2024
+version 2.1.2 Ian White 12mar2024
+	drop label if pre-existing - helps siman analayse to avoid crash
+	correct true to truevar
+	updated returned version
 version 2.1.1 Ian White 14feb2024
 	pctbias was causing error if no true() - fixed
 version 2.1   Ian White 19oct2023
@@ -96,7 +100,7 @@ version 10
 if _caller() >= 12 {
 	local hidden hidden
 }
-return `hidden' local simsum_version "2.0.5"
+return `hidden' local simsum_version "2.1.2"
 
 syntax varlist [if] [in], ///
     [true(string) METHodvar(varname) id(varlist)                             /// main options
@@ -636,7 +640,7 @@ if "`collcount'"!="" local collcount (count) `collcount'
 if "`collsum'"!="" local collsum (sum) `collsum'
 
 // PROCESS RESULTS PART 2: -COLLAPSE-
-collapse `collmean' `collsd' `collcount' `collsum', by(`byvar')
+collapse `collmean' `collsd' `collcount' `collsum', by(`byvar' `truevar')
 if !mi("`debug'") {
 	di as input "Data after collapse:"
 	l
@@ -649,8 +653,8 @@ forvalues i=1/`m' {
         if "`mcse'"=="mcse" qui gen bias_mcse_`i' = biassd_`i' / sqrt(bsims_`i')
     }
     if "`pctbias'"=="pctbias" {
-        qui gen pctbias_`i' = 100 * bias_`i' / `true'
-        if "`mcse'"=="mcse" qui gen pctbias_mcse_`i' = 100 * biassd_`i' / sqrt(bsims_`i') / `true'
+        qui gen pctbias_`i' = 100 * bias_`i' / `truevar'
+        if "`mcse'"=="mcse" qui gen pctbias_mcse_`i' = 100 * biassd_`i' / sqrt(bsims_`i') / abs(`truevar')
     }
     if "`mean'"=="mean" {
         if "`mcse'"=="mcse" qui gen mean_mcse_`i' = meansd_`i' / sqrt(bsims_`i')
@@ -769,6 +773,7 @@ forvalues i=1/`m' {
 local i 0
 qui gen mcse = .
 qui gen `gen'num = .
+cap label drop `gen'num // avoids crash if siman analayse is repeated
 foreach perfmeas in bsims sesims bias pctbias mean empse relprec mse rmse modelse ciwidth relerror cover power {
     local ++i
     qui replace mcse=0 if `gen'code=="`perfmeas'"

@@ -4,9 +4,9 @@
 
 Author: Ian White
 
-Version: 2.1.1
+Version: 2.1.2
 
-Date: 14feb2024
+Date: 12mar2024
 
 This repository contains Stata code and testing for the simsum package.
 

@@ -8,7 +8,9 @@
 local path c:\ian\git\simsum
 adopath + `path'/package
 set logtype text
-log using `path'/test/cscript1, replace
+cap log close
+cd `path'/test
+log using cscript1, replace
 
 cscript "Simple checks on simsum" adofile simsum
 set linesize 158
