@@ -2,7 +2,7 @@
       name:  <unnamed>
        log:  c:\ian\git\simsum\test\cscript1.log
   log type:  text
- opened on:  12 Mar 2024, 09:54:36
+ opened on:  14 Mar 2024, 14:17:38
 
 . 
 . cscript "Simple checks on simsum" adofile simsum
@@ -10,14 +10,14 @@
 
 -> which simsum, usesysdir
 c:\ian\git\simsum\package\simsum.ado
-*! version 2.1.1 Ian White 14feb2024
+*! version 2.2 Ian White 14mar2024
 
 . set linesize 158
 
 . 
 . which simsum
 c:\ian\git\simsum\package\simsum.ado
-*! version 2.1.1 Ian White 14feb2024
+*! version 2.2 Ian White 14mar2024
 
 . 
 . // handling wide format
@@ -419,7 +419,7 @@ Starting to process results ...
   +---------------------------------------------------------------------------------------+
 
 . 
-. // handling df
+. // handling df, lci and uci
 . use ppsim1, clear
 (10% of H:\missing\MI\ICE\perfpred\basicdata\varys\ppsim1_postfile.dta)
 
@@ -499,10 +499,81 @@ Starting to process results ...
   |                 % power of 5% level test         44         48         45          10 |
   +---------------------------------------------------------------------------------------+
 
+. forvalues i=1/3 {
+  2.         gen mylcib`i' = b`i' - invt(5,.975)*seb`i'
+  3.         gen myucib`i' = b`i' + invt(5,.975)*seb`i'
+  4.         gen mypb`i' = abs(b`i'/seb`i') < invt(5,.975)
+  5. }
+
+. simsum b1, lciprefix(mylci) ucipre(myuci) method(method) id(i) true(1) ref(boot) 
+SE not reported, so ignoring performance measures: sesims modelse relerror
+Reshaping data to wide format ...
+
+Starting to process results ...
+Note: ciwidth computed from lci and uci
+Note: coverage computed from lci and uci
+Note: power computed from lci and uci
+
+  +---------------------------------------------------------------------------------------+
+  |                      Performance measure    augment       boot   penalise      zallow |
+  |---------------------------------------------------------------------------------------|
+  |              Non-missing point estimates        100        100        100         100 |
+  |---------------------------------------------------------------------------------------|
+  |                   Bias in point estimate   .0083703   .0649953   .0472524   -.1835248 |
+  |---------------------------------------------------------------------------------------|
+  |                 % bias in point estimate   .8370292   6.499533   4.725235   -18.35248 |
+  |---------------------------------------------------------------------------------------|
+  |                   Mean of point estimate    1.00837   1.064995   1.047252    .8164752 |
+  |---------------------------------------------------------------------------------------|
+  |                 Empirical standard error   .3809837   .4063731   .3949197    .3384659 |
+  |---------------------------------------------------------------------------------------|
+  | % precision gain relative to method boot   13.77247          .   5.884522     44.1518 |
+  |---------------------------------------------------------------------------------------|
+  |                       Mean squared error   .1437671   .1677121   .1566347     .147095 |
+  |---------------------------------------------------------------------------------------|
+  |                  Root mean squared error   .3791664   .4095267   .3957711    .3835296 |
+  |---------------------------------------------------------------------------------------|
+  |                Mean conf. interval width   2.214744   2.180488   2.191094    2.649681 |
+  |---------------------------------------------------------------------------------------|
+  | % coverage of nominal 95% conf. interval        100         98         99          98 |
+  |---------------------------------------------------------------------------------------|
+  |                 % power of 5% level test         44         48         45          10 |
+  +---------------------------------------------------------------------------------------+
+
+. simsum b1, pprefix(myp) method(method) id(i) true(1) ref(boot) 
+SE not reported, so ignoring performance measures: sesims modelse relerror
+Neither SE nor (LCI,UCI) is reported, so ignoring performance measures: sesims modelse relerror ciwidth cover
+Reshaping data to wide format ...
+
+Starting to process results ...
+Note: power computed from p
+
+  +---------------------------------------------------------------------------------------+
+  |                      Performance measure    augment       boot   penalise      zallow |
+  |---------------------------------------------------------------------------------------|
+  |              Non-missing point estimates        100        100        100         100 |
+  |---------------------------------------------------------------------------------------|
+  |                   Bias in point estimate   .0083703   .0649953   .0472524   -.1835248 |
+  |---------------------------------------------------------------------------------------|
+  |                 % bias in point estimate   .8370292   6.499533   4.725235   -18.35248 |
+  |---------------------------------------------------------------------------------------|
+  |                   Mean of point estimate    1.00837   1.064995   1.047252    .8164752 |
+  |---------------------------------------------------------------------------------------|
+  |                 Empirical standard error   .3809837   .4063731   .3949197    .3384659 |
+  |---------------------------------------------------------------------------------------|
+  | % precision gain relative to method boot   13.77247          .   5.884522     44.1518 |
+  |---------------------------------------------------------------------------------------|
+  |                       Mean squared error   .1437671   .1677121   .1566347     .147095 |
+  |---------------------------------------------------------------------------------------|
+  |                  Root mean squared error   .3791664   .4095267   .3957711    .3835296 |
+  |---------------------------------------------------------------------------------------|
+  |                 % power of 5% level test         44         48         45          10 |
+  +---------------------------------------------------------------------------------------+
+
 . 
 . log close
       name:  <unnamed>
        log:  c:\ian\git\simsum\test\cscript1.log
   log type:  text
- closed on:  12 Mar 2024, 09:54:41
+ closed on:  14 Mar 2024, 14:17:45
 --------------------------------------------------------------------------------------------------------------------------------------------------------------

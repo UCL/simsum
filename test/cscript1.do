@@ -1,9 +1,9 @@
 * simsum certification script 1
-* last updated 22/12/2009
 * moved to c:\ado\ian\simsum and file path removed, 2may2019
 * NB see cscript2.do for fuller checks
 * now in N:\Home\ado\ian\simsum\test, 6jan2020
 * now in c:\ian\git\simsum\test, 21jul2023
+* add test of new lci(), uci(), p() 14mar2024
 
 local path c:\ian\git\simsum
 adopath + `path'/package
@@ -52,11 +52,18 @@ simsum b1, sep(se) method(method) id(i) true(1)
 use ppsim1, clear
 simsum b1, sep(se) method(method) id(i) true(1) ref(boot)
 
-// handling df
+// handling df, lci and uci
 use ppsim1, clear
 simsum b1, sep(se) method(method) id(i) true(1) ref(boot) df(5)
 gen df=5
 simsum b1, sep(se) method(method) id(i) true(1) ref(boot) df(df)
+forvalues i=1/3 {
+	gen mylcib`i' = b`i' - invt(5,.975)*seb`i'
+	gen myucib`i' = b`i' + invt(5,.975)*seb`i'
+	gen mypb`i' = abs(b`i'/seb`i') < invt(5,.975)
+}
+simsum b1, lciprefix(mylci) ucipre(myuci) method(method) id(i) true(1) ref(boot) 
+simsum b1, pprefix(myp) method(method) id(i) true(1) ref(boot) 
 
 log close
 

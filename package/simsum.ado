@@ -1,8 +1,9 @@
 /***********************************************************************************************
 HISTORY
-*! version 2.1.2 Ian White 12mar2024
+*! version 2.2 Ian White 14mar2024
+	new lci, uci and p options
 version 2.1.2 Ian White 12mar2024
-	drop label if pre-existing - helps siman analayse to avoid crash
+	drop label if pre-existing - helps siman analyse to avoid crash
 	correct true to truevar
 	updated returned version
 version 2.1.1 Ian White 14feb2024
@@ -100,7 +101,7 @@ version 10
 if _caller() >= 12 {
 	local hidden hidden
 }
-return `hidden' local simsum_version "2.1.2"
+return `hidden' local simsum_version "2.2"
 
 syntax varlist [if] [in], ///
     [true(string) METHodvar(varname) id(varlist)                             /// main options
@@ -110,9 +111,12 @@ syntax varlist [if] [in], ///
     level(real $S_level) by(varlist) mcse robust                             /// calculation options
     MODELSEMethod(string) ref(string) null(real 0)                           /// calculation options
     df(string) DFPrefix(string) DFSuffix(string)                             /// degrees of freedom options
-    bsims sesims bias pctbias mean empse relprec mse rmse                            /// performance measure options
+    lci(string) LCIPrefix(string) LCISuffix(string)                          /// CI options
+    uci(string) UCIPrefix(string) UCISuffix(string)                          /// CI options
+    p(string) PPrefix(string) PSuffix(string)                                /// p-value options
+    bsims sesims bias pctbias mean empse relprec mse rmse                    /// performance measure options
     modelse ciwidth relerror cover power                                     /// performance measure options
-	force																	 ///
+    force                                                                    ///
     nolist listsep format(string) sepby(varlist) ABbreviate(passthru)        /// display options
     clear saving(string) gen(string) TRANSpose                               /// output data set options
     debug                                                                    /// undocumented options
@@ -152,33 +156,35 @@ foreach beta of varlist `varlist' {
 }
 local m `i'
 
-* SORT OUT SE'S
-if "`seprefix'"!="" | "`sesuffix'"!="" {
-    if "`se'"!="" {
-        di as error "Can't specify se() with seprefix() or sesuffix()"
-        exit 498
-    }
-    forvalues i=1/`m' {
-        local se`i' `seprefix'`beta`i''`sesuffix'
-        confirm var `se`i''
-        local selist `selist' `se`i''
-    }
-}
-else if "`se'"!="" {
-    local i 0
-    foreach sevar of varlist `se' {
-        local ++i
-        local se`i' `sevar'
-        local selist `selist' `se`i''
-    }
-    if `i'<`m' {
-        di as error "Fewer variables in se(`se') than in `betalist'"
-        exit 498
-    }
-    if `i'>`m' {
-        di as error "More variables in se(`se') than in `betalist'"
-        exit 498
-    }
+* SORT OUT SEs, LCI's, UCIs -> locals se1... and selist, etc.
+foreach stat in se lci uci p {
+	if "``stat'prefix'"!="" | "``stat'suffix'"!="" {
+		if "``stat''"!="" {
+			di as error "Can't specify `stat'() with `stat'prefix() or `stat'suffix()"
+			exit 498
+		}
+		forvalues i=1/`m' {
+			local `stat'`i' ``stat'prefix'`beta`i''``stat'suffix'
+			confirm var ``stat'`i''
+			local `stat'list ``stat'list' ``stat'`i''
+		}
+	}
+	else if "``stat''"!="" {
+		local i 0
+		foreach `stat'var of varlist ``stat'' {
+			local ++i
+			local `stat'`i' ``stat'var'
+			local `stat'list ``stat'list' ``stat'`i''
+		}
+		if `i'<`m' {
+			di as error "Fewer variables in `stat'(``stat'') than in `betalist'"
+			exit 498
+		}
+		if `i'>`m' {
+			di as error "More variables in `stat'(``stat'') than in `betalist'"
+			exit 498
+		}
+	}
 }
 /*
 else { // just working with beta's
@@ -188,6 +194,9 @@ else { // just working with beta's
     }
 }   
 */
+if mi("`lcilist'") & !mi("`ucilist'") di as error "Can't have uci without lci: uci will be ignored"
+if !mi("`lcilist'") & mi("`ucilist'") di as error "Can't have lci without uci: lci will be ignored"
+	
 * SORT OUT DF'S
 if "`dfprefix'"!="" | "`dfsuffix'"!="" {
     if "`df'"!="" {
@@ -252,7 +261,7 @@ if mi("`origoutput'") { // if nothing specified, specify all
 }
 * strike out ineligible pms
     if "`se1'"=="" { // SE is not reported
-        foreach perfmeas in sesims modelse ciwidth relerror cover power {
+        foreach perfmeas in sesims modelse relerror {
 			if !mi("``perfmeas''") local droppm1 `droppm1' `perfmeas'
             local `perfmeas'
         }
@@ -262,15 +271,37 @@ if mi("`origoutput'") { // if nothing specified, specify all
 			di "SE not reported, so ignoring performance measures: `droppm1'"
 		}
     }
-    if "`true'"=="" { // True parameter is not reported
-        foreach perfmeas in bias pctbias mse rmse cover {
+    if "`se1'"=="" & mi("`lci1'","`uci1'") { // neither SE nor (LCI,UCI) is reported
+        foreach perfmeas in ciwidth cover {
 			if !mi("``perfmeas''") local droppm2 `droppm2' `perfmeas'
             local `perfmeas'
         }
 		if !mi("`droppm2'") {
 			if !mi("`origoutput'") di as error "" _c
 			else di as text "" _c
-			di "true() not specified, so ignoring performance measures: `droppm2'"
+			di "Neither SE nor (LCI,UCI) is reported, so ignoring performance measures: `droppm2'"
+		}
+    }
+    if "`se1'"=="" & mi("`lci1'","`uci1'") & mi("`p1'") { // neither SE, (LCI,UCI) nor P is reported
+        foreach perfmeas in power {
+			if !mi("``perfmeas''") local droppm3 `droppm3' `perfmeas'
+            local `perfmeas'
+        }
+		if !mi("`droppm3'") {
+			if !mi("`origoutput'") di as error "" _c
+			else di as text "" _c
+			di "Neither SE, (LCI,UCI) nor P is reported, so ignoring performance measures: `droppm3'"
+		}
+    }
+    if "`true'"=="" { // True parameter is not reported
+        foreach perfmeas in bias pctbias mse rmse cover {
+			if !mi("``perfmeas''") local droppm4 `droppm4' `perfmeas'
+            local `perfmeas'
+        }
+		if !mi("`droppm4'") {
+			if !mi("`origoutput'") di as error "" _c
+			else di as text "" _c
+			di "true() not specified, so ignoring performance measures: `droppm4'"
 		}
     }
 * find list of PMs specified
@@ -366,6 +397,12 @@ if "`methodvar'"!="" {
         local newbetalist `newbetalist' `betalist'`method'
         if "`selist'"!="" local se`i' `selist'`method'
         if "`selist'"!="" local newselist `newselist' `selist'`method'
+        if "`lcilist'"!="" local lci`i' `lcilist'`method'
+        if "`lcilist'"!="" local newlcilist `newlcilist' `lcilist'`method'
+        if "`ucilist'"!="" local uci`i' `ucilist'`method'
+        if "`ucilist'"!="" local newucilist `newucilist' `ucilist'`method'
+        if "`plist'"!="" local p`i' `plist'`method'
+        if "`plist'"!="" local newplist `newplist' `plist'`method'
         if "`dftype'"=="number" local df`i' `df'
         if "`dftype'"=="varname" local df`i' `dflist'`method'
         if "`label'"!="" local label`i' : label `label' `method'
@@ -383,15 +420,18 @@ if "`methodvar'"!="" {
         else local refmethod 1
     }
     di as text "Reshaping data to wide format ..."
-    keep `betalist' `selist' `dflist' `by' `byvar' `id' `methodvar' `touse' `truevar'
+    keep `betalist' `selist' `dflist' `lcilist' `ucilist' `plist' `by' `byvar' `id' `methodvar' `touse' `truevar'
     cap confirm string var `methodvar'
     if _rc==0 local string string
     local bfmt0: format `betalist' // for later use
 
-    qui reshape wide `betalist' `selist' `dflist', i(`by' `id') j(`methodvar') `string'
+    qui reshape wide `betalist' `selist' `dflist' `lcilist' `ucilist' `plist', i(`by' `id') j(`methodvar') `string'
 
     local betalist `newbetalist'
     local selist `newselist'
+    local lcilist `newlcilist'
+    local ucilist `newucilist'
+    local plist `newplist'
 }
 else { // DATA ARE ALREADY WIDE
     local origformat wide
@@ -407,7 +447,7 @@ else { // DATA ARE ALREADY WIDE
         }
         else local refmethod 1
     }
-    keep `betalist' `selist' `dflist' `by' `byvar' `id' `touse' `truevar' 
+    keep `betalist' `selist' `dflist' `lcilist' `ucilist' `plist' `by' `byvar' `id' `touse' `truevar' 
 }
 
 // CHECK FOR NON-REPLICATED BETA'S
@@ -588,7 +628,11 @@ forvalues i=1/`m' {
         local collsd `collsd' modelsesd_`i'=`se`i''
     }
 	if "`ciwidth'"=="ciwidth" {
-		qui gen ciwidth_`i'  = 2*(`crit`i'')*`se`i''
+		if !mi("`lcilist'","`ucilist'") {
+			qui gen ciwidth_`i'  = `uci`i'' - `lci`i''
+			if `i'==1 di as text "Note: ciwidth computed from lci and uci"
+		}
+		else qui gen ciwidth_`i'  = 2*(`crit`i'')*`se`i''
 		local collmean `collmean' ciwidth_`i'
 		local collsd `collsd' ciwidthsd_`i' = ciwidth_`i'
 	}
@@ -596,12 +640,30 @@ forvalues i=1/`m' {
         if "`cover'"=="cover" local collcount `collcount' bothsims_`i'=cover_`i'
         else local collcount `collcount' bothsims_`i'=power_`i'
     }
-    if "`cover'"=="cover" {
-        qui gen cover_`i' = 100*(abs(`beta`i''-`truevar')<(`crit`i'')*`se`i'') if !missing(`beta`i'') & !missing(`se`i'') 
+    if "`cover'"=="cover" { // changed 14mar2024 to respect lci, uci
+		if !mi("`lcilist'","`ucilist'") {
+			qui gen cover_`i' = (`lci`i''<=`truevar') & (`truevar'<=`uci`i'') if !missing(`lci`i'',`uci`i'')
+			if `i'==1 di as text "Note: coverage computed from lci and uci"
+		}
+		else {
+			qui gen cover_`i' = abs(`beta`i''-`truevar') < (`crit`i'')*`se`i'' if !missing(`beta`i'',`se`i'') 
+		}
+		qui replace cover_`i' = 100 * cover_`i' 
         local collmean `collmean' cover_`i' 
     }
     if "`power'"=="power" {
-        qui gen power_`i' = 100*(abs(`beta`i''-`null')>=(`crit`i'')*`se`i'') if !missing(`beta`i'') & !missing(`se`i'') 
+		if !mi("`plist'") {
+			qui gen power_`i' = `p`i'' < (1-`level'/100) if !missing(`p`i'')
+			if `i'==1 di as text "Note: power computed from p"
+		}
+		else if !mi("`lcilist'","`ucilist'") {
+			qui gen power_`i' = (`lci`i''>`null') | (`null'>`uci`i'') if !missing(`lci`i'',`uci`i'') 
+			if `i'==1 di as text "Note: power computed from lci and uci"
+		}
+		else {
+			qui gen power_`i' = (abs(`beta`i''-`null')>=(`crit`i'')*`se`i'') if !missing(`beta`i'',`se`i'') 
+		}
+		qui replace power_`i' = 100*power_`i'
         local collmean `collmean' power_`i' 
     }
     if "`robust'"=="robust" {

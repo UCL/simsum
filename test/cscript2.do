@@ -11,6 +11,7 @@ now in c:\ian\git\simsum\test, 21jul2023
 add test for missing byvar, 30aug2023
 add test of logical relationships between mean, bias and pctbias, 19nov2023
 add test of no true(), 14feb2024
+add test of lci() uci() and p(), 14mar2024
 */
 
 local path c:\ian\git\simsum
@@ -174,6 +175,48 @@ forvalues i=1/3 {
 	assert reldif(beta_`i'_mcsebias, beta_`i'_mcsemean) < 1E-7
 	assert reldif(beta_`i'_mcsepctbias, beta_`i'_mcsebias/truebeta*100) < 1E-7
 }
+
+
+// FURTHER CHECKS ON RESULTS USING LCI, UCI, P
+* prepare data & convert to long format
+use bvsim1_results, clear
+drop if corr>0
+keep if truegamma==0
+drop gamma* segam* hazard-pmcar beta_4-sebeta_9 corr truegamma simno
+reshape long beta_ sebeta_, i(truebeta n _dnum) j(method)
+label def method 1 "perfect" 2 "cc" 3 "logt"
+label val method method
+rename (beta_ sebeta_) (beta sebeta)
+* beta, se
+simsum beta, id(_dnum) true(truebeta) se(se) method(method) by(n truebeta) df(5) mcse ciwidth cover power saving(z1,replace)
+* beta, lci, uci
+gen lci = beta - invt(5,.975)*sebeta
+gen uci = beta + invt(5,.975)*sebeta
+simsum beta, id(_dnum) true(truebeta) lci(lci) uci(uci) method(method) by(n truebeta) df(5) mcse ciwidth cover  saving(z2,replace)
+* beta, p
+gen p = 2*ttail(5,abs(beta/sebeta))
+simsum beta, id(_dnum) true(truebeta) p(p) method(method) by(n truebeta) df(5) mcse power  saving(z3,replace)
+
+* compare results: rounding makes the comparisons not perfect, so can't use cf
+* I compare an average across dgms
+use z1, clear
+summ beta1 if inlist(perfmeascode,"ciwidth"), meanonly
+local meanciw = r(mean)
+summ beta1 if inlist(perfmeascode,"cover"), meanonly
+local meancov = r(mean)
+summ beta1 if inlist(perfmeascode,"power"), meanonly
+local meanpow = r(mean)
+use z2, clear
+summ beta1 if inlist(perfmeascode,"ciwidth"), meanonly
+di `meanciw', r(mean), reldif(`meanciw', r(mean))
+assert reldif(`meanciw', r(mean)) < 1E-7
+summ beta1 if inlist(perfmeascode,"cover"), meanonly
+di `meancov', r(mean), reldif(`meancov', r(mean))
+assert reldif(`meancov', r(mean)) < 1E-8
+use z3, clear
+summ beta1 if inlist(perfmeascode,"power"), meanonly
+di `meanpow', r(mean), reldif(`meanpow', r(mean))
+assert reldif(`meanpow', r(mean)) < 1E-8
 
 
 // END LOG FILE
