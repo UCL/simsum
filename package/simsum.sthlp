@@ -168,7 +168,8 @@ It may be combined with {cmd:dfprefix()} but not with {cmd:df()}.
 {phang} {cmd:empse} estimates the empirical standard error -- the standard deviation of the point estimates.
 
 {phang} {cmd:relprec} estimates the relative precision 
--- the inverse squared ratio of the empirical standard error of this analysis method to the empirical standard error of the reference analysis method, as a percentage.
+-- the percentage improvement in precision for this analysis method compared with the reference analysis method.
+Precision is the inverse square of the empirical standard error. 
 This calculation is slow: omitting it can reduce run time by up to 90%.
 
 {phang} {cmd:mse} estimates the mean squared error.
