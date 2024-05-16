@@ -1,5 +1,5 @@
 {smcl}
-{* v2.1  19oct2023  Ian White}{...}
+{* v2.1  16may2024  Ian White}{...}
 {viewerjumpto "Syntax" "simsum##syntax"}{...}
 {viewerjumpto "Main options" "simsum##main_options"}{...}
 {viewerjumpto "Data checking options" "simsum##check_options"}{...}
@@ -24,22 +24,21 @@
 The program {cmd:simsum} computes performance measures for 
 simulation studies in which each simulated data set yields point estimates by one or more analysis 
 methods. 
-Bias, empirical standard error, precision relative to a reference method and mean squared error can be computed for each method.
-If, in addition, model-based standard errors are available then {cmd:simsum} can compute 
-the average model-based standard error, 
+Possible performance measures include bias, empirical standard error and mean squared error.
+If, in addition, model-based standard errors are available, then possible performance measures also include
 the relative error in the model-based standard error, the coverage of nominal confidence intervals, 
 and the power to reject a null hypothesis. 
 Monte Carlo errors are available for all estimated quantities.
 
 {p 4 4 2}
-This is a user-written command: please cite {help simsum##citation:our paper}, which also gives more details of the methods.
+This is a user-written command: please cite {help simsum##citation:my paper}, which also gives more details of the methods.
 Please also see our {help simsum##Morris++19:tutorial} on simulation studies.
 
 
 {title:Syntax}{marker syntax}
 
 {p 4 4 2}
-Data may be in a wide or long format. 
+Data may be in a wide or long format for analysis methods. 
 
 {p 4 4 2}
 In the wide format, the data contain one record per simulated data set. 
@@ -52,14 +51,15 @@ The appropriate syntax is:
 where {it:estvarlist} is a {it:varlist} containing point estimates from one or more analysis methods.
 
 {p 4 4 2}
-In the long format, the data contain one record per method per simulated data set, and the appropriate syntax is:
+In the long format, the data contain one record per analysis method per simulated data set.
+The appropriate syntax is:
 
 {p 8 17 2}
 {cmd:simsum} {it:estvarname} {ifin}, [{cmd:true(}{it:expression}{cmd:)} {cmdab:meth:odvar(}{it:varname}{cmd:)} {cmd:id(}{it:varlist}{cmd:)}  {it:options}]
 
 {p 4 4 2}
 where {it:estvarname} is a variable containing the point estimates, 
-{cmdab:meth:odvar(}{it:varname}{cmd:)} identifies the method and {cmd:id(}{it:varlist}{cmd:)} identifies the simulated data set. 
+{cmdab:meth:odvar(}{it:varname}{cmd:)} identifies the analysis method and {cmd:id(}{it:varlist}{cmd:)} identifies the simulated data set. 
 The {it:options} are described below.
 
 
@@ -69,7 +69,7 @@ The {it:options} are described below.
 This is used in calculations of bias and coverage and is required whenever these performance measures are requested.
 
 {phang} {cmdab:meth:odvar(}{it:varname}{cmd:)} specifies that the data are in long format, 
-with each record representing one analysis of one simulated data set using the method identified by {it:varname}. 
+with each record representing one analysis of one simulated data set using the analysis method identified by {it:varname}. 
 Option {cmd:id({it:varlist})} must be specified.
 If {cmdab:meth:odvar()} is not specified, the data must be in wide format, with each record representing all analyses of one simulated data set.
 
@@ -111,7 +111,7 @@ Otherwise the program halts with an error. (Missing values are always dropped.)
 
 {title:Calculation options}{marker calc_options}
 
-{phang} {cmd:level(}#{cmd:)} specifies the confidence level for coverages and powers. Default is {cmd:$level}.
+{phang} {cmd:level(}#{cmd:)} specifies the confidence level for coverages and powers. Default is {cmd:$S_level}.
 
 {phang} {cmd:by(}{it:varlist}{cmd:)} computes performance measures by {it:varlist}. Missing values in {it:varlist} are allowed.
 
@@ -124,11 +124,15 @@ instead of those based on an assumption of normally distributed point estimates.
 {phang} {cmdab:modelsem:ethod(rmse|mean)} specifies whether the model standard error should be computed
 as the root mean squared value (the default) or as the arithmetic mean.
 
-{phang} {cmd:ref(}{it:string}{cmd:)} specifies the reference method against which relative precisions will be calculated. 
-With data in wide format, {it:string} must be a variable name. 
-With data in long format, {it:string} must be a value of the method variable; if the value is labelled then the label must be used.
+{phang} {cmd:ref(}{it:string}{cmd:)} specifies the reference analysis method against which relative precisions will be calculated. 
 
-{phang} {cmd:null(}#{cmd:)} specifies the null value against which power will be calculated. 
+{pmore}With data in wide format, {it:string} must be a variable name.
+The default is the first variable listed.
+
+{pmore}With data in long format, {it:string} must be a value of the analysis method variable. If the value is labelled then the label must be used.
+The default is the lowest value of the analysis method variable in sort order (ignoring any value labels).
+
+{phang} {cmd:null(}#{cmd:)} specifies the null value against which power will be calculated. Default is {cmd:null(0)}.
 
 
 {title:Options specifying degrees of freedom}{marker df_options}
@@ -164,7 +168,7 @@ It may be combined with {cmd:dfprefix()} but not with {cmd:df()}.
 {phang} {cmd:empse} estimates the empirical standard error -- the standard deviation of the point estimates.
 
 {phang} {cmd:relprec} estimates the relative precision 
--- the inverse squared ratio of the empirical standard error of this method to the empirical standard error of the reference method, as a percentage.
+-- the inverse squared ratio of the empirical standard error of this analysis method to the empirical standard error of the reference analysis method, as a percentage.
 This calculation is slow: omitting it can reduce run time by up to 90%.
 
 {phang} {cmd:mse} estimates the mean squared error.
@@ -224,6 +228,7 @@ Defaults are the existing format of the [first] estimate variable for (1) and (2
 {title:Output data set options}{marker output_options}
 
 {phang} {cmd:clear} loads the performance measure data into memory.
+They will be in a wide format for analysis methods, regardless of the original data format.
 
 {phang} {cmd:saving(}{it:filename}{cmd:)} saves the performance measure data into {it:filename}.
 
