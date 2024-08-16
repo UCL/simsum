@@ -1,5 +1,5 @@
 {smcl}
-{* v2.1  16may2024  Ian White}{...}
+{* v2.2  16aug2024  Ian White}{...}
 {viewerjumpto "Syntax" "simsum##syntax"}{...}
 {viewerjumpto "Main options" "simsum##main_options"}{...}
 {viewerjumpto "Data checking options" "simsum##check_options"}{...}
@@ -241,18 +241,28 @@ specifies the prefix for new variables identifying the different performance mea
 transposes the output data set so that performance measures are columns and methods are rows
 (only useful with {cmd:clear} or {cmd:saving()}).
 
+{pstd}The performance measure dataset has one row per performance measure and per level of the by variable(s) (if any).
+Performance measure codes (e.g. "empse" etc.) are stored in the string variable {cmd:perfmeascode}, and their longer descriptions (e.g. "Empirical standard errror" etc.) are the labels of the numeric variable {cmd:perfmeasnum}.
+Values of performance measures are stored in the variable {it:estvarname}, and their Monte Carlo standard errors (if computed) in {it:estvarname}_mcse.
+
+{pstd}Programmers should avoid hard-coding the numeric values of {cmd:perfmeasnum}, since these can change across versions of {cmd:simsum} as more performance measures are added.
+
+
 
 {title:Example}{marker example}
 
 {phang}This example uses data in long format stored in MIsim.dta:
 
-{phang}{cmd:. simsum b, se(se) methodvar(method) id(dataset) true(0.5) mcse format(%7.0g)}
+{phang}. {stata "use https://github.com/UCL/simsum/raw/main/package/MIsim.dta, clear"}
+
+{phang}. {stata "simsum b, se(se) methodvar(method) id(dataset) true(0.5) mcse format(%7.0g)"}
 
 {phang}Alternatively, the data could first be reshaped to wide format:
 
-{phang}{cmd:. reshape wide b se, i(dataset) j(method) string}
+{phang}. {stata "reshape wide b se, i(dataset) j(method) string"}
 
-{phang}{cmd:. simsum b*, se(se*) true(0.5) mcse format(%7.0g)}
+{phang}. {stata "simsum b*, se(se*) true(0.5) mcse format(%7.0g)"}
+
 
 
 {title:Errata}{marker errata}
