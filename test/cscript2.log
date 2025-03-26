@@ -2,7 +2,7 @@
       name:  <unnamed>
        log:  c:\ian\git\simsum\test\cscript2.log
   log type:  text
- opened on:  14 Mar 2024, 14:21:48
+ opened on:  26 Mar 2025, 18:55:25
 
 . 
 . // check it works even without personal adofiles!
@@ -20,19 +20,19 @@
 
 -> which simsum, usesysdir
 c:\ian\git\simsum\package\simsum.ado
-*! version 2.2 Ian White 14mar2024
+*! version 2.2.1 Ian White 26mar2025
 
 . set linesize 158
 
 . 
 . which simsum
 c:\ian\git\simsum\package\simsum.ado
-*! version 2.2 Ian White 14mar2024
+*! version 2.2.1 Ian White 26mar2025
 
 . cap simsum
 
 . di r(simsum_version)
-2.2
+2.2.1
 
 . 
 . local opts graph nomemcheck max(20) semax(50) dropbig nolistbig ///
@@ -157,8 +157,9 @@ Starting to process results ...
 . // Ditto without se's
 . simsum beta*, true(truebeta) by(n truebeta) 
 SE not reported, so ignoring performance measures: sesims modelse relerror
-Neither SE nor (LCI,UCI) is reported, so ignoring performance measures: ciwidth cover
-Neither SE, (LCI,UCI) nor P is reported, so ignoring performance measures: power
+Neither SE, LCI nor UCI is reported, so ignoring performance measures: cover
+Neither SE nor (LCI,UCI) is reported, so ignoring performance measures: ciwidth
+Neither SE, LCI, UCI nor P is reported, so ignoring performance measures: power
 
 Starting to process results ...
 
@@ -4365,5 +4366,5 @@ file z3.dta saved
       name:  <unnamed>
        log:  c:\ian\git\simsum\test\cscript2.log
   log type:  text
- closed on:  14 Mar 2024, 14:22:21
+ closed on:  26 Mar 2025, 18:55:53
 --------------------------------------------------------------------------------------------------------------------------------------------------------------

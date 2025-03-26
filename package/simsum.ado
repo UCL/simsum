@@ -1,6 +1,10 @@
 /***********************************************************************************************
 HISTORY
-*! version 2.2 Ian White 14mar2024
+*! version 2.2.1 Ian White 26mar2025
+	allow just one of lci() and uci() 
+	- the other is assumed to be +/- infty for cover and power
+	- but ciwidth not allowed
+version 2.2 Ian White 14mar2024
 	new lci, uci and p options
 version 2.1.2 Ian White 12mar2024
 	drop label if pre-existing - helps siman analyse to avoid crash
@@ -101,7 +105,7 @@ version 10
 if _caller() >= 12 {
 	local hidden hidden
 }
-return `hidden' local simsum_version "2.2"
+return `hidden' local simsum_version "2.2.1"
 
 syntax varlist [if] [in], ///
     [true(string) METHodvar(varname) id(varlist)                             /// main options
@@ -194,8 +198,6 @@ else { // just working with beta's
     }
 }   
 */
-if mi("`lcilist'") & !mi("`ucilist'") di as error "Can't have uci without lci: uci will be ignored"
-if !mi("`lcilist'") & mi("`ucilist'") di as error "Can't have lci without uci: lci will be ignored"
 	
 * SORT OUT DF'S
 if "`dfprefix'"!="" | "`dfsuffix'"!="" {
@@ -266,31 +268,42 @@ if mi("`origoutput'") { // if nothing specified, specify all
             local `perfmeas'
         }
 		if !mi("`droppm1'") {
-			if !mi("`origoutput'") di as error "" _c
-			else di as text "" _c
-			di "SE not reported, so ignoring performance measures: `droppm1'"
+			if !mi("`origoutput'") local msgtype error
+			else local msgtype text
+			di as `msgtype' "SE not reported, so ignoring performance measures: `droppm1'"
 		}
     }
-    if "`se1'"=="" & mi("`lci1'","`uci1'") { // neither SE nor (LCI,UCI) is reported
-        foreach perfmeas in ciwidth cover {
+    if "`se1'"=="" & "`lci1'"=="" & "`uci1'"=="" { // none of SE, LCI, UCI is reported
+        foreach perfmeas in cover {
 			if !mi("``perfmeas''") local droppm2 `droppm2' `perfmeas'
             local `perfmeas'
         }
 		if !mi("`droppm2'") {
-			if !mi("`origoutput'") di as error "" _c
-			else di as text "" _c
-			di "Neither SE nor (LCI,UCI) is reported, so ignoring performance measures: `droppm2'"
+			if !mi("`origoutput'") local msgtype error
+			else local msgtype text
+			di as `msgtype' "Neither SE, LCI nor UCI is reported, so ignoring performance measures: `droppm2'"
 		}
     }
-    if "`se1'"=="" & mi("`lci1'","`uci1'") & mi("`p1'") { // neither SE, (LCI,UCI) nor P is reported
+    if "`se1'"=="" & mi("`lci1'","`uci1'") { // neither SE nor (LCI,UCI) is reported
+        foreach perfmeas in ciwidth {
+			if !mi("``perfmeas''") local droppm5 `droppm5' `perfmeas'
+            local `perfmeas'
+        }
+		if !mi("`droppm5'") {
+			if !mi("`origoutput'") local msgtype error
+			else local msgtype text
+			di as `msgtype' "Neither SE nor (LCI,UCI) is reported, so ignoring performance measures: `droppm5'"
+		}
+    }
+    if "`se1'"=="" & "`lci1'"=="" & "`uci1'"=="" & "`p1'"=="" { // none of SE, LCI, UCI, P is reported
         foreach perfmeas in power {
 			if !mi("``perfmeas''") local droppm3 `droppm3' `perfmeas'
             local `perfmeas'
         }
 		if !mi("`droppm3'") {
-			if !mi("`origoutput'") di as error "" _c
-			else di as text "" _c
-			di "Neither SE, (LCI,UCI) nor P is reported, so ignoring performance measures: `droppm3'"
+			if !mi("`origoutput'") local msgtype error
+			else local msgtype text
+			di as `msgtype' "Neither SE, LCI, UCI nor P is reported, so ignoring performance measures: `droppm3'"
 		}
     }
     if "`true'"=="" { // True parameter is not reported
@@ -299,9 +312,9 @@ if mi("`origoutput'") { // if nothing specified, specify all
             local `perfmeas'
         }
 		if !mi("`droppm4'") {
-			if !mi("`origoutput'") di as error "" _c
-			else di as text "" _c
-			di "true() not specified, so ignoring performance measures: `droppm4'"
+			if !mi("`origoutput'") local msgtype error
+			else local msgtype text 
+			di as `msgtype' "true() not specified, so ignoring performance measures: `droppm4'"
 		}
     }
 * find list of PMs specified
@@ -644,6 +657,14 @@ forvalues i=1/`m' {
 		if !mi("`lcilist'","`ucilist'") {
 			qui gen cover_`i' = (`lci`i''<=`truevar') & (`truevar'<=`uci`i'') if !missing(`lci`i'',`uci`i'')
 			if `i'==1 di as text "Note: coverage computed from lci and uci"
+		}
+		else if !mi("`lcilist'") {
+			qui gen cover_`i' = (`lci`i''<=`truevar') if !missing(`lci`i'')
+			if `i'==1 di as text "Note: coverage computed from lci, assuming uci=+infinity"
+		}
+		else if !mi("`ucilist'") {
+			qui gen cover_`i' =  (`truevar'<=`uci`i'') if !missing(`uci`i'')
+			if `i'==1 di as text "Note: coverage computed from uci, assuming lci=-infinity"
 		}
 		else {
 			qui gen cover_`i' = abs(`beta`i''-`truevar') < (`crit`i'')*`se`i'' if !missing(`beta`i'',`se`i'') 

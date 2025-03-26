@@ -2,7 +2,7 @@
       name:  <unnamed>
        log:  c:\ian\git\simsum\test\cscript1.log
   log type:  text
- opened on:  14 Mar 2024, 14:17:38
+ opened on:  26 Mar 2025, 18:55:18
 
 . 
 . cscript "Simple checks on simsum" adofile simsum
@@ -10,14 +10,14 @@
 
 -> which simsum, usesysdir
 c:\ian\git\simsum\package\simsum.ado
-*! version 2.2 Ian White 14mar2024
+*! version 2.2.1 Ian White 26mar2025
 
 . set linesize 158
 
 . 
 . which simsum
 c:\ian\git\simsum\package\simsum.ado
-*! version 2.2 Ian White 14mar2024
+*! version 2.2.1 Ian White 26mar2025
 
 . 
 . // handling wide format
@@ -419,11 +419,11 @@ Starting to process results ...
   +---------------------------------------------------------------------------------------+
 
 . 
-. // handling df, lci and uci
+. // handling df, lci and uci, including comparison of results 
 . use ppsim1, clear
 (10% of H:\missing\MI\ICE\perfpred\basicdata\varys\ppsim1_postfile.dta)
 
-. simsum b1, sep(se) method(method) id(i) true(1) ref(boot) df(5)
+. simsum b1, sep(se) method(method) id(i) true(1) ref(boot) df(5) saving(z1a,replace)
 Reshaping data to wide format ...
 
 Starting to process results ...
@@ -459,10 +459,12 @@ Starting to process results ...
   |---------------------------------------------------------------------------------------|
   |                 % power of 5% level test         44         48         45          10 |
   +---------------------------------------------------------------------------------------+
+(file z1a.dta not found)
+file z1a.dta saved
 
 . gen df=5
 
-. simsum b1, sep(se) method(method) id(i) true(1) ref(boot) df(df)
+. simsum b1, sep(se) method(method) id(i) true(1) ref(boot) df(df) saving(z1b,replace)
 Reshaping data to wide format ...
 
 Starting to process results ...
@@ -498,82 +500,149 @@ Starting to process results ...
   |---------------------------------------------------------------------------------------|
   |                 % power of 5% level test         44         48         45          10 |
   +---------------------------------------------------------------------------------------+
+(file z1b.dta not found)
+file z1b.dta saved
 
+. 
+. simsum b1, sep(se) method(method) id(i) true(1) ref(boot) df(5) saving(z2a,replace) mean power
+Reshaping data to wide format ...
+
+Starting to process results ...
+
+  +---------------------------------------------------------------------+
+  |      Performance measure   augment       boot   penalise     zallow |
+  |---------------------------------------------------------------------|
+  |   Mean of point estimate   1.00837   1.064995   1.047252   .8164752 |
+  |---------------------------------------------------------------------|
+  | % power of 5% level test        44         48         45         10 |
+  +---------------------------------------------------------------------+
+(file z2a.dta not found)
+file z2a.dta saved
+
+. 
 . forvalues i=1/3 {
   2.         gen mylcib`i' = b`i' - invt(5,.975)*seb`i'
   3.         gen myucib`i' = b`i' + invt(5,.975)*seb`i'
   4.         gen mypb`i' = abs(b`i'/seb`i') < invt(5,.975)
   5. }
 
-. simsum b1, lciprefix(mylci) ucipre(myuci) method(method) id(i) true(1) ref(boot) 
-SE not reported, so ignoring performance measures: sesims modelse relerror
+. simsum b1, lciprefix(mylci) ucipre(myuci) method(method) id(i) true(1) ref(boot) saving(z2b,replace) mean power
 Reshaping data to wide format ...
 
 Starting to process results ...
-Note: ciwidth computed from lci and uci
-Note: coverage computed from lci and uci
 Note: power computed from lci and uci
 
-  +---------------------------------------------------------------------------------------+
-  |                      Performance measure    augment       boot   penalise      zallow |
-  |---------------------------------------------------------------------------------------|
-  |              Non-missing point estimates        100        100        100         100 |
-  |---------------------------------------------------------------------------------------|
-  |                   Bias in point estimate   .0083703   .0649953   .0472524   -.1835248 |
-  |---------------------------------------------------------------------------------------|
-  |                 % bias in point estimate   .8370292   6.499533   4.725235   -18.35248 |
-  |---------------------------------------------------------------------------------------|
-  |                   Mean of point estimate    1.00837   1.064995   1.047252    .8164752 |
-  |---------------------------------------------------------------------------------------|
-  |                 Empirical standard error   .3809837   .4063731   .3949197    .3384659 |
-  |---------------------------------------------------------------------------------------|
-  | % precision gain relative to method boot   13.77247          .   5.884522     44.1518 |
-  |---------------------------------------------------------------------------------------|
-  |                       Mean squared error   .1437671   .1677121   .1566347     .147095 |
-  |---------------------------------------------------------------------------------------|
-  |                  Root mean squared error   .3791664   .4095267   .3957711    .3835296 |
-  |---------------------------------------------------------------------------------------|
-  |                Mean conf. interval width   2.214744   2.180488   2.191094    2.649681 |
-  |---------------------------------------------------------------------------------------|
-  | % coverage of nominal 95% conf. interval        100         98         99          98 |
-  |---------------------------------------------------------------------------------------|
-  |                 % power of 5% level test         44         48         45          10 |
-  +---------------------------------------------------------------------------------------+
+  +---------------------------------------------------------------------+
+  |      Performance measure   augment       boot   penalise     zallow |
+  |---------------------------------------------------------------------|
+  |   Mean of point estimate   1.00837   1.064995   1.047252   .8164752 |
+  |---------------------------------------------------------------------|
+  | % power of 5% level test        44         48         45         10 |
+  +---------------------------------------------------------------------+
+(file z2b.dta not found)
+file z2b.dta saved
 
-. simsum b1, pprefix(myp) method(method) id(i) true(1) ref(boot) 
-SE not reported, so ignoring performance measures: sesims modelse relerror
-Neither SE nor (LCI,UCI) is reported, so ignoring performance measures: sesims modelse relerror ciwidth cover
+. simsum b1, pprefix(myp) method(method) id(i) true(1) ref(boot) saving(z2c,replace) mean power
 Reshaping data to wide format ...
 
 Starting to process results ...
 Note: power computed from p
 
-  +---------------------------------------------------------------------------------------+
-  |                      Performance measure    augment       boot   penalise      zallow |
-  |---------------------------------------------------------------------------------------|
-  |              Non-missing point estimates        100        100        100         100 |
-  |---------------------------------------------------------------------------------------|
-  |                   Bias in point estimate   .0083703   .0649953   .0472524   -.1835248 |
-  |---------------------------------------------------------------------------------------|
-  |                 % bias in point estimate   .8370292   6.499533   4.725235   -18.35248 |
-  |---------------------------------------------------------------------------------------|
-  |                   Mean of point estimate    1.00837   1.064995   1.047252    .8164752 |
-  |---------------------------------------------------------------------------------------|
-  |                 Empirical standard error   .3809837   .4063731   .3949197    .3384659 |
-  |---------------------------------------------------------------------------------------|
-  | % precision gain relative to method boot   13.77247          .   5.884522     44.1518 |
-  |---------------------------------------------------------------------------------------|
-  |                       Mean squared error   .1437671   .1677121   .1566347     .147095 |
-  |---------------------------------------------------------------------------------------|
-  |                  Root mean squared error   .3791664   .4095267   .3957711    .3835296 |
-  |---------------------------------------------------------------------------------------|
-  |                 % power of 5% level test         44         48         45          10 |
-  +---------------------------------------------------------------------------------------+
+  +---------------------------------------------------------------------+
+  |      Performance measure   augment       boot   penalise     zallow |
+  |---------------------------------------------------------------------|
+  |   Mean of point estimate   1.00837   1.064995   1.047252   .8164752 |
+  |---------------------------------------------------------------------|
+  | % power of 5% level test        44         48         45         10 |
+  +---------------------------------------------------------------------+
+(file z2c.dta not found)
+file z2c.dta saved
+
+. simsum b1, lciprefix(mylci) ucipre(myuci) method(method) id(i) true(1) ref(boot) saving(z3a,replace) cover
+Reshaping data to wide format ...
+
+Starting to process results ...
+Note: coverage computed from lci and uci
+
+  +-------------------------------------------------------------------------------+
+  |                      Performance measure   augment   boot   penalise   zallow |
+  |-------------------------------------------------------------------------------|
+  | % coverage of nominal 95% conf. interval       100     98         99       98 |
+  +-------------------------------------------------------------------------------+
+(file z3a.dta not found)
+file z3a.dta saved
+
+. simsum b1, ucipre(myuci) method(method) id(i) true(1) ref(boot) saving(z3b,replace) cover
+Reshaping data to wide format ...
+
+Starting to process results ...
+Note: coverage computed from uci, assuming lci=-infinity
+
+  +-------------------------------------------------------------------------------+
+  |                      Performance measure   augment   boot   penalise   zallow |
+  |-------------------------------------------------------------------------------|
+  | % coverage of nominal 95% conf. interval       100    100        100       98 |
+  +-------------------------------------------------------------------------------+
+(file z3b.dta not found)
+file z3b.dta saved
+
+. simsum b1, lciprefix(mylci) method(method) id(i) true(1) ref(boot) saving(z3c,replace) cover
+Reshaping data to wide format ...
+
+Starting to process results ...
+Note: coverage computed from lci, assuming uci=+infinity
+
+  +-------------------------------------------------------------------------------+
+  |                      Performance measure   augment   boot   penalise   zallow |
+  |-------------------------------------------------------------------------------|
+  | % coverage of nominal 95% conf. interval       100     98         99      100 |
+  +-------------------------------------------------------------------------------+
+(file z3c.dta not found)
+file z3c.dta saved
+
+. * same results with df(5) and df(df)?
+. use z1a, clear
+(10% of H:\missing\MI\ICE\perfpred\basicdata\varys\ppsim1_postfile.dta)
+
+. cf _all using z1b
+
+. * same results for power with se, ci and p?
+. use z2a, clear
+(10% of H:\missing\MI\ICE\perfpred\basicdata\varys\ppsim1_postfile.dta)
+
+. cf _all using z2b
+
+. cf _all using z2c
+
+. * corresponding results for cover with 1 or 2 tails?
+. use z3a, clear
+(10% of H:\missing\MI\ICE\perfpred\basicdata\varys\ppsim1_postfile.dta)
+
+. append using z3b
+(label perfmeasnum already defined)
+
+. append using z3c
+(label perfmeasnum already defined)
+
+. for var b1*: assert 100-X[1]==100-X[2]+100-X[3] // type 2 errors should sum
+
+->  assert 100-b1augment[1]==100-b1augment[2]+100-b1augment[3]
+
+->  assert 100-b1boot[1]==100-b1boot[2]+100-b1boot[3]
+
+->  assert 100-b1penalise[1]==100-b1penalise[2]+100-b1penalise[3]
+
+->  assert 100-b1zallow[1]==100-b1zallow[2]+100-b1zallow[3]
+
+. 
+. foreach z in 1a 1b 2a 2b 2c 3a 3b 3c {
+  2.         erase z`z'.dta
+  3. }
 
 . 
 . log close
       name:  <unnamed>
        log:  c:\ian\git\simsum\test\cscript1.log
   log type:  text
- closed on:  14 Mar 2024, 14:17:45
+ closed on:  26 Mar 2025, 18:55:24
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
