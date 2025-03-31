@@ -3,6 +3,7 @@ HISTORY
 *! version 2.2.2 Ian White 31mar2025
 	-byvar- is captured to avoid annoying "no observations" messages for each missing dgmvar combination 
 	relprec = 0 for ref method, not .
+	don't change beta to missing when se is missing
 version 2.2.1 Ian White 26mar2025
 	allow just one of lci() and uci() 
 	- the other is assumed to be +/- infty for cover and power
@@ -511,8 +512,8 @@ forvalues i=1/`m' {
             if r(N)>0 {
                 di as text _new "Warning for method `label`i'': " as result r(N) as text " observation(s) have estimate observed and SE missing"
                 if "`listmiss'"=="listmiss" list `by' `id' `beta`i'' `se`i'' if `missing', sepby(`sepby')
-                qui replace `beta`i'' = . if `missing'
-                di as text "--> estimate changed to missing"
+                * qui replace `beta`i'' = . if `missing'
+                di as text "--> estimate unchanged"
             }
 
             qui replace `missing' = (`se`i''==0) & `touse'
@@ -520,9 +521,9 @@ forvalues i=1/`m' {
             if r(N)>0 {
                 di as text _new "Warning for method `label`i'': " as result r(N) as text " observation(s) have zero values of SE"
                 if "`listmiss'"=="listmiss" list `by' `id' `beta`i'' `se`i'' if `missing', sepby(`sepby')
-                qui replace `beta`i'' = . if `missing'
+                * qui replace `beta`i'' = . if `missing'
                 qui replace `se`i'' = . if `missing'
-                di as text "--> estimate and SE changed to missing"
+                di as text "--> estimate unchanged, SE changed to missing"
             }
         }
     }

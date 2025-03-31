@@ -2,7 +2,7 @@
       name:  <unnamed>
        log:  c:\ian\git\simsum\test\cscript1.log
   log type:  text
- opened on:  31 Mar 2025, 13:08:16
+ opened on:  31 Mar 2025, 19:03:21
 
 . 
 . cscript "Simple checks on simsum" adofile simsum
@@ -644,5 +644,5 @@ file z3c.dta saved
       name:  <unnamed>
        log:  c:\ian\git\simsum\test\cscript1.log
   log type:  text
- closed on:  31 Mar 2025, 13:08:25
+ closed on:  31 Mar 2025, 19:03:29
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
