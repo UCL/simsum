@@ -11,6 +11,7 @@ adopath + `path'/package
 set logtype text
 cap log close
 cd `path'/test
+set linesize 100
 log using cscript1, replace
 
 cscript "Simple checks on simsum" adofile simsum

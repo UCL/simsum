@@ -1,8 +1,8 @@
---------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
       name:  <unnamed>
        log:  c:\ian\git\simsum\test\cscript2.log
   log type:  text
- opened on:  26 Mar 2025, 18:55:25
+ opened on:  31 Mar 2025, 13:07:37
 
 . 
 . // check it works even without personal adofiles!
@@ -20,14 +20,14 @@
 
 -> which simsum, usesysdir
 c:\ian\git\simsum\package\simsum.ado
-*! version 2.2.1 Ian White 26mar2025
+*! version 2.2.2 Ian White 31mar2025
 
 . set linesize 158
 
 . 
 . which simsum
 c:\ian\git\simsum\package\simsum.ado
-*! version 2.2.1 Ian White 26mar2025
+*! version 2.2.2 Ian White 31mar2025
 
 . cap simsum
 
@@ -120,9 +120,9 @@ Starting to process results ...
   |                           Empirical standard error   336          0    .0790336   .0017681    .1127159   .0025217    .1056493   .0023636 |
   |                           Empirical standard error   336        .25     .079672   .0017824     .114452   .0025605    .1073024   .0024006 |
   |------------------------------------------------------------------------------------------------------------------------------------------|
-  | % precision gain relative to method PERFECT method    84         .5           .          .   -62.53799   1.835993   -44.18901   2.724935 |
-  | % precision gain relative to method PERFECT method   336          0           .          .    -50.8353    2.28676   -44.03835   2.667364 |
-  | % precision gain relative to method PERFECT method   336        .25           .          .   -51.54211   2.266095   -44.86946   2.642908 |
+  | % precision gain relative to method PERFECT method    84         .5           0          0   -62.53799   1.835993   -44.18901   2.724935 |
+  | % precision gain relative to method PERFECT method   336          0           0          0    -50.8353    2.28676   -44.03835   2.667364 |
+  | % precision gain relative to method PERFECT method   336        .25           0          0   -51.54211   2.266095   -44.86946   2.642908 |
   |------------------------------------------------------------------------------------------------------------------------------------------|
   |                                 Mean squared error    84         .5    .0313651   .0016155    .0845176   .0052277    .0586084   .0028326 |
   |                                 Mean squared error   336          0    .0062594   .0002881    .0126989   .0006187    .0111539   .0005497 |
@@ -186,9 +186,9 @@ Starting to process results ...
   |                           Empirical standard error   336          0    .0790336    .1127159    .1056493 |
   |                           Empirical standard error   336        .25     .079672     .114452    .1073024 |
   |---------------------------------------------------------------------------------------------------------|
-  | % precision gain relative to method PERFECT method    84         .5           .   -62.53799   -44.18901 |
-  | % precision gain relative to method PERFECT method   336          0           .    -50.8353   -44.03835 |
-  | % precision gain relative to method PERFECT method   336        .25           .   -51.54211   -44.86946 |
+  | % precision gain relative to method PERFECT method    84         .5           0   -62.53799   -44.18901 |
+  | % precision gain relative to method PERFECT method   336          0           0    -50.8353   -44.03835 |
+  | % precision gain relative to method PERFECT method   336        .25           0   -51.54211   -44.86946 |
   |---------------------------------------------------------------------------------------------------------|
   |                                 Mean squared error    84         .5    .0313651    .0845176    .0586084 |
   |                                 Mean squared error   336          0    .0062594    .0126989    .0111539 |
@@ -225,9 +225,9 @@ Starting to process results ...
   |                           Empirical standard error   336          0    .0790336   .0017681    .1127159   .0025217    .1056493   .0023636 |
   |                           Empirical standard error   336        .25     .079672   .0017824     .114452   .0025605    .1073024   .0024006 |
   |------------------------------------------------------------------------------------------------------------------------------------------|
-  | % precision gain relative to method PERFECT method    84         .5           .          .   -62.53799   1.835993   -44.18901   2.724935 |
-  | % precision gain relative to method PERFECT method   336          0           .          .    -50.8353    2.28676   -44.03835   2.667364 |
-  | % precision gain relative to method PERFECT method   336        .25           .          .   -51.54211   2.266095   -44.86946   2.642908 |
+  | % precision gain relative to method PERFECT method    84         .5           0          0   -62.53799   1.835993   -44.18901   2.724935 |
+  | % precision gain relative to method PERFECT method   336          0           0          0    -50.8353    2.28676   -44.03835   2.667364 |
+  | % precision gain relative to method PERFECT method   336        .25           0          0   -51.54211   2.266095   -44.86946   2.642908 |
   |------------------------------------------------------------------------------------------------------------------------------------------|
   |                     RMS model-based standard error    84         .5    .1768148   .0007418    .2725263   .0020094    .2564562   .0021562 |
   |                     RMS model-based standard error   336          0    .0787452   .0001572    .1136343   .0003405    .1113332   .0005182 |
@@ -321,9 +321,9 @@ Starting to process results ...
   +--------------------------------------------------------------------------------------------------------+
   |                                Performance measure     n   truebeta   PERFECT    CC method   LOGT meth |
   |--------------------------------------------------------------------------------------------------------|
-  | % precision gain relative to method PERFECT method    84         .5          .   -62.53799   -44.18901 |
-  | % precision gain relative to method PERFECT method   336          0          .    -50.8353   -44.03835 |
-  | % precision gain relative to method PERFECT method   336        .25          .   -51.54211   -44.86946 |
+  | % precision gain relative to method PERFECT method    84         .5          0   -62.53799   -44.18901 |
+  | % precision gain relative to method PERFECT method   336          0          0    -50.8353   -44.03835 |
+  | % precision gain relative to method PERFECT method   336        .25          0   -51.54211   -44.86946 |
   +--------------------------------------------------------------------------------------------------------+
 
 Starting to process results ...
@@ -331,9 +331,9 @@ Starting to process results ...
   +---------------------------------------------------------------------------------------------------------------------------------------+
   |                                Performance measure     n   truebeta   PERFECT    (MCse)   CC method     (MCse)   LOGT meth     (MCse) |
   |---------------------------------------------------------------------------------------------------------------------------------------|
-  | % precision gain relative to method PERFECT method    84         .5          .        .   -62.53799   1.835993   -44.18901   2.724935 |
-  | % precision gain relative to method PERFECT method   336          0          .        .    -50.8353    2.28676   -44.03835   2.667364 |
-  | % precision gain relative to method PERFECT method   336        .25          .        .   -51.54211   2.266095   -44.86946   2.642908 |
+  | % precision gain relative to method PERFECT method    84         .5          0        0   -62.53799   1.835993   -44.18901   2.724935 |
+  | % precision gain relative to method PERFECT method   336          0          0        0    -50.8353    2.28676   -44.03835   2.667364 |
+  | % precision gain relative to method PERFECT method   336        .25          0        0   -51.54211   2.266095   -44.86946   2.642908 |
   +---------------------------------------------------------------------------------------------------------------------------------------+
 
 Starting to process results ...
@@ -473,9 +473,9 @@ Starting to process results ...
   +---------------------------------------------------------------------------------------------------------------------------------------+
   |                                Performance measure     n   truebeta   PERFECT    (MCse)   CC method     (MCse)   LOGT meth     (MCse) |
   |---------------------------------------------------------------------------------------------------------------------------------------|
-  | % precision gain relative to method PERFECT method    84         .5          .        .   -62.53799   1.835993   -44.18901   2.724935 |
-  | % precision gain relative to method PERFECT method   336          0          .        .    -50.8353    2.28676   -44.03835   2.667364 |
-  | % precision gain relative to method PERFECT method   336        .25          .        .   -51.54211   2.266095   -44.86946   2.642908 |
+  | % precision gain relative to method PERFECT method    84         .5          0        0   -62.53799   1.835993   -44.18901   2.724935 |
+  | % precision gain relative to method PERFECT method   336          0          0        0    -50.8353    2.28676   -44.03835   2.667364 |
+  | % precision gain relative to method PERFECT method   336        .25          0        0   -51.54211   2.266095   -44.86946   2.642908 |
   +---------------------------------------------------------------------------------------------------------------------------------------+
 
 Starting to process results ...
@@ -483,9 +483,9 @@ Starting to process results ...
   +--------------------------------------------------------------------------------------------------------------------------------+
   |                           Performance measure     n   truebeta   PERFECT      (MCse)   CC metho   (MCse)   LOGT met     (MCse) |
   |--------------------------------------------------------------------------------------------------------------------------------|
-  | % precision gain relative to method CC method    84         .5   166.9371   13.08244          .        .   48.98024   4.143657 |
-  | % precision gain relative to method CC method   336          0   103.3979    9.46049          .        .   13.82484   2.433105 |
-  | % precision gain relative to method CC method   336        .25   106.3648   9.650488          .        .   13.77002    2.64581 |
+  | % precision gain relative to method CC method    84         .5   166.9371   13.08244          0        0   48.98024   4.143657 |
+  | % precision gain relative to method CC method   336          0   103.3979    9.46049          0        0   13.82484   2.433105 |
+  | % precision gain relative to method CC method   336        .25   106.3648   9.650488          0        0   13.77002    2.64581 |
   +--------------------------------------------------------------------------------------------------------------------------------+
 
 Starting to process results ...
@@ -493,9 +493,9 @@ Starting to process results ...
   +-----------------------------------------------------------------------------------------------------------------------------------+
   |                             Performance measure     n   truebeta   PERFECT      (MCse)   CC method     (MCse)   LOGT met   (MCse) |
   |-----------------------------------------------------------------------------------------------------------------------------------|
-  | % precision gain relative to method LOGT method    84         .5   79.17617   8.748158     -32.877   1.866923          .        . |
-  | % precision gain relative to method LOGT method   336          0   78.69381   8.517288   -12.14572   1.877961          .        . |
-  | % precision gain relative to method LOGT method   336        .25   81.38765   8.695559   -12.10338   2.044104          .        . |
+  | % precision gain relative to method LOGT method    84         .5   79.17617   8.748158     -32.877   1.866923          0        0 |
+  | % precision gain relative to method LOGT method   336          0   78.69381   8.517288   -12.14572   1.877961          0        0 |
+  | % precision gain relative to method LOGT method   336        .25   81.38765   8.695559   -12.10338   2.044104          0        0 |
   +-----------------------------------------------------------------------------------------------------------------------------------+
 
 . 
@@ -533,9 +533,9 @@ Starting to process results ...
   |                           Empirical standard error   336          0    .0790336    .1127159    .1056493 |
   |                           Empirical standard error   336        .25     .079672     .114452    .1073024 |
   |---------------------------------------------------------------------------------------------------------|
-  | % precision gain relative to method PERFECT method    84         .5           .   -62.53799   -44.18901 |
-  | % precision gain relative to method PERFECT method   336          0           .    -50.8353   -44.03835 |
-  | % precision gain relative to method PERFECT method   336        .25           .   -51.54211   -44.86946 |
+  | % precision gain relative to method PERFECT method    84         .5           0   -62.53799   -44.18901 |
+  | % precision gain relative to method PERFECT method   336          0           0    -50.8353   -44.03835 |
+  | % precision gain relative to method PERFECT method   336        .25           0   -51.54211   -44.86946 |
   |---------------------------------------------------------------------------------------------------------|
   |                                 Mean squared error    84         .5    .0313651    .0845176    .0586084 |
   |                                 Mean squared error   336          0    .0062594    .0126989    .0111539 |
@@ -595,9 +595,9 @@ Starting to process results ...
   |                           Empirical standard error   336          0    .0790336    .1127159    .1056493 |
   |                           Empirical standard error   336        .25     .079672     .114452    .1073024 |
   |---------------------------------------------------------------------------------------------------------|
-  | % precision gain relative to method PERFECT method    84         .5           .   -62.53799   -44.18901 |
-  | % precision gain relative to method PERFECT method   336          0           .    -50.8353   -44.03835 |
-  | % precision gain relative to method PERFECT method   336        .25           .   -51.54211   -44.86946 |
+  | % precision gain relative to method PERFECT method    84         .5           0   -62.53799   -44.18901 |
+  | % precision gain relative to method PERFECT method   336          0           0    -50.8353   -44.03835 |
+  | % precision gain relative to method PERFECT method   336        .25           0   -51.54211   -44.86946 |
   |---------------------------------------------------------------------------------------------------------|
   |                                 Mean squared error    84         .5    .0313651    .0845176    .0586084 |
   |                                 Mean squared error   336          0    .0062594    .0126989    .0111539 |
@@ -670,9 +670,9 @@ Starting to process results ...
   |                           Empirical standard error   336          0    .0790336    .1127159    .1056493 |
   |                           Empirical standard error   336        .25     .079672     .114452    .1073024 |
   |---------------------------------------------------------------------------------------------------------|
-  | % precision gain relative to method PERFECT method    84         .5           .   -62.53799   -44.18901 |
-  | % precision gain relative to method PERFECT method   336          0           .    -50.8353   -44.03835 |
-  | % precision gain relative to method PERFECT method   336        .25           .   -51.54211   -44.86946 |
+  | % precision gain relative to method PERFECT method    84         .5           0   -62.53799   -44.18901 |
+  | % precision gain relative to method PERFECT method   336          0           0    -50.8353   -44.03835 |
+  | % precision gain relative to method PERFECT method   336        .25           0   -51.54211   -44.86946 |
   |---------------------------------------------------------------------------------------------------------|
   |                                 Mean squared error    84         .5    .0313651    .0845176    .0586084 |
   |                                 Mean squared error   336          0    .0062594    .0126989    .0111539 |
@@ -736,9 +736,9 @@ Starting to process results ...
   |                           Empirical standard error   336          0    .0790336    .1127159    .1056493 |
   |                           Empirical standard error   336        .25     .079672     .114452    .1073024 |
   |---------------------------------------------------------------------------------------------------------|
-  | % precision gain relative to method PERFECT method    84         .5           .   -62.53799   -44.18901 |
-  | % precision gain relative to method PERFECT method   336          0           .    -50.8353   -44.03835 |
-  | % precision gain relative to method PERFECT method   336        .25           .   -51.54211   -44.86946 |
+  | % precision gain relative to method PERFECT method    84         .5           0   -62.53799   -44.18901 |
+  | % precision gain relative to method PERFECT method   336          0           0    -50.8353   -44.03835 |
+  | % precision gain relative to method PERFECT method   336        .25           0   -51.54211   -44.86946 |
   |---------------------------------------------------------------------------------------------------------|
   |                                 Mean squared error    84         .5    .0313651    .0845176    .0586084 |
   |                                 Mean squared error   336          0    .0062594    .0126989    .0111539 |
@@ -802,9 +802,9 @@ Starting to process results ...
   |                           Empirical standard error   336          0    .0790336    .1127159    .1056493 |
   |                           Empirical standard error   336        .25     .079672     .114452    .1073024 |
   |---------------------------------------------------------------------------------------------------------|
-  | % precision gain relative to method PERFECT method    84         .5           .   -62.53799   -44.18901 |
-  | % precision gain relative to method PERFECT method   336          0           .    -50.8353   -44.03835 |
-  | % precision gain relative to method PERFECT method   336        .25           .   -51.54211   -44.86946 |
+  | % precision gain relative to method PERFECT method    84         .5           0   -62.53799   -44.18901 |
+  | % precision gain relative to method PERFECT method   336          0           0    -50.8353   -44.03835 |
+  | % precision gain relative to method PERFECT method   336        .25           0   -51.54211   -44.86946 |
   |---------------------------------------------------------------------------------------------------------|
   |                                 Mean squared error    84         .5    .0313651    .0845176    .0586084 |
   |                                 Mean squared error   336          0    .0062594    .0126989    .0111539 |
@@ -868,9 +868,9 @@ Starting to process results ...
   |                           Empirical standard error   336          0    .0790336    .1127159    .1056493 |
   |                           Empirical standard error   336        .25     .079672     .114452    .1073024 |
   |---------------------------------------------------------------------------------------------------------|
-  | % precision gain relative to method PERFECT method    84         .5           .   -62.53799   -44.18901 |
-  | % precision gain relative to method PERFECT method   336          0           .    -50.8353   -44.03835 |
-  | % precision gain relative to method PERFECT method   336        .25           .   -51.54211   -44.86946 |
+  | % precision gain relative to method PERFECT method    84         .5           0   -62.53799   -44.18901 |
+  | % precision gain relative to method PERFECT method   336          0           0    -50.8353   -44.03835 |
+  | % precision gain relative to method PERFECT method   336        .25           0   -51.54211   -44.86946 |
   |---------------------------------------------------------------------------------------------------------|
   |                                 Mean squared error    84         .5    .0313651    .0845176    .0586084 |
   |                                 Mean squared error   336          0    .0062594    .0126989    .0111539 |
@@ -934,9 +934,9 @@ Starting to process results ...
   |                           Empirical standard error   336          0    .0790336    .1127159    .1056493 |
   |                           Empirical standard error   336        .25     .079672     .114452    .1073024 |
   |---------------------------------------------------------------------------------------------------------|
-  | % precision gain relative to method PERFECT method    84         .5           .   -62.53799   -44.18901 |
-  | % precision gain relative to method PERFECT method   336          0           .    -50.8353   -44.03835 |
-  | % precision gain relative to method PERFECT method   336        .25           .   -51.54211   -44.86946 |
+  | % precision gain relative to method PERFECT method    84         .5           0   -62.53799   -44.18901 |
+  | % precision gain relative to method PERFECT method   336          0           0    -50.8353   -44.03835 |
+  | % precision gain relative to method PERFECT method   336        .25           0   -51.54211   -44.86946 |
   |---------------------------------------------------------------------------------------------------------|
   |                                 Mean squared error    84         .5    .0313651    .0845176    .0586084 |
   |                                 Mean squared error   336          0    .0062594    .0126989    .0111539 |
@@ -1000,9 +1000,9 @@ Starting to process results ...
   |                           Empirical standard error   336          0    .0790336    .1127159    .1056493 |
   |                           Empirical standard error   336        .25     .079672     .114452    .1073024 |
   |---------------------------------------------------------------------------------------------------------|
-  | % precision gain relative to method PERFECT method    84         .5           .   -62.53799   -44.18901 |
-  | % precision gain relative to method PERFECT method   336          0           .    -50.8353   -44.03835 |
-  | % precision gain relative to method PERFECT method   336        .25           .   -51.54211   -44.86946 |
+  | % precision gain relative to method PERFECT method    84         .5           0   -62.53799   -44.18901 |
+  | % precision gain relative to method PERFECT method   336          0           0    -50.8353   -44.03835 |
+  | % precision gain relative to method PERFECT method   336        .25           0   -51.54211   -44.86946 |
   |---------------------------------------------------------------------------------------------------------|
   |                                 Mean squared error    84         .5    .0313651    .0845176    .0586084 |
   |                                 Mean squared error   336          0    .0062594    .0126989    .0111539 |
@@ -1066,9 +1066,9 @@ Starting to process results ...
   |                           Empirical standard error   336          0    .0790336    .1127159    .1056493 |
   |                           Empirical standard error   336        .25     .079672     .114452    .1073024 |
   |---------------------------------------------------------------------------------------------------------|
-  | % precision gain relative to method PERFECT method    84         .5           .   -62.53799   -44.18901 |
-  | % precision gain relative to method PERFECT method   336          0           .    -50.8353   -44.03835 |
-  | % precision gain relative to method PERFECT method   336        .25           .   -51.54211   -44.86946 |
+  | % precision gain relative to method PERFECT method    84         .5           0   -62.53799   -44.18901 |
+  | % precision gain relative to method PERFECT method   336          0           0    -50.8353   -44.03835 |
+  | % precision gain relative to method PERFECT method   336        .25           0   -51.54211   -44.86946 |
   |---------------------------------------------------------------------------------------------------------|
   |                                 Mean squared error    84         .5    .0313651    .0845176    .0586084 |
   |                                 Mean squared error   336          0    .0062594    .0126989    .0111539 |
@@ -1132,9 +1132,9 @@ Starting to process results ...
   |                           Empirical standard error   336          0    .0790336    .1127159    .1056493 |
   |                           Empirical standard error   336        .25     .079672     .114452    .1073024 |
   |---------------------------------------------------------------------------------------------------------|
-  | % precision gain relative to method PERFECT method    84         .5           .   -62.53799   -44.18901 |
-  | % precision gain relative to method PERFECT method   336          0           .    -50.8353   -44.03835 |
-  | % precision gain relative to method PERFECT method   336        .25           .   -51.54211   -44.86946 |
+  | % precision gain relative to method PERFECT method    84         .5           0   -62.53799   -44.18901 |
+  | % precision gain relative to method PERFECT method   336          0           0    -50.8353   -44.03835 |
+  | % precision gain relative to method PERFECT method   336        .25           0   -51.54211   -44.86946 |
   |---------------------------------------------------------------------------------------------------------|
   |                                 Mean squared error    84         .5    .0313651    .0845176    .0586084 |
   |                                 Mean squared error   336          0    .0062594    .0126989    .0111539 |
@@ -1198,9 +1198,9 @@ Starting to process results ...
   |                           Empirical standard error   336          0    .0790336   .0017681    .1127159   .0025217    .1056493   .0023636 |
   |                           Empirical standard error   336        .25     .079672   .0017824     .114452   .0025605    .1073024   .0024006 |
   |------------------------------------------------------------------------------------------------------------------------------------------|
-  | % precision gain relative to method PERFECT method    84         .5           .          .   -62.53799   1.835993   -44.18901   2.724935 |
-  | % precision gain relative to method PERFECT method   336          0           .          .    -50.8353    2.28676   -44.03835   2.667364 |
-  | % precision gain relative to method PERFECT method   336        .25           .          .   -51.54211   2.266095   -44.86946   2.642908 |
+  | % precision gain relative to method PERFECT method    84         .5           0          0   -62.53799   1.835993   -44.18901   2.724935 |
+  | % precision gain relative to method PERFECT method   336          0           0          0    -50.8353    2.28676   -44.03835   2.667364 |
+  | % precision gain relative to method PERFECT method   336        .25           0          0   -51.54211   2.266095   -44.86946   2.642908 |
   |------------------------------------------------------------------------------------------------------------------------------------------|
   |                                 Mean squared error    84         .5    .0313651   .0016155    .0845176   .0052277    .0586084   .0028326 |
   |                                 Mean squared error   336          0    .0062594   .0002881    .0126989   .0006187    .0111539   .0005497 |
@@ -1264,9 +1264,9 @@ Starting to process results ...
   |                           Empirical standard error   336          0    .0790336   .0018335    .1127159   .0027574    .1056493   .0026126 |
   |                           Empirical standard error   336        .25     .079672   .0017872     .114452    .002656    .1073024   .0026422 |
   |------------------------------------------------------------------------------------------------------------------------------------------|
-  | % precision gain relative to method PERFECT method    84         .5           .          .   -62.53799   2.165314   -44.18901   2.843337 |
-  | % precision gain relative to method PERFECT method   336          0           .          .    -50.8353   2.379306   -44.03835    2.76273 |
-  | % precision gain relative to method PERFECT method   336        .25           .          .   -51.54211   2.326692   -44.86946   2.782786 |
+  | % precision gain relative to method PERFECT method    84         .5           0          0   -62.53799   2.165314   -44.18901   2.843337 |
+  | % precision gain relative to method PERFECT method   336          0           0          0    -50.8353   2.379306   -44.03835    2.76273 |
+  | % precision gain relative to method PERFECT method   336        .25           0          0   -51.54211   2.326692   -44.86946   2.782786 |
   |------------------------------------------------------------------------------------------------------------------------------------------|
   |                                 Mean squared error    84         .5    .0313651   .0016155    .0845176   .0052277    .0586084   .0028326 |
   |                                 Mean squared error   336          0    .0062594   .0002881    .0126989   .0006187    .0111539   .0005497 |
@@ -1330,9 +1330,9 @@ Starting to process results ...
   |                           Empirical standard error   336          0    .0790336    .1127159    .1056493 |
   |                           Empirical standard error   336        .25     .079672     .114452    .1073024 |
   |---------------------------------------------------------------------------------------------------------|
-  | % precision gain relative to method PERFECT method    84         .5           .   -62.53799   -44.18901 |
-  | % precision gain relative to method PERFECT method   336          0           .    -50.8353   -44.03835 |
-  | % precision gain relative to method PERFECT method   336        .25           .   -51.54211   -44.86946 |
+  | % precision gain relative to method PERFECT method    84         .5           0   -62.53799   -44.18901 |
+  | % precision gain relative to method PERFECT method   336          0           0    -50.8353   -44.03835 |
+  | % precision gain relative to method PERFECT method   336        .25           0   -51.54211   -44.86946 |
   |---------------------------------------------------------------------------------------------------------|
   |                                 Mean squared error    84         .5    .0313651    .0845176    .0586084 |
   |                                 Mean squared error   336          0    .0062594    .0126989    .0111539 |
@@ -1396,9 +1396,9 @@ Starting to process results ...
   |                           Empirical standard error   336          0    .0790336    .1127159    .1056493 |
   |                           Empirical standard error   336        .25     .079672     .114452    .1073024 |
   |---------------------------------------------------------------------------------------------------------|
-  | % precision gain relative to method PERFECT method    84         .5           .   -62.53799   -44.18901 |
-  | % precision gain relative to method PERFECT method   336          0           .    -50.8353   -44.03835 |
-  | % precision gain relative to method PERFECT method   336        .25           .   -51.54211   -44.86946 |
+  | % precision gain relative to method PERFECT method    84         .5           0   -62.53799   -44.18901 |
+  | % precision gain relative to method PERFECT method   336          0           0    -50.8353   -44.03835 |
+  | % precision gain relative to method PERFECT method   336        .25           0   -51.54211   -44.86946 |
   |---------------------------------------------------------------------------------------------------------|
   |                                 Mean squared error    84         .5    .0313651    .0845176    .0586084 |
   |                                 Mean squared error   336          0    .0062594    .0126989    .0111539 |
@@ -1447,15 +1447,15 @@ Transposing results ...
   +-------------------------------------------------------------------------------------------------------------------------------------------+
   |   n   truebeta   method   bsims   sesims        bias     pctbias      empse     relprec        mse    modelse    relerror   cover   power |
   |-------------------------------------------------------------------------------------------------------------------------------------------|
-  |  84         .5   beta_1    1000     1000    .0106948    2.138953   .1768672           .   .0313651   .1768148   -.0296225    96.7    85.3 |
+  |  84         .5   beta_1    1000     1000    .0106948    2.138953   .1768672           0   .0313651   .1768148   -.0296225    96.7    85.3 |
   |  84         .5   beta_2    1000     1000    .0331327    6.626537   .2889693   -62.53799   .0845176   .2725263   -5.690248    94.4    53.9 |
   |  84         .5   beta_3    1000     1000   -.0511326   -10.22652   .2367486   -44.18901   .0586084   .2564562    8.324256    95.1    44.2 |
   |-------------------------------------------------------------------------------------------------------------------------------------------|
-  | 336          0   beta_1    1000     1000   -.0043991           .   .0790336           .   .0062594   .0787452   -.3649609    94.7     5.3 |
+  | 336          0   beta_1    1000     1000   -.0043991           .   .0790336           0   .0062594   .0787452   -.3649609    94.7     5.3 |
   | 336          0   beta_2    1000     1000   -.0025973           .   .1127159    -50.8353   .0126989   .1136343    .8147949    95.7     4.3 |
   | 336          0   beta_3    1000     1000   -.0018202           .   .1056493   -44.03835   .0111539   .1113332    5.380011    95.7     4.3 |
   |-------------------------------------------------------------------------------------------------------------------------------------------|
-  | 336        .25   beta_1    1000     1000    -.004123   -1.649182    .079672           .   .0063583   .0798348    .2043879    95.2    86.9 |
+  | 336        .25   beta_1    1000     1000    -.004123   -1.649182    .079672           0   .0063583   .0798348    .2043879    95.2    86.9 |
   | 336        .25   beta_2    1000     1000   -.0019223   -.7689099    .114452   -51.54211   .0130899    .115351    .7854577    95.5    56.9 |
   | 336        .25   beta_3    1000     1000   -.0282865   -11.31461   .1073024   -44.86946   .0123024   .1125842    4.922369    94.8    51.9 |
   +-------------------------------------------------------------------------------------------------------------------------------------------+
@@ -1494,9 +1494,9 @@ Starting to process results ...
   |                           Empirical standard error   336          0       0.08       0.11       0.11 |
   |                           Empirical standard error   336        .25       0.08       0.11       0.11 |
   |------------------------------------------------------------------------------------------------------|
-  | % precision gain relative to method PERFECT method    84         .5          .     -62.54     -44.19 |
-  | % precision gain relative to method PERFECT method   336          0          .     -50.84     -44.04 |
-  | % precision gain relative to method PERFECT method   336        .25          .     -51.54     -44.87 |
+  | % precision gain relative to method PERFECT method    84         .5       0.00     -62.54     -44.19 |
+  | % precision gain relative to method PERFECT method   336          0       0.00     -50.84     -44.04 |
+  | % precision gain relative to method PERFECT method   336        .25       0.00     -51.54     -44.87 |
   |------------------------------------------------------------------------------------------------------|
   |                                 Mean squared error    84         .5       0.03       0.08       0.06 |
   |                                 Mean squared error   336          0       0.01       0.01       0.01 |
@@ -1560,9 +1560,9 @@ Starting to process results ...
   |                           Empirical standard error   336          0    .0790336    .1127159    .1056493 |
   |                           Empirical standard error   336        .25     .079672     .114452    .1073024 |
   |---------------------------------------------------------------------------------------------------------|
-  | % precision gain relative to method PERFECT method    84         .5           .   -62.53799   -44.18901 |
-  | % precision gain relative to method PERFECT method   336          0           .    -50.8353   -44.03835 |
-  | % precision gain relative to method PERFECT method   336        .25           .   -51.54211   -44.86946 |
+  | % precision gain relative to method PERFECT method    84         .5           0   -62.53799   -44.18901 |
+  | % precision gain relative to method PERFECT method   336          0           0    -50.8353   -44.03835 |
+  | % precision gain relative to method PERFECT method   336        .25           0   -51.54211   -44.86946 |
   |---------------------------------------------------------------------------------------------------------|
   |                                 Mean squared error    84         .5    .0313651    .0845176    .0586084 |
   |                                 Mean squared error   336          0    .0062594    .0126989    .0111539 |
@@ -1664,9 +1664,9 @@ Empirical standard error
   +---------------------------------------------------+
   |   n   truebeta   PERFECT    CC method   LOGT meth |
   |---------------------------------------------------|
-  |  84         .5          .   -62.53799   -44.18901 |
-  | 336          0          .    -50.8353   -44.03835 |
-  | 336        .25          .   -51.54211   -44.86946 |
+  |  84         .5          0   -62.53799   -44.18901 |
+  | 336          0          0    -50.8353   -44.03835 |
+  | 336        .25          0   -51.54211   -44.86946 |
   +---------------------------------------------------+
 
 Mean squared error
@@ -1810,9 +1810,9 @@ Empirical standard error
   +-------------------------------------------------+
   |   n   truebeta   PERFECT    CC metho   LOGT met |
   |-------------------------------------------------|
-  |  84         .5          .      -62.5      -44.2 |
-  | 336          0          .      -50.8      -44.0 |
-  | 336        .25          .      -51.5      -44.9 |
+  |  84         .5        0.0      -62.5      -44.2 |
+  | 336          0        0.0      -50.8      -44.0 |
+  | 336        .25        0.0      -51.5      -44.9 |
   +-------------------------------------------------+
 
 Mean squared error
@@ -1918,9 +1918,9 @@ Starting to process results ...
   |                           Empirical standard error   336          0         .0790336    .1127159      .1056493 |
   |                           Empirical standard error   336        .25          .079672     .114452      .1073024 |
   |----------------------------------------------------------------------------------------------------------------|
-  | % precision gain relative to method PERFECT method    84         .5                .   -62.53799     -44.18901 |
-  | % precision gain relative to method PERFECT method   336          0                .    -50.8353     -44.03835 |
-  | % precision gain relative to method PERFECT method   336        .25                .   -51.54211     -44.86946 |
+  | % precision gain relative to method PERFECT method    84         .5                0   -62.53799     -44.18901 |
+  | % precision gain relative to method PERFECT method   336          0                0    -50.8353     -44.03835 |
+  | % precision gain relative to method PERFECT method   336        .25                0   -51.54211     -44.86946 |
   |----------------------------------------------------------------------------------------------------------------|
   |                                 Mean squared error    84         .5         .0313651    .0845176      .0586084 |
   |                                 Mean squared error   336          0         .0062594    .0126989      .0111539 |
@@ -2023,9 +2023,9 @@ Empirical standard error
   +--------------------------------------------------------------------------------------+
   |   n   truebeta   PERFECT method   (MCse)   CC method   (MCse)   LOGT method   (MCse) |
   |--------------------------------------------------------------------------------------|
-  |  84         .5                .        .      -62.54     2.17        -44.19     2.84 |
-  | 336          0                .        .      -50.84     2.38        -44.04     2.76 |
-  | 336        .25                .        .      -51.54     2.33        -44.87     2.78 |
+  |  84         .5             0.00     0.00      -62.54     2.17        -44.19     2.84 |
+  | 336          0             0.00     0.00      -50.84     2.38        -44.04     2.76 |
+  | 336        .25             0.00     0.00      -51.54     2.33        -44.87     2.78 |
   +--------------------------------------------------------------------------------------+
 
 Mean squared error
@@ -2185,9 +2185,9 @@ Starting to process results ...
   +--------------------------------------------------------------------------------------------------------+
   |                                Performance measure     n   truebeta   PERFECT    CC method   LOGT meth |
   |--------------------------------------------------------------------------------------------------------|
-  | % precision gain relative to method PERFECT method    84         .5          .   -62.53799   -44.18901 |
-  | % precision gain relative to method PERFECT method   336          0          .    -50.8353   -44.03835 |
-  | % precision gain relative to method PERFECT method   336        .25          .   -51.54211   -44.86946 |
+  | % precision gain relative to method PERFECT method    84         .5          0   -62.53799   -44.18901 |
+  | % precision gain relative to method PERFECT method   336          0          0    -50.8353   -44.03835 |
+  | % precision gain relative to method PERFECT method   336        .25          0   -51.54211   -44.86946 |
   +--------------------------------------------------------------------------------------------------------+
 
 
@@ -2317,9 +2317,9 @@ Starting to process results ...
   +--------------------------------------------------------------------------------------------------+
   |                         Performance measure     n   truebeta     Perfect          CC        LogT |
   |--------------------------------------------------------------------------------------------------|
-  | % precision gain relative to method Perfect    84         .5           .   -62.53799   -44.18901 |
-  | % precision gain relative to method Perfect   336          0           .    -50.8353   -44.03835 |
-  | % precision gain relative to method Perfect   336        .25           .   -51.54211   -44.86946 |
+  | % precision gain relative to method Perfect    84         .5           0   -62.53799   -44.18901 |
+  | % precision gain relative to method Perfect   336          0           0    -50.8353   -44.03835 |
+  | % precision gain relative to method Perfect   336        .25           0   -51.54211   -44.86946 |
   |--------------------------------------------------------------------------------------------------|
   |          Relative % error in standard error    84         .5   -.0296225   -5.690248    8.324256 |
   |          Relative % error in standard error   336          0   -.3649609    .8147949    5.380011 |
@@ -2366,9 +2366,9 @@ Starting to process results ...
   |                    Empirical standard error   336          0    .0790336    .1127159    .1056493 |
   |                    Empirical standard error   336        .25     .079672     .114452    .1073024 |
   |--------------------------------------------------------------------------------------------------|
-  | % precision gain relative to method Perfect    84         .5           .   -62.53799   -44.18901 |
-  | % precision gain relative to method Perfect   336          0           .    -50.8353   -44.03835 |
-  | % precision gain relative to method Perfect   336        .25           .   -51.54211   -44.86946 |
+  | % precision gain relative to method Perfect    84         .5           0   -62.53799   -44.18901 |
+  | % precision gain relative to method Perfect   336          0           0    -50.8353   -44.03835 |
+  | % precision gain relative to method Perfect   336        .25           0   -51.54211   -44.86946 |
   |--------------------------------------------------------------------------------------------------|
   |                          Mean squared error    84         .5    .0313651    .0845176    .0586084 |
   |                          Mean squared error   336          0    .0062594    .0126989    .0111539 |
@@ -2433,9 +2433,9 @@ Starting to process results ...
   |                    Empirical standard error   336          0    .0790336    .1127159    .1056493 |
   |                    Empirical standard error   336        .25     .079672     .114452    .1073024 |
   |--------------------------------------------------------------------------------------------------|
-  | % precision gain relative to method Perfect    84         .5           .   -62.53799   -44.18901 |
-  | % precision gain relative to method Perfect   336          0           .    -50.8353   -44.03835 |
-  | % precision gain relative to method Perfect   336        .25           .   -51.54211   -44.86946 |
+  | % precision gain relative to method Perfect    84         .5           0   -62.53799   -44.18901 |
+  | % precision gain relative to method Perfect   336          0           0    -50.8353   -44.03835 |
+  | % precision gain relative to method Perfect   336        .25           0   -51.54211   -44.86946 |
   |--------------------------------------------------------------------------------------------------|
   |                          Mean squared error    84         .5    .0313651    .0845176    .0586084 |
   |                          Mean squared error   336          0    .0062594    .0126989    .0111539 |
@@ -2500,9 +2500,9 @@ Starting to process results ...
   |                    Empirical standard error   336          0    .0790336    .1127159    .1056493 |
   |                    Empirical standard error   336        .25     .079672     .114452    .1073024 |
   |--------------------------------------------------------------------------------------------------|
-  | % precision gain relative to method Perfect    84         .5           .   -62.53799   -44.18901 |
-  | % precision gain relative to method Perfect   336          0           .    -50.8353   -44.03835 |
-  | % precision gain relative to method Perfect   336        .25           .   -51.54211   -44.86946 |
+  | % precision gain relative to method Perfect    84         .5           0   -62.53799   -44.18901 |
+  | % precision gain relative to method Perfect   336          0           0    -50.8353   -44.03835 |
+  | % precision gain relative to method Perfect   336        .25           0   -51.54211   -44.86946 |
   |--------------------------------------------------------------------------------------------------|
   |                          Mean squared error    84         .5    .0313651    .0845176    .0586084 |
   |                          Mean squared error   336          0    .0062594    .0126989    .0111539 |
@@ -2567,9 +2567,9 @@ Starting to process results ...
   |                    Empirical standard error   336          0    .0790336    .1127159    .1056493 |
   |                    Empirical standard error   336        .25     .079672     .114452    .1073024 |
   |--------------------------------------------------------------------------------------------------|
-  | % precision gain relative to method Perfect    84         .5           .   -62.53799   -44.18901 |
-  | % precision gain relative to method Perfect   336          0           .    -50.8353   -44.03835 |
-  | % precision gain relative to method Perfect   336        .25           .   -51.54211   -44.86946 |
+  | % precision gain relative to method Perfect    84         .5           0   -62.53799   -44.18901 |
+  | % precision gain relative to method Perfect   336          0           0    -50.8353   -44.03835 |
+  | % precision gain relative to method Perfect   336        .25           0   -51.54211   -44.86946 |
   |--------------------------------------------------------------------------------------------------|
   |                          Mean squared error    84         .5    .0313651    .0845176    .0586084 |
   |                          Mean squared error   336          0    .0062594    .0126989    .0111539 |
@@ -2634,9 +2634,9 @@ Starting to process results ...
   |                    Empirical standard error   336          0    .0790336    .1127159    .1056493 |
   |                    Empirical standard error   336        .25     .079672     .114452    .1073024 |
   |--------------------------------------------------------------------------------------------------|
-  | % precision gain relative to method Perfect    84         .5           .   -62.53799   -44.18901 |
-  | % precision gain relative to method Perfect   336          0           .    -50.8353   -44.03835 |
-  | % precision gain relative to method Perfect   336        .25           .   -51.54211   -44.86946 |
+  | % precision gain relative to method Perfect    84         .5           0   -62.53799   -44.18901 |
+  | % precision gain relative to method Perfect   336          0           0    -50.8353   -44.03835 |
+  | % precision gain relative to method Perfect   336        .25           0   -51.54211   -44.86946 |
   |--------------------------------------------------------------------------------------------------|
   |                          Mean squared error    84         .5    .0313651    .0845176    .0586084 |
   |                          Mean squared error   336          0    .0062594    .0126989    .0111539 |
@@ -2701,9 +2701,9 @@ Starting to process results ...
   |                    Empirical standard error   336          0    .0790336    .1127159    .1056493 |
   |                    Empirical standard error   336        .25     .079672     .114452    .1073024 |
   |--------------------------------------------------------------------------------------------------|
-  | % precision gain relative to method Perfect    84         .5           .   -62.53799   -44.18901 |
-  | % precision gain relative to method Perfect   336          0           .    -50.8353   -44.03835 |
-  | % precision gain relative to method Perfect   336        .25           .   -51.54211   -44.86946 |
+  | % precision gain relative to method Perfect    84         .5           0   -62.53799   -44.18901 |
+  | % precision gain relative to method Perfect   336          0           0    -50.8353   -44.03835 |
+  | % precision gain relative to method Perfect   336        .25           0   -51.54211   -44.86946 |
   |--------------------------------------------------------------------------------------------------|
   |                          Mean squared error    84         .5    .0313651    .0845176    .0586084 |
   |                          Mean squared error   336          0    .0062594    .0126989    .0111539 |
@@ -2768,9 +2768,9 @@ Starting to process results ...
   |                    Empirical standard error   336          0    .0790336    .1127159    .1056493 |
   |                    Empirical standard error   336        .25     .079672     .114452    .1073024 |
   |--------------------------------------------------------------------------------------------------|
-  | % precision gain relative to method Perfect    84         .5           .   -62.53799   -44.18901 |
-  | % precision gain relative to method Perfect   336          0           .    -50.8353   -44.03835 |
-  | % precision gain relative to method Perfect   336        .25           .   -51.54211   -44.86946 |
+  | % precision gain relative to method Perfect    84         .5           0   -62.53799   -44.18901 |
+  | % precision gain relative to method Perfect   336          0           0    -50.8353   -44.03835 |
+  | % precision gain relative to method Perfect   336        .25           0   -51.54211   -44.86946 |
   |--------------------------------------------------------------------------------------------------|
   |                          Mean squared error    84         .5    .0313651    .0845176    .0586084 |
   |                          Mean squared error   336          0    .0062594    .0126989    .0111539 |
@@ -2835,9 +2835,9 @@ Starting to process results ...
   |                    Empirical standard error   336          0    .0790336    .1127159    .1056493 |
   |                    Empirical standard error   336        .25     .079672     .114452    .1073024 |
   |--------------------------------------------------------------------------------------------------|
-  | % precision gain relative to method Perfect    84         .5           .   -62.53799   -44.18901 |
-  | % precision gain relative to method Perfect   336          0           .    -50.8353   -44.03835 |
-  | % precision gain relative to method Perfect   336        .25           .   -51.54211   -44.86946 |
+  | % precision gain relative to method Perfect    84         .5           0   -62.53799   -44.18901 |
+  | % precision gain relative to method Perfect   336          0           0    -50.8353   -44.03835 |
+  | % precision gain relative to method Perfect   336        .25           0   -51.54211   -44.86946 |
   |--------------------------------------------------------------------------------------------------|
   |                          Mean squared error    84         .5    .0313651    .0845176    .0586084 |
   |                          Mean squared error   336          0    .0062594    .0126989    .0111539 |
@@ -2902,9 +2902,9 @@ Starting to process results ...
   |                    Empirical standard error   336          0    .0790336   .0017681    .1127159   .0025217    .1056493   .0023636 |
   |                    Empirical standard error   336        .25     .079672   .0017824     .114452   .0025605    .1073024   .0024006 |
   |-----------------------------------------------------------------------------------------------------------------------------------|
-  | % precision gain relative to method Perfect    84         .5           .          .   -62.53799   1.835993   -44.18901   2.724935 |
-  | % precision gain relative to method Perfect   336          0           .          .    -50.8353    2.28676   -44.03835   2.667364 |
-  | % precision gain relative to method Perfect   336        .25           .          .   -51.54211   2.266095   -44.86946   2.642908 |
+  | % precision gain relative to method Perfect    84         .5           0          0   -62.53799   1.835993   -44.18901   2.724935 |
+  | % precision gain relative to method Perfect   336          0           0          0    -50.8353    2.28676   -44.03835   2.667364 |
+  | % precision gain relative to method Perfect   336        .25           0          0   -51.54211   2.266095   -44.86946   2.642908 |
   |-----------------------------------------------------------------------------------------------------------------------------------|
   |                          Mean squared error    84         .5    .0313651   .0016155    .0845176   .0052277    .0586084   .0028326 |
   |                          Mean squared error   336          0    .0062594   .0002881    .0126989   .0006187    .0111539   .0005497 |
@@ -2969,9 +2969,9 @@ Starting to process results ...
   |                    Empirical standard error   336          0    .0790336   .0018335    .1127159   .0027574    .1056493   .0026126 |
   |                    Empirical standard error   336        .25     .079672   .0017872     .114452    .002656    .1073024   .0026422 |
   |-----------------------------------------------------------------------------------------------------------------------------------|
-  | % precision gain relative to method Perfect    84         .5           .          .   -62.53799   2.165314   -44.18901   2.843337 |
-  | % precision gain relative to method Perfect   336          0           .          .    -50.8353   2.379306   -44.03835    2.76273 |
-  | % precision gain relative to method Perfect   336        .25           .          .   -51.54211   2.326692   -44.86946   2.782786 |
+  | % precision gain relative to method Perfect    84         .5           0          0   -62.53799   2.165314   -44.18901   2.843337 |
+  | % precision gain relative to method Perfect   336          0           0          0    -50.8353   2.379306   -44.03835    2.76273 |
+  | % precision gain relative to method Perfect   336        .25           0          0   -51.54211   2.326692   -44.86946   2.782786 |
   |-----------------------------------------------------------------------------------------------------------------------------------|
   |                          Mean squared error    84         .5    .0313651   .0016155    .0845176   .0052277    .0586084   .0028326 |
   |                          Mean squared error   336          0    .0062594   .0002881    .0126989   .0006187    .0111539   .0005497 |
@@ -3036,9 +3036,9 @@ Starting to process results ...
   |                    Empirical standard error   336          0    .0790336    .1127159    .1056493 |
   |                    Empirical standard error   336        .25     .079672     .114452    .1073024 |
   |--------------------------------------------------------------------------------------------------|
-  | % precision gain relative to method Perfect    84         .5           .   -62.53799   -44.18901 |
-  | % precision gain relative to method Perfect   336          0           .    -50.8353   -44.03835 |
-  | % precision gain relative to method Perfect   336        .25           .   -51.54211   -44.86946 |
+  | % precision gain relative to method Perfect    84         .5           0   -62.53799   -44.18901 |
+  | % precision gain relative to method Perfect   336          0           0    -50.8353   -44.03835 |
+  | % precision gain relative to method Perfect   336        .25           0   -51.54211   -44.86946 |
   |--------------------------------------------------------------------------------------------------|
   |                          Mean squared error    84         .5    .0313651    .0845176    .0586084 |
   |                          Mean squared error   336          0    .0062594    .0126989    .0111539 |
@@ -3103,9 +3103,9 @@ Starting to process results ...
   |                    Empirical standard error   336          0    .0790336    .1127159    .1056493 |
   |                    Empirical standard error   336        .25     .079672     .114452    .1073024 |
   |--------------------------------------------------------------------------------------------------|
-  | % precision gain relative to method Perfect    84         .5           .   -62.53799   -44.18901 |
-  | % precision gain relative to method Perfect   336          0           .    -50.8353   -44.03835 |
-  | % precision gain relative to method Perfect   336        .25           .   -51.54211   -44.86946 |
+  | % precision gain relative to method Perfect    84         .5           0   -62.53799   -44.18901 |
+  | % precision gain relative to method Perfect   336          0           0    -50.8353   -44.03835 |
+  | % precision gain relative to method Perfect   336        .25           0   -51.54211   -44.86946 |
   |--------------------------------------------------------------------------------------------------|
   |                          Mean squared error    84         .5    .0313651    .0845176    .0586084 |
   |                          Mean squared error   336          0    .0062594    .0126989    .0111539 |
@@ -3155,15 +3155,15 @@ Transposing results ...
   +-------------------------------------------------------------------------------------------------------------------------------------------+
   |   n   truebeta   method   bsims   sesims        bias     pctbias      empse     relprec        mse    modelse    relerror   cover   power |
   |-------------------------------------------------------------------------------------------------------------------------------------------|
-  |  84         .5        1    1000     1000    .0106948    2.138953   .1768672           .   .0313651   .1768148   -.0296225    96.7    85.3 |
+  |  84         .5        1    1000     1000    .0106948    2.138953   .1768672           0   .0313651   .1768148   -.0296225    96.7    85.3 |
   |  84         .5        2    1000     1000    .0331327    6.626537   .2889693   -62.53799   .0845176   .2725263   -5.690248    94.4    53.9 |
   |  84         .5        3    1000     1000   -.0511326   -10.22652   .2367486   -44.18901   .0586084   .2564562    8.324256    95.1    44.2 |
   |-------------------------------------------------------------------------------------------------------------------------------------------|
-  | 336          0        1    1000     1000   -.0043991           .   .0790336           .   .0062594   .0787452   -.3649609    94.7     5.3 |
+  | 336          0        1    1000     1000   -.0043991           .   .0790336           0   .0062594   .0787452   -.3649609    94.7     5.3 |
   | 336          0        2    1000     1000   -.0025973           .   .1127159    -50.8353   .0126989   .1136343    .8147949    95.7     4.3 |
   | 336          0        3    1000     1000   -.0018202           .   .1056493   -44.03835   .0111539   .1113332    5.380011    95.7     4.3 |
   |-------------------------------------------------------------------------------------------------------------------------------------------|
-  | 336        .25        1    1000     1000    -.004123   -1.649182    .079672           .   .0063583   .0798348    .2043879    95.2    86.9 |
+  | 336        .25        1    1000     1000    -.004123   -1.649182    .079672           0   .0063583   .0798348    .2043879    95.2    86.9 |
   | 336        .25        2    1000     1000   -.0019223   -.7689099    .114452   -51.54211   .0130899    .115351    .7854577    95.5    56.9 |
   | 336        .25        3    1000     1000   -.0282865   -11.31461   .1073024   -44.86946   .0123024   .1125842    4.922369    94.8    51.9 |
   +-------------------------------------------------------------------------------------------------------------------------------------------+
@@ -3203,9 +3203,9 @@ Starting to process results ...
   |                    Empirical standard error   336          0      0.08      0.11      0.11 |
   |                    Empirical standard error   336        .25      0.08      0.11      0.11 |
   |--------------------------------------------------------------------------------------------|
-  | % precision gain relative to method Perfect    84         .5         .    -62.54    -44.19 |
-  | % precision gain relative to method Perfect   336          0         .    -50.84    -44.04 |
-  | % precision gain relative to method Perfect   336        .25         .    -51.54    -44.87 |
+  | % precision gain relative to method Perfect    84         .5      0.00    -62.54    -44.19 |
+  | % precision gain relative to method Perfect   336          0      0.00    -50.84    -44.04 |
+  | % precision gain relative to method Perfect   336        .25      0.00    -51.54    -44.87 |
   |--------------------------------------------------------------------------------------------|
   |                          Mean squared error    84         .5      0.03      0.08      0.06 |
   |                          Mean squared error   336          0      0.01      0.01      0.01 |
@@ -3270,9 +3270,9 @@ Starting to process results ...
   |                    Empirical standard error   336          0    .0790336    .1127159    .1056493 |
   |                    Empirical standard error   336        .25     .079672     .114452    .1073024 |
   |--------------------------------------------------------------------------------------------------|
-  | % precision gain relative to method Perfect    84         .5           .   -62.53799   -44.18901 |
-  | % precision gain relative to method Perfect   336          0           .    -50.8353   -44.03835 |
-  | % precision gain relative to method Perfect   336        .25           .   -51.54211   -44.86946 |
+  | % precision gain relative to method Perfect    84         .5           0   -62.53799   -44.18901 |
+  | % precision gain relative to method Perfect   336          0           0    -50.8353   -44.03835 |
+  | % precision gain relative to method Perfect   336        .25           0   -51.54211   -44.86946 |
   |--------------------------------------------------------------------------------------------------|
   |                          Mean squared error    84         .5    .0313651    .0845176    .0586084 |
   |                          Mean squared error   336          0    .0062594    .0126989    .0111539 |
@@ -3375,9 +3375,9 @@ Empirical standard error
   +--------------------------------------------------+
   |   n   truebeta   Perfect          CC        LogT |
   |--------------------------------------------------|
-  |  84         .5         .   -62.53799   -44.18901 |
-  | 336          0         .    -50.8353   -44.03835 |
-  | 336        .25         .   -51.54211   -44.86946 |
+  |  84         .5         0   -62.53799   -44.18901 |
+  | 336          0         0    -50.8353   -44.03835 |
+  | 336        .25         0   -51.54211   -44.86946 |
   +--------------------------------------------------+
 
 Mean squared error
@@ -3522,9 +3522,9 @@ Empirical standard error
   +------------------------------------------+
   |   n   truebeta   Perfect      CC    LogT |
   |------------------------------------------|
-  |  84         .5         .   -62.5   -44.2 |
-  | 336          0         .   -50.8   -44.0 |
-  | 336        .25         .   -51.5   -44.9 |
+  |  84         .5       0.0   -62.5   -44.2 |
+  | 336          0       0.0   -50.8   -44.0 |
+  | 336        .25       0.0   -51.5   -44.9 |
   +------------------------------------------+
 
 Mean squared error
@@ -3631,9 +3631,9 @@ Starting to process results ...
   |                    Empirical standard error   336          0    .0790336    .1127159    .1056493 |
   |                    Empirical standard error   336        .25     .079672     .114452    .1073024 |
   |--------------------------------------------------------------------------------------------------|
-  | % precision gain relative to method Perfect    84         .5           .   -62.53799   -44.18901 |
-  | % precision gain relative to method Perfect   336          0           .    -50.8353   -44.03835 |
-  | % precision gain relative to method Perfect   336        .25           .   -51.54211   -44.86946 |
+  | % precision gain relative to method Perfect    84         .5           0   -62.53799   -44.18901 |
+  | % precision gain relative to method Perfect   336          0           0    -50.8353   -44.03835 |
+  | % precision gain relative to method Perfect   336        .25           0   -51.54211   -44.86946 |
   |--------------------------------------------------------------------------------------------------|
   |                          Mean squared error    84         .5    .0313651    .0845176    .0586084 |
   |                          Mean squared error   336          0    .0062594    .0126989    .0111539 |
@@ -3737,9 +3737,9 @@ Empirical standard error
   +-----------------------------------------------------------------------+
   |   n   truebeta   Perfect   (MCse)       CC   (MCse)     LogT   (MCse) |
   |-----------------------------------------------------------------------|
-  |  84         .5         .        .   -62.54     2.17   -44.19     2.84 |
-  | 336          0         .        .   -50.84     2.38   -44.04     2.76 |
-  | 336        .25         .        .   -51.54     2.33   -44.87     2.78 |
+  |  84         .5      0.00     0.00   -62.54     2.17   -44.19     2.84 |
+  | 336          0      0.00     0.00   -50.84     2.38   -44.04     2.76 |
+  | 336        .25      0.00     0.00   -51.54     2.33   -44.87     2.78 |
   +-----------------------------------------------------------------------+
 
 Mean squared error
@@ -3846,9 +3846,9 @@ Starting to process results ...
   |                  Empirical standard error   336          0    .1001605 |
   |                  Empirical standard error   336        .25    .1022548 |
   |------------------------------------------------------------------------|
-  | % precision gain relative to method beta_    84         .5           . |
-  | % precision gain relative to method beta_   336          0           . |
-  | % precision gain relative to method beta_   336        .25           . |
+  | % precision gain relative to method beta_    84         .5           0 |
+  | % precision gain relative to method beta_   336          0           0 |
+  | % precision gain relative to method beta_   336        .25           0 |
   |------------------------------------------------------------------------|
   |                        Mean squared error    84         .5    .0581637 |
   |                        Mean squared error   336          0    .0100374 |
@@ -3912,9 +3912,9 @@ Starting to process results ...
   |                  Empirical standard error   336          0    .1001605 |
   |                  Empirical standard error   336        .25    .1022548 |
   |------------------------------------------------------------------------|
-  | % precision gain relative to method beta_    84         .5           . |
-  | % precision gain relative to method beta_   336          0           . |
-  | % precision gain relative to method beta_   336        .25           . |
+  | % precision gain relative to method beta_    84         .5           0 |
+  | % precision gain relative to method beta_   336          0           0 |
+  | % precision gain relative to method beta_   336        .25           0 |
   |------------------------------------------------------------------------|
   |                        Mean squared error    84         .5    .0581637 |
   |                        Mean squared error   336          0    .0100374 |
@@ -3978,9 +3978,9 @@ Starting to process results ...
   |                  Empirical standard error   336          0    .1001605 |
   |                  Empirical standard error   336        .25    .1022548 |
   |------------------------------------------------------------------------|
-  | % precision gain relative to method beta_    84         .5           . |
-  | % precision gain relative to method beta_   336          0           . |
-  | % precision gain relative to method beta_   336        .25           . |
+  | % precision gain relative to method beta_    84         .5           0 |
+  | % precision gain relative to method beta_   336          0           0 |
+  | % precision gain relative to method beta_   336        .25           0 |
   |------------------------------------------------------------------------|
   |                        Mean squared error    84         .5    .0581637 |
   |                        Mean squared error   336          0    .0100374 |
@@ -4024,15 +4024,15 @@ Transposing results ...
   +-------------------------------------------------------------------------------------------------------------------------------------------+
   |   n   truebeta   method   bsims   sesims        bias     pctbias      empse     relprec        mse    modelse    relerror   cover   power |
   |-------------------------------------------------------------------------------------------------------------------------------------------|
-  |  84         .5        1    1000     1000    .0106948    2.138953   .1768672           .   .0313651   .1768148   -.0296225    96.7    85.3 |
+  |  84         .5        1    1000     1000    .0106948    2.138953   .1768672           0   .0313651   .1768148   -.0296225    96.7    85.3 |
   |  84         .5        2    1000     1000    .0331327    6.626537   .2889693   -62.53799   .0845176   .2725263   -5.690248    94.4    53.9 |
   |  84         .5        3    1000     1000   -.0511326   -10.22652   .2367486   -44.18901   .0586084   .2564562    8.324256    95.1    44.2 |
   |-------------------------------------------------------------------------------------------------------------------------------------------|
-  | 336          0        1    1000     1000   -.0043991           .   .0790336           .   .0062594   .0787452   -.3649609    94.7     5.3 |
+  | 336          0        1    1000     1000   -.0043991           .   .0790336           0   .0062594   .0787452   -.3649609    94.7     5.3 |
   | 336          0        2    1000     1000   -.0025973           .   .1127159    -50.8353   .0126989   .1136343    .8147949    95.7     4.3 |
   | 336          0        3    1000     1000   -.0018202           .   .1056493   -44.03835   .0111539   .1113332    5.380011    95.7     4.3 |
   |-------------------------------------------------------------------------------------------------------------------------------------------|
-  | 336        .25        1    1000     1000    -.004123   -1.649182    .079672           .   .0063583   .0798348    .2043879    95.2    86.9 |
+  | 336        .25        1    1000     1000    -.004123   -1.649182    .079672           0   .0063583   .0798348    .2043879    95.2    86.9 |
   | 336        .25        2    1000     1000   -.0019223   -.7689099    .114452   -51.54211   .0130899    .115351    .7854577    95.5    56.9 |
   | 336        .25        3    1000     1000   -.0282865   -11.31461   .1073024   -44.86946   .0123024   .1125842    4.922369    94.8    51.9 |
   +-------------------------------------------------------------------------------------------------------------------------------------------+
@@ -4109,9 +4109,9 @@ Starting to process results ...
   +---------------------------------------------------------------------------------------------------------------------------------------+
   |                                Performance measure     n   truebeta   PERFECT    (MCse)   CC method     (MCse)   LOGT meth     (MCse) |
   |---------------------------------------------------------------------------------------------------------------------------------------|
-  | % precision gain relative to method PERFECT method    84         .5          .        .   -62.53799   1.835993   -44.18901   2.724935 |
-  | % precision gain relative to method PERFECT method   336          0          .        .    -50.8353    2.28676   -44.03835   2.667364 |
-  | % precision gain relative to method PERFECT method   336        .25          .        .   -51.54211   2.266095   -44.86946   2.642908 |
+  | % precision gain relative to method PERFECT method    84         .5          0        0   -62.53799   1.835993   -44.18901   2.724935 |
+  | % precision gain relative to method PERFECT method   336          0          0        0    -50.8353    2.28676   -44.03835   2.667364 |
+  | % precision gain relative to method PERFECT method   336        .25          0        0   -51.54211   2.266095   -44.86946   2.642908 |
   +---------------------------------------------------------------------------------------------------------------------------------------+
 (file z4.dta not found)
 file z4.dta saved
@@ -4126,9 +4126,9 @@ Starting to process results ...
   +---------------------------------------------------------------------------------------------------------------------------------------+
   |                                Performance measure     n   truebeta   PERFECT    (MCse)   CC method     (MCse)   LOGT meth     (MCse) |
   |---------------------------------------------------------------------------------------------------------------------------------------|
-  | % precision gain relative to method PERFECT method   336          0          .        .    -50.8353    2.28676   -44.03835   2.667364 |
-  | % precision gain relative to method PERFECT method   336        .25          .        .   -51.54211   2.266095   -44.86946   2.642908 |
-  | % precision gain relative to method PERFECT method     .         .5          .        .   -62.53799   1.835993   -44.18901   2.724935 |
+  | % precision gain relative to method PERFECT method   336          0          0        0    -50.8353    2.28676   -44.03835   2.667364 |
+  | % precision gain relative to method PERFECT method   336        .25          0        0   -51.54211   2.266095   -44.86946   2.642908 |
+  | % precision gain relative to method PERFECT method     .         .5          0        0   -62.53799   1.835993   -44.18901   2.724935 |
   +---------------------------------------------------------------------------------------------------------------------------------------+
 (file z5.dta not found)
 file z5.dta saved
@@ -4366,5 +4366,5 @@ file z3.dta saved
       name:  <unnamed>
        log:  c:\ian\git\simsum\test\cscript2.log
   log type:  text
- closed on:  26 Mar 2025, 18:55:53
+ closed on:  31 Mar 2025, 13:08:10
 --------------------------------------------------------------------------------------------------------------------------------------------------------------

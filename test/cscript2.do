@@ -20,6 +20,7 @@ set logtype text
 cap log close
 cap log close
 cd `path'/test
+set linesize 100
 log using cscript2, replace
 
 // check it works even without personal adofiles!

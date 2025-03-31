@@ -1,6 +1,9 @@
 /***********************************************************************************************
 HISTORY
-*! version 2.2.1 Ian White 26mar2025
+*! version 2.2.2 Ian White 31mar2025
+	-byvar- is captured to avoid annoying "no observations" messages for each missing dgmvar combination 
+	relprec = 0 for ref method, not .
+version 2.2.1 Ian White 26mar2025
 	allow just one of lci() and uci() 
 	- the other is assumed to be +/- infty for cover and power
 	- but ciwidth not allowed
@@ -625,7 +628,13 @@ forvalues i=1/`m' {
     }
     if "`relprec'"=="relprec" & `i'!=`refmethod' {
         if "`mcse'"=="mcse" {
-			qui byvar `byvar', r(rho N) gen unique missing: corr `beta`refmethod'' `beta`i''
+			if !mi("`debug'") di as text "About to run byvar: qui byvar `byvar', r(rho N) gen unique missing: corr `beta`refmethod'' `beta`i''"
+			cap byvar `byvar', r(rho N) gen unique missing: corr `beta`refmethod'' `beta`i''
+			if _rc {
+				di as error "simsum: byvar command failed"
+				exit _rc
+			}
+			if !mi("`debug'") di as text "Have run byvar"
 			rename Rrho_ corr_`i'
 			rename RN_ ncorr_`i'
 			local collsum `collsum' corr_`i' ncorr_`i'
@@ -723,11 +732,9 @@ if "`collcount'"!="" local collcount (count) `collcount'
 if "`collsum'"!="" local collsum (sum) `collsum'
 
 // PROCESS RESULTS PART 2: -COLLAPSE-
+if !mi("`debug'") di as input "Running collapse..."
 collapse `collmean' `collsd' `collcount' `collsum', by(`byvar' `truevar')
-if !mi("`debug'") {
-	di as input "Data after collapse:"
-	l
-}
+if !mi("`debug'") di as input "collapse has run"
 
 // PROCESS RESULTS PART 3: AFTER -COLLAPSE-
 forvalues i=1/`m' {
@@ -767,8 +774,8 @@ forvalues i=1/`m' {
 			}
         }
         else {
-            qui gen relprec_`i' = .
-            if "`mcse'"=="mcse" qui gen relprec_mcse_`i' = .
+            qui gen relprec_`i' = 0
+            if "`mcse'"=="mcse" qui gen relprec_mcse_`i' = 0
         }
     }
     if "`mse'"=="mse" {
