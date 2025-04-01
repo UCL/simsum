@@ -1,10 +1,11 @@
 {smcl}
-{* v2.2  16aug2024  Ian White}{...}
+{* v2.2.2  01apr2025  Ian White}{...}
 {viewerjumpto "Syntax" "simsum##syntax"}{...}
 {viewerjumpto "Main options" "simsum##main_options"}{...}
 {viewerjumpto "Data checking options" "simsum##check_options"}{...}
 {viewerjumpto "Calculation options" "simsum##calc_options"}{...}
 {viewerjumpto "Options specifying degrees of freedom" "simsum##df_options"}{...}
+{viewerjumpto "Options specifying CIs and p-values" "simsum##ci_options"}{...}
 {viewerjumpto "Performance measure options" "simsum##pm_options"}{...}
 {viewerjumpto "Display options" "simsum##display_options"}{...}
 {viewerjumpto "Output data set options" "simsum##output_options"}{...}
@@ -90,7 +91,7 @@ It may be combined with {cmdab:sep:refix(}{cmd:)} but not with {cmd:se(}{cmd:)}.
 
 {title:Data checking options}{marker check_options}
 
-{phang} {cmd:graph} requests a descriptive graph of standard errors against point estimates.
+{phang} {cmd:graph}[({it:options})] requests a descriptive graph of standard errors against point estimates. This is an old-style graph using {help graph7}, for which {it:options} are any options.
 
 {phang} {cmdab:nomem:check} turns off checking that adequate memory is free. 
 This check aims to avoid spending calculation time when {cmd:simsum} is likely to fail due to lack of memory.
@@ -134,6 +135,9 @@ The default is the lowest value of the analysis method variable in sort order (i
 
 {phang} {cmd:null(}#{cmd:)} specifies the null value against which power will be calculated. Default is {cmd:null(0)}.
 
+{phang} {cmdab:semiss:ingok} specifies that missing values of the standard error are acceptable.
+By default, estimates are changed to missing if the standard error is missing.
+
 
 {title:Options specifying degrees of freedom}{marker df_options}
 
@@ -149,6 +153,39 @@ It may be combined with {cmd:dfsuffix()} but not with {cmd:df()}.
 {phang} {cmdab:dfs:uffix(}{it:string}{cmd:)} specifies that the names of the variables containing the degrees of freedom are formed 
 by adding the given suffix to the names of the variables containing the point estimates. 
 It may be combined with {cmd:dfprefix()} but not with {cmd:df()}.
+
+
+{title:Options specifying confidence intervals and p-values}{marker ci_options}
+
+{phang}Confidence intervals are used in calculating coverages and powers.
+P-values are used in calculating powers.
+
+{phang} {cmd:lci(}{it:string}{cmd:)} specifies 
+the names of the variables containing the lower confidence limits. 
+For data in long format, it is a single variable.
+
+{phang} {cmd:uci(}{it:string}{cmd:)} specifies
+the names of the variables containing the upper confidence limits. 
+For data in long format, it is a single variable.
+
+{phang} {cmd:p(}{it:string}{cmd:)} specifies
+the names of the variables containing the p-values. 
+For data in long format, it is a single variable.
+
+{phang} 
+{cmdab:lcip:refix(}{it:string}{cmd:)}, 
+{cmdab:lcis:uffix(}{it:string}{cmd:)},
+{cmdab:ucip:refix(}{it:string}{cmd:)}, 
+{cmdab:ucis:uffix(}{it:string}{cmd:)},
+{cmdab:pp:refix(}{it:string}{cmd:)}, 
+and 
+{cmdab:ps:uffix(}{it:string}{cmd:)} 
+are alternatives to 
+{cmd:lci(}{it:string}{cmd:)}, 
+{cmd:uci(}{it:string}{cmd:)}
+and
+{cmd:p(}{it:string}{cmd:)}. 
+They work in the same way as {cmdab:sep:refix(}{it:string}{cmd:)} and {cmdab:ses:uffix(}{it:string}{cmd:)}.
 
 
 {title:Performance measure options}{marker pm_options}

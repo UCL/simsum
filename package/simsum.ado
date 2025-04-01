@@ -1,6 +1,8 @@
 /***********************************************************************************************
 HISTORY
-*! version 2.2.2 Ian White 31mar2025
+*! version 2.2.3 Ian White 01apr2025
+	semissingok controls whether beta is changed to missing when se is missing
+version 2.2.2 Ian White 31mar2025
 	-byvar- is captured to avoid annoying "no observations" messages for each missing dgmvar combination 
 	relprec = 0 for ref method, not .
 	don't change beta to missing when se is missing
@@ -109,7 +111,7 @@ version 10
 if _caller() >= 12 {
 	local hidden hidden
 }
-return `hidden' local simsum_version "2.2.1"
+return `hidden' local simsum_version "2.2.3"
 
 syntax varlist [if] [in], ///
     [true(string) METHodvar(varname) id(varlist)                             /// main options
@@ -117,17 +119,16 @@ syntax varlist [if] [in], ///
     graph GRAPH2(string) noMEMcheck max(real 10) semax(real 100)             /// data checking options
     dropbig nolistbig listmiss                                               /// data checking options
     level(real $S_level) by(varlist) mcse robust                             /// calculation options
-    MODELSEMethod(string) ref(string) null(real 0)                           /// calculation options
+    MODELSEMethod(string) ref(string) null(real 0) SEMISSingok               /// calculation options
     df(string) DFPrefix(string) DFSuffix(string)                             /// degrees of freedom options
     lci(string) LCIPrefix(string) LCISuffix(string)                          /// CI options
     uci(string) UCIPrefix(string) UCISuffix(string)                          /// CI options
     p(string) PPrefix(string) PSuffix(string)                                /// p-value options
     bsims sesims bias pctbias mean empse relprec mse rmse                    /// performance measure options
     modelse ciwidth relerror cover power                                     /// performance measure options
-    force                                                                    ///
     nolist listsep format(string) sepby(varlist) ABbreviate(passthru)        /// display options
     clear saving(string) gen(string) TRANSpose                               /// output data set options
-    debug                                                                    /// undocumented options
+    force debug                                                              /// undocumented options
     ]
 
 // CHECK OPTIONS 
@@ -512,8 +513,11 @@ forvalues i=1/`m' {
             if r(N)>0 {
                 di as text _new "Warning for method `label`i'': " as result r(N) as text " observation(s) have estimate observed and SE missing"
                 if "`listmiss'"=="listmiss" list `by' `id' `beta`i'' `se`i'' if `missing', sepby(`sepby')
-                * qui replace `beta`i'' = . if `missing'
-                di as text "--> estimate unchanged"
+                if mi("`semissingok'") { // original behaviour
+					qui replace `beta`i'' = . if `missing'
+					di as text "--> estimate changed to missing"
+				}
+                else di as text "--> estimate unchanged" // new behaviour with semissingok option
             }
 
             qui replace `missing' = (`se`i''==0) & `touse'
@@ -521,9 +525,12 @@ forvalues i=1/`m' {
             if r(N)>0 {
                 di as text _new "Warning for method `label`i'': " as result r(N) as text " observation(s) have zero values of SE"
                 if "`listmiss'"=="listmiss" list `by' `id' `beta`i'' `se`i'' if `missing', sepby(`sepby')
-                * qui replace `beta`i'' = . if `missing'
                 qui replace `se`i'' = . if `missing'
-                di as text "--> estimate unchanged, SE changed to missing"
+                if mi("`semissingok'") { // original behaviour
+					qui replace `beta`i'' = . if `missing'
+					di as text "--> estimate and SE changed to missing"
+				}
+                else di as text "--> estimate unchanged, SE changed to missing"
             }
         }
     }
