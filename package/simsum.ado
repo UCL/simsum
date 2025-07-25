@@ -1,6 +1,8 @@
 /***********************************************************************************************
 HISTORY
-*! version 2.2.3 Ian White 01apr2025
+*! version 2.3 Ian White 25jul2025
+	released on SSC
+version 2.2.3 Ian White 01apr2025
 	semissingok controls whether beta is changed to missing when se is missing
 version 2.2.2 Ian White 31mar2025
 	-byvar- is captured to avoid annoying "no observations" messages for each missing dgmvar combination 
@@ -111,7 +113,7 @@ version 10
 if _caller() >= 12 {
 	local hidden hidden
 }
-return `hidden' local simsum_version "2.2.3"
+return `hidden' local simsum_version "2.3"
 
 syntax varlist [if] [in], ///
     [true(string) METHodvar(varname) id(varlist)                             /// main options

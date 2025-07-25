@@ -1,5 +1,5 @@
 {smcl}
-{* v2.2.2  01apr2025  Ian White}{...}
+{* v2.3  25jul2025  Ian White}{...}
 {viewerjumpto "Syntax" "simsum##syntax"}{...}
 {viewerjumpto "Main options" "simsum##main_options"}{...}
 {viewerjumpto "Data checking options" "simsum##check_options"}{...}
