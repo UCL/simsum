@@ -2,7 +2,7 @@
       name:  <unnamed>
        log:  c:\ian\git\simsum\test\cscript2.log
   log type:  text
- opened on:   1 Apr 2025, 18:36:41
+ opened on:  22 Sep 2025, 10:03:16
 
 . 
 . // check it works even without personal adofiles!
@@ -20,19 +20,19 @@
 
 -> which simsum, usesysdir
 c:\ian\git\simsum\package\simsum.ado
-*! version 2.2.2 Ian White 31mar2025
+*! version 2.3.1 Ian White 22sep2025
 
 . set linesize 158
 
 . 
 . which simsum
 c:\ian\git\simsum\package\simsum.ado
-*! version 2.2.2 Ian White 31mar2025
+*! version 2.3.1 Ian White 22sep2025
 
 . cap simsum
 
 . di r(simsum_version)
-2.2.1
+2.3.1
 
 . 
 . local opts graph nomemcheck max(20) semax(50) dropbig nolistbig ///
@@ -4366,5 +4366,5 @@ file z3.dta saved
       name:  <unnamed>
        log:  c:\ian\git\simsum\test\cscript2.log
   log type:  text
- closed on:   1 Apr 2025, 18:37:08
+ closed on:  22 Sep 2025, 10:03:46
 --------------------------------------------------------------------------------------------------------------------------------------------------------------

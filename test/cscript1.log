@@ -2,7 +2,7 @@
       name:  <unnamed>
        log:  c:\ian\git\simsum\test\cscript1.log
   log type:  text
- opened on:   1 Apr 2025, 18:35:43
+ opened on:  22 Sep 2025, 10:03:09
 
 . 
 . cscript "Simple checks on simsum" adofile simsum
@@ -10,14 +10,14 @@
 
 -> which simsum, usesysdir
 c:\ian\git\simsum\package\simsum.ado
-*! version 2.2.2 Ian White 31mar2025
+*! version 2.3.1 Ian White 22sep2025
 
 . set linesize 158
 
 . 
 . which simsum
 c:\ian\git\simsum\package\simsum.ado
-*! version 2.2.2 Ian White 31mar2025
+*! version 2.3.1 Ian White 22sep2025
 
 . 
 . // handling wide format
@@ -644,5 +644,5 @@ file z3c.dta saved
       name:  <unnamed>
        log:  c:\ian\git\simsum\test\cscript1.log
   log type:  text
- closed on:   1 Apr 2025, 18:35:49
+ closed on:  22 Sep 2025, 10:03:15
 --------------------------------------------------------------------------------------------------------------------------------------------------------------

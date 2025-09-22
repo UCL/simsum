@@ -1,6 +1,9 @@
 /***********************************************************************************************
 HISTORY
-*! version 2.3 Ian White 25jul2025
+*! version 2.3.1 Ian White 22sep2025
+	error message for too-large values is all -as error- 
+		so that -siman- shows it corrrectly
+version 2.3 Ian White 25jul2025
 	released on SSC
 version 2.2.3 Ian White 01apr2025
 	semissingok controls whether beta is changed to missing when se is missing
@@ -113,7 +116,7 @@ version 10
 if _caller() >= 12 {
 	local hidden hidden
 }
-return `hidden' local simsum_version "2.3"
+return `hidden' local simsum_version "2.3.1"
 
 syntax varlist [if] [in], ///
     [true(string) METHodvar(varname) id(varlist)                             /// main options
@@ -576,14 +579,11 @@ forvalues i=1/`m' {
     qui count if `infse'
     local ninfse = r(N)
     if `ninfb'+`ninfse' > 0 {
-        local text = cond("`dropbig'"=="dropbig","text","error")
-        local warning = cond("`dropbig'"=="dropbig","Warning","Error")
-		di as `text' `"`warning' for method `label`i'': "' as result `ninfb' as `text' `" observation(s) have standardised estimate > `max'"' _c
-        if "`se`i''"!="" di as `text' `" and "' as result `ninfse' as `text' `" observation(s) have scaled SE > `semax'"' 
-		else di
-        if "`listbig'"!="nolistbig" l `by' `id' `beta`i'' `se`i'' if `infb'|`infse', sepby(`sepby')
-		else di as `text' "--> remove nolistbig option to list these observation(s)"
         if "`dropbig'"=="dropbig" {
+			di as text `"Warning for method `label`i'': "' as result `ninfb' as text `" observation(s) have standardised estimate > "' as result `max' _c
+			if "`se`i''"!="" di as text `" and "' as result `ninfse' as text `" observation(s) have scaled SE > "' as result `semax' 
+			else di
+			if "`listbig'"!="nolistbig" l `by' `id' `beta`i'' `se`i'' if `infb'|`infse', sepby(`sepby')
             qui replace `beta`i'' = . if `infb'|`infse'
             if "`se`i''"!="" qui replace `se`i'' = . if `infb'|`infse'
             di as text `"--> estimate "' _c
@@ -591,6 +591,10 @@ forvalues i=1/`m' {
             di as text `"have been changed to missing values for these observation(s)"'
         }
 		else {
+			di as error `"Error for method `label`i'': "' `ninfb' `" observation(s) have standardised estimate > `max'"' _c
+			if "`se`i''"!="" di as error `" and "' `ninfse' `" observation(s) have scaled SE > `semax'"' 
+			else di as error
+			if "`listbig'"!="nolistbig" l `by' `id' `beta`i'' `se`i'' if `infb'|`infse', sepby(`sepby')
 			di as error "--> use dropbig option to drop these observation(s)"
 			di as error "--> use max() option to change acceptable limit of point estimates"
 			if "`se'"!="" di as error "--> use semax() option to change acceptable limit of standard errors"
