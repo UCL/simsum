@@ -1,6 +1,8 @@
 /***********************************************************************************************
 HISTORY
-*! version 2.3.1 Ian White 22sep2025
+*! version 2.3.2 Ian White 05jan2026
+	better error message when true() varies within by(); this requirement is now stated in help file
+version 2.3.1 Ian White 22sep2025
 	error message for too-large values is all -as error- 
 		so that -siman- shows it corrrectly
 version 2.3 Ian White 25jul2025
@@ -392,6 +394,16 @@ if "`bias'"=="bias" | "`pctbias'"=="pctbias" | "`mse'"=="mse" | "`rmse'"=="rmse"
         di as error "Missing values found for true value `true'"
         exit 498
     }
+	tempvar truevarmax
+	egen `truevarmax' = max(`truevar'), by(`byvar')
+	cap assert `truevar'==`truevarmax'
+	if _rc {
+		di as error "true(`true') may not vary within by(`by')
+		exit 498
+	}
+}
+else if !mi("`true'") {
+	di as text "Requested performance measures do not use true(`true')"
 }
 
 // START CALCULATION

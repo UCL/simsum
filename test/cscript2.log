@@ -2,7 +2,7 @@
       name:  <unnamed>
        log:  c:\ian\git\simsum\test\cscript2.log
   log type:  text
- opened on:  22 Sep 2025, 10:03:16
+ opened on:   5 Jan 2026, 12:31:40
 
 . 
 . // check it works even without personal adofiles!
@@ -467,6 +467,7 @@ Starting to process results ...
 . forvalues j=1/3 {
   2.     simsum beta*, true(truebeta) seprefix(se) by(n truebeta) ref(beta_`j') relprec mcse
   3. }
+Requested performance measures do not use true(truebeta)
 
 Starting to process results ...
 
@@ -477,6 +478,7 @@ Starting to process results ...
   | % precision gain relative to method PERFECT method   336          0          0        0    -50.8353    2.28676   -44.03835   2.667364 |
   | % precision gain relative to method PERFECT method   336        .25          0        0   -51.54211   2.266095   -44.86946   2.642908 |
   +---------------------------------------------------------------------------------------------------------------------------------------+
+Requested performance measures do not use true(truebeta)
 
 Starting to process results ...
 
@@ -487,6 +489,7 @@ Starting to process results ...
   | % precision gain relative to method CC method   336          0   103.3979    9.46049          0        0   13.82484   2.433105 |
   | % precision gain relative to method CC method   336        .25   106.3648   9.650488          0        0   13.77002    2.64581 |
   +--------------------------------------------------------------------------------------------------------------------------------+
+Requested performance measures do not use true(truebeta)
 
 Starting to process results ...
 
@@ -2109,6 +2112,7 @@ file z.dta saved
 
 
 *** Wide: simsum beta*, true(truebeta) seprefix(se) by(n truebeta) bsims ***
+Requested performance measures do not use true(truebeta)
 
 Starting to process results ...
 
@@ -2123,6 +2127,7 @@ Starting to process results ...
 
 
 *** Wide: simsum beta*, true(truebeta) seprefix(se) by(n truebeta) sesims ***
+Requested performance measures do not use true(truebeta)
 
 Starting to process results ...
 
@@ -2151,6 +2156,7 @@ Starting to process results ...
 
 
 *** Wide: simsum beta*, true(truebeta) seprefix(se) by(n truebeta) mean ***
+Requested performance measures do not use true(truebeta)
 
 Starting to process results ...
 
@@ -2165,6 +2171,7 @@ Starting to process results ...
 
 
 *** Wide: simsum beta*, true(truebeta) seprefix(se) by(n truebeta) empse ***
+Requested performance measures do not use true(truebeta)
 
 Starting to process results ...
 
@@ -2179,6 +2186,7 @@ Starting to process results ...
 
 
 *** Wide: simsum beta*, true(truebeta) seprefix(se) by(n truebeta) relprec ***
+Requested performance measures do not use true(truebeta)
 
 Starting to process results ...
 
@@ -2221,6 +2229,7 @@ Starting to process results ...
 
 
 *** Wide: simsum beta*, true(truebeta) seprefix(se) by(n truebeta) modelse ***
+Requested performance measures do not use true(truebeta)
 
 Starting to process results ...
 
@@ -2235,6 +2244,7 @@ Starting to process results ...
 
 
 *** Wide: simsum beta*, true(truebeta) seprefix(se) by(n truebeta) ciwidth ***
+Requested performance measures do not use true(truebeta)
 
 Starting to process results ...
 
@@ -2249,6 +2259,7 @@ Starting to process results ...
 
 
 *** Wide: simsum beta*, true(truebeta) seprefix(se) by(n truebeta) relerror ***
+Requested performance measures do not use true(truebeta)
 
 Starting to process results ...
 
@@ -2277,6 +2288,7 @@ Starting to process results ...
 
 
 *** Wide: simsum beta*, true(truebeta) seprefix(se) by(n truebeta) power ***
+Requested performance measures do not use true(truebeta)
 
 Starting to process results ...
 
@@ -2287,6 +2299,20 @@ Starting to process results ...
   | % power of 5% level test   336          0        5.3        4.3        4.3 |
   | % power of 5% level test   336        .25       86.9       56.9       51.9 |
   +----------------------------------------------------------------------------+
+
+. 
+. // CHECK ERROR WHEN TRUE VARIES WITHIN BY
+. gen truebeta2 = truebeta
+
+. replace truebeta2 = truebeta+.1 in 1
+(1 real change made)
+
+. cap noi simsum beta*, true(truebeta2) seprefix(se) by(n truebeta) 
+true(truebeta2) may not vary within by(n truebeta)
+
+. assert _rc==498
+
+. drop truebeta2
 
 . 
 . // CHECK IT WORKS FROM LONG FORMAT
@@ -2310,6 +2336,7 @@ xij variables:
 . label val method method
 
 . simsum beta, true(truebeta) seprefix(se) by(n truebeta) relprec relerror methodvar(method) id(_dnum)
+Requested performance measures do not use true(truebeta)
 Reshaping data to wide format ...
 
 Starting to process results ...
@@ -4103,6 +4130,7 @@ Only one observation for beta_1. If this is what you intended, use the force opt
 . drop truegamma simno
 
 . simsum beta*, true(truebeta) seprefix(se) by(n truebeta) mcse relprec saving(z4,replace)
+Requested performance measures do not use true(truebeta)
 
 Starting to process results ...
 
@@ -4120,6 +4148,7 @@ file z4.dta saved
 (1,000 real changes made, 1,000 to missing)
 
 . simsum beta*, true(truebeta) seprefix(se) by(n truebeta) mcse relprec saving(z5,replace) 
+Requested performance measures do not use true(truebeta)
 
 Starting to process results ...
 
@@ -4293,6 +4322,7 @@ file z2.dta saved
 . gen p = 2*ttail(5,abs(beta/sebeta))
 
 . simsum beta, id(_dnum) true(truebeta) p(p) method(method) by(n truebeta) df(5) mcse power  saving(z3,replace)
+Requested performance measures do not use true(truebeta)
 Reshaping data to wide format ...
 
 Starting to process results ...
@@ -4350,7 +4380,6 @@ file z3.dta saved
 . assert reldif(`meanpow', r(mean)) < 1E-8
 
 . 
-. 
 . // END LOG FILE
 . 
 . di as result _n "****************************************" ///
@@ -4366,5 +4395,5 @@ file z3.dta saved
       name:  <unnamed>
        log:  c:\ian\git\simsum\test\cscript2.log
   log type:  text
- closed on:  22 Sep 2025, 10:03:46
---------------------------------------------------------------------------------------------------------------------------------------------------------------
+ closed on:   5 Jan 2026, 12:32:12
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

@@ -18,7 +18,6 @@ local path c:\ian\git\simsum
 adopath + `path'/package
 set logtype text
 cap log close
-cap log close
 cd `path'/test
 set linesize 100
 log using cscript2, replace
@@ -102,6 +101,13 @@ foreach opt of local allpms {
 	di as input _new(3) "*** Wide: simsum beta*, true(truebeta) seprefix(se) by(n truebeta) `opt' ***"
 	simsum beta*, true(truebeta) seprefix(se) by(n truebeta) `opt'
 }
+
+// CHECK ERROR WHEN TRUE VARIES WITHIN BY
+gen truebeta2 = truebeta
+replace truebeta2 = truebeta+.1 in 1
+cap noi simsum beta*, true(truebeta2) seprefix(se) by(n truebeta) 
+assert _rc==498
+drop truebeta2
 
 // CHECK IT WORKS FROM LONG FORMAT
 reshape long beta_ sebeta_, i(truebeta n _dnum) j(method)
@@ -218,7 +224,6 @@ use z3, clear
 summ beta1 if inlist(perfmeascode,"power"), meanonly
 di `meanpow', r(mean), reldif(`meanpow', r(mean))
 assert reldif(`meanpow', r(mean)) < 1E-8
-
 
 // END LOG FILE
 

@@ -2,7 +2,7 @@
       name:  <unnamed>
        log:  c:\ian\git\simsum\test\cscript1.log
   log type:  text
- opened on:  22 Sep 2025, 10:03:09
+ opened on:   5 Jan 2026, 12:31:18
 
 . 
 . cscript "Simple checks on simsum" adofile simsum
@@ -505,6 +505,7 @@ file z1b.dta saved
 
 . 
 . simsum b1, sep(se) method(method) id(i) true(1) ref(boot) df(5) saving(z2a,replace) mean power
+Requested performance measures do not use true(1)
 Reshaping data to wide format ...
 
 Starting to process results ...
@@ -527,6 +528,7 @@ file z2a.dta saved
   5. }
 
 . simsum b1, lciprefix(mylci) ucipre(myuci) method(method) id(i) true(1) ref(boot) saving(z2b,replace) mean power
+Requested performance measures do not use true(1)
 Reshaping data to wide format ...
 
 Starting to process results ...
@@ -543,6 +545,7 @@ Note: power computed from lci and uci
 file z2b.dta saved
 
 . simsum b1, pprefix(myp) method(method) id(i) true(1) ref(boot) saving(z2c,replace) mean power
+Requested performance measures do not use true(1)
 Reshaping data to wide format ...
 
 Starting to process results ...
@@ -644,5 +647,5 @@ file z3c.dta saved
       name:  <unnamed>
        log:  c:\ian\git\simsum\test\cscript1.log
   log type:  text
- closed on:  22 Sep 2025, 10:03:15
+ closed on:   5 Jan 2026, 12:31:25
 --------------------------------------------------------------------------------------------------------------------------------------------------------------

@@ -1,5 +1,5 @@
 {smcl}
-{* v2.3  25jul2025  Ian White}{...}
+{* v2.3.2  05jan2026  Ian White}{...}
 {viewerjumpto "Syntax" "simsum##syntax"}{...}
 {viewerjumpto "Main options" "simsum##main_options"}{...}
 {viewerjumpto "Data checking options" "simsum##check_options"}{...}
@@ -67,7 +67,9 @@ The {it:options} are described below.
 {title:Main options}{marker main_options}
 
 {phang} {cmd:true(}{it:expression}{cmd:)} gives the true value of the parameter. 
-This is used in calculations of bias and coverage and is required whenever these performance measures are requested.
+This is used in calculations of certain performance measures (see {help simsum##table_true_se:table} below)
+and is required whenever these performance measures are requested. 
+The true value must not vary within {cmd:by()}.
 
 {phang} {cmdab:meth:odvar(}{it:varname}{cmd:)} specifies that the data are in long format, 
 with each record representing one analysis of one simulated data set using the analysis method identified by {it:varname}. 
@@ -224,7 +226,7 @@ This calculation is slow: omitting it can reduce run time by up to 90%.
 {phang} {cmd:power} estimates the power to reject the null hypothesis at the specified level.
 The null hypothesis is that the true parameter is the value specified by the {cmd:null()} option, or zero if this is not specified.
 
-{phang}The table below shows which performance measures require the true value specified by {cmd:true()} and which require the standard error specified by {cmd:se()}, {cmd:seprefix()} or {cmd:sesuffix()}:
+{marker table_true_se}{phang}The table below shows which performance measures require the true value specified by {cmd:true()} and which require the standard error specified by {cmd:se()}, {cmd:seprefix()} or {cmd:sesuffix()}:
 
 {col 8} {col 23} true {col 39} se
 {col 8} bsims {col 25}  {col 40} 
