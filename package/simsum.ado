@@ -1,6 +1,9 @@
 /***********************************************************************************************
 HISTORY
-*! version 2.3.2 Ian White 05jan2026
+
+*! version 2.3.3 Ian White 26mar2026
+	better description of extreme estimates and SEs
+version 2.3.2 Ian White 05jan2026
 	better error message when true() varies within by(); this requirement is now stated in help file
 version 2.3.1 Ian White 22sep2025
 	error message for too-large values is all -as error- 
@@ -118,7 +121,7 @@ version 10
 if _caller() >= 12 {
 	local hidden hidden
 }
-return `hidden' local simsum_version "2.3.1"
+return `hidden' local simsum_version "2.3.3"
 
 syntax varlist [if] [in], ///
     [true(string) METHodvar(varname) id(varlist)                             /// main options
@@ -592,8 +595,10 @@ forvalues i=1/`m' {
     local ninfse = r(N)
     if `ninfb'+`ninfse' > 0 {
         if "`dropbig'"=="dropbig" {
-			di as text `"Warning for method `label`i'': "' as result `ninfb' as text `" observation(s) have standardised estimate > "' as result `max' _c
-			if "`se`i''"!="" di as text `" and "' as result `ninfse' as text `" observation(s) have scaled SE > "' as result `semax' 
+			di as text `"Warning for method `label`i'': "' _c
+			if `ninfb'>0 di as result `ninfb' as text `" observation(s) have standardised estimate > "' as result `max' _c
+			if `ninfb'>0 & `ninfse'>0 di as text `" and "' _c
+			if `ninfse'>0 di as result `ninfse' as text `" observation(s) have scaled SE > "' as result `semax' 
 			else di
 			if "`listbig'"!="nolistbig" l `by' `id' `beta`i'' `se`i'' if `infb'|`infse', sepby(`sepby')
             qui replace `beta`i'' = . if `infb'|`infse'
@@ -603,8 +608,10 @@ forvalues i=1/`m' {
             di as text `"have been changed to missing values for these observation(s)"'
         }
 		else {
-			di as error `"Error for method `label`i'': "' `ninfb' `" observation(s) have standardised estimate > `max'"' _c
-			if "`se`i''"!="" di as error `" and "' `ninfse' `" observation(s) have scaled SE > `semax'"' 
+			di as error `"Error for method `label`i'': "' _c
+			if `ninfb'>0 di as error `ninfb' `" observation(s) have standardised estimate > "' `max' _c
+			if `ninfb'>0 & `ninfse'>0 di as error `" and "' _c
+			if `ninfse'>0 di as error `ninfse' `" observation(s) have scaled SE > "' `semax' 
 			else di as error
 			if "`listbig'"!="nolistbig" l `by' `id' `beta`i'' `se`i'' if `infb'|`infse', sepby(`sepby')
 			di as error "--> use dropbig option to drop these observation(s)"
